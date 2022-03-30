@@ -75,7 +75,7 @@ require('./services/passport')
 app.use("/api/v1/auth", auth);
 // Addition
 app.use("/api/v1/addition/category", category);
-app.use("/api/v1/addition/subcategory", subcategory);
+app.use("/api/v1/addition/subCategory", subCategory);
 app.use("/api/v1/addition/myServices", myServices);
 app.use("/api/v1/addition/vendor", vendor);
 // other
