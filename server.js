@@ -23,7 +23,7 @@ const auth = require("./routes/api/v1/auth");
 // Addition
 const category = require("./routes/api/v1/addition/category");
 
-const subcategory = require("./routes/api/v1/addition/subcategory");
+const subCategory = require("./routes/api/v1/addition/subCategory");
 const myServices = require("./routes/api/v1/addition/myServices");
 const vendor = require("./routes/api/v1/addition/vendor");
 // other
