@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import useStyles from "./../useStyles";
 import MySnackbar from "../../Components/MySnackbar";
+import IconButton from '@mui/material/IconButton';
 import {
 	Grid,
 	Chip,
@@ -18,7 +19,13 @@ import {
 	Divider,
 	InputAdornment,
 	Autocomplete,
+	InputLabel,
+	OutlinedInput,
+	FormControl
+
 } from "@mui/material";
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import axios from "axios";
 import { MdSearch,MdRemoveRedEye,MdVisibilityOff, MdDoneAll, MdClearAll, MdPanorama, MdLock, MdPublic, MdDeleteForever } from "react-icons/md";
@@ -33,16 +40,37 @@ const theme = createTheme();
 export default function AddCategory() {
 	const classes = useStyles();
 	const [id, setId] = useState("");
-	const [fullName, setFullName] = useState("");
-    const [mobileNumber, setMobileNumber] = useState("");
+	const [name, setName] = useState("");
+    const [mobileNo, setMobileNo] = useState("");
     const [emailId, setEmailId] = useState("");
     const [password, setPassword] = useState("");
-	const [showPass, setShowPass]= useState(false)
+	const [state, setState] = useState("");
+	const [district, setDistrict] = useState("");
+	const [designation, setDesignation]= useState({
+		label: '', id: ""
+	})
+    const [foSupervisor, setFoSupervisor] = useState([]);
+    const [allSupervisor, setAllSupervisor] = useState([]);
 
-    const [allEmpl, setAllEmpl] = useState([]);
-    const [designation, setDesignation]= useState("")
-    const [showSupervisor, setShowSupervisor]= useState(false)
-    
+    const [allUser, setAllUser] = useState([]); 
+	const [values, setValues] = React.useState({
+		amount: '',
+		weight: '',
+		weightRange: '',
+		showPassword: false,
+	  });	
+	  const handleChange = (prop) => (event) => {
+		setValues({ ...values, [prop]: event.target.value });
+	  };	
+	  const handleClickShowPassword = () => {
+		setValues({
+		  ...values,
+		  showPassword: !values.showPassword,
+		});
+	  };	
+	  const handleMouseDownPassword = (event) => {
+		event.preventDefault();
+	  };    
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
 	const [err] = useState({ errIn: "", msg: "" });
@@ -57,19 +85,31 @@ export default function AddCategory() {
 	useEffect(() => {
 		getData("");
 	}, []);
+
 	const getData = async (word) => {
 	
 		await axios
-			.get(`/api/v1/addition/category/allcategory/${word}`)
-			.then((res) => (setAllEmpl(res.data)))
+			.get(`/api/v1/myUser/allUsers/${word}`)
+			.then((res) => (setAllUser(res.data))
+			
+			)
+			.catch((err) => console.log(err));
+	};
+	const setSupervisior = async () => {
+	
+		await axios
+			.get(`/api/v1/myUser/allSupervisors`)
+			.then((res) => (setAllSupervisor(res.data))
+			
+			)
 			.catch((err) => console.log(err));
 	};
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		handleOpen();
-		let newCat = { _id: id, name: fullName, mobileNumber: mobileNumber, emailId: emailId, password: password };
+		let newUser = { _id: id, name, mobileNo, emailId, password, state,district,designation,  foSupervisor};
 		await axios
-			.post(`/api/v1/addition/category/${id}`, newCat)
+			.post(`/api/v1/auth/register/user/${id}`, newUser)
 			.then((res) => {
 				snackRef.current.handleSnack(res.data);
 				getData("");
@@ -83,15 +123,34 @@ export default function AddCategory() {
 	};
 	const handleClear = () => {
 		setId("");
-		setFullName("");
+		setName("");
+		setMobileNo("");
+		setEmailId("");
+		setPassword("");
+		setState("");
+		setDistrict("");
+		setDesignation({
+			label: '', id: ""
+		});
+		setFoSupervisor([])
+
 	};
 
 	const setData = async (id) => {
 		handleOpen();
 		await axios
-			.get(`/api/v1/addition/category/get/${id}`)
+			.get(`/api/v1/myUser/get/${id}`)
 			.then((res) => {
 				setId(res.data._id);
+				setName(res.data.name);
+				setMobileNo(res.data.mobileNo);
+				setEmailId(res.data.emailId);
+				setPassword(res.data.value);
+				setState(res.data.state);
+				setDistrict(res.data.district);
+				setDesignation(res.data.designation);
+				setFoSupervisor(res.data.foSupervisor);
+
 		
 				
 			})
@@ -101,7 +160,7 @@ export default function AddCategory() {
 
 	const handleDelete = (id) => {
 		axios
-			.delete(`/api/v1/addition/category/delete/${id}`)
+			.delete(`/api/v1/myUser/delete/${id}`)
 			.then((res) => alert(res.data.message))
 			.then(() => getData(""))
 			.catch((err) => console.log(err));
@@ -150,12 +209,12 @@ export default function AddCategory() {
 									required
 									fullWidth
 									inputProps={{ maxLength: "42" }}
-									onBlur={() => handleErr("fullName")}
-									error={err.errIn === "categoryName" ? true : false}
-									label={err.errIn === "fullName" ? err.msg : "full Name"}
+									onBlur={() => handleErr("name")}
+									error={err.errIn === "Name" ? true : false}
+									label={err.errIn === "name" ? err.msg : "Full Name"}
 									placeholder="Full Name.."
-									value={fullName}
-									onChange={(e) => setFullName(e.target.value)}
+									value={name}
+									onChange={(e) => setName(e.target.value)}
 								/>
 							</Grid>
 							<Grid item xs={6}>
@@ -163,13 +222,13 @@ export default function AddCategory() {
 									variant="outlined"
 									required
 									fullWidth
-									inputProps={{ maxLength: "10" }}
-									onBlur={() => handleErr("mobileNumber")}
-									error={err.errIn === "mobileNumber" ? true : false}
-									label={err.errIn === "mobileNumber" ? err.msg : "Mobile Number"}
+									inputProps={{ inputMode: 'numeric', pattern: '[0-9]*',maxLength: "10" }}
+									onBlur={() => handleErr("mobileNo")}
+									error={err.errIn === "mobileNo" ? true : false}
+									label={err.errIn === "mobileNo" ? err.msg : "Mobile Number"}
 									placeholder="Enter 10 Digit Number.."
-									value={mobileNumber}
-									onChange={(e) => setMobileNumber(e.target.value)}
+									value={mobileNo}
+									onChange={(e) => setMobileNo(e.target.value)}
 								/>
 							</Grid>
 							<Grid item xs={6}>
@@ -187,25 +246,30 @@ export default function AddCategory() {
 								/>
 							</Grid>
 							<Grid item xs={6}>
-								<TextField
-									variant="outlined"
-									required
-									fullWidth
-									onBlur={() => handleErr("password")}
-									error={err.errIn === "password" ? true : false}
-									label={err.errIn === "password" ? err.msg : "password"}
-									placeholder="password.."
-									value={password}
-									onChange={(e) => setPassword(e.target.value)}
-                                    InputProps={{
-										endAdornment: (
-                      
-											<InputAdornment position="end" onClick={() => setShowPass(!showPass)}>
-												{showPass ? <MdRemoveRedEye /> : <MdVisibilityOff />}
-											</InputAdornment>
-										),maxLength: "42"
-									}} 
-                                />
+								
+							<FormControl fullWidth  variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+		  
+            id="outlined-adornment-password"
+            type={values.showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password"
+          />
+        </FormControl>
 							</Grid>						
 						<Grid item xs={6}> 
 						<Autocomplete
@@ -231,33 +295,47 @@ export default function AddCategory() {
      			 )} 
     				/>
 					</Grid>
-					 <Grid item  xs={6}>
-        		    <Autocomplete
- 					 disablePortal
- 					 id="combo-box-demo"
- 					 options={allDesignation}
- 					 onChange={e=>{console.log(e);setDesignation(e.target.value)}}
-  					value={designation}
-					 renderInput={(params) => <TextField {...params} label="Designation" />}
-					/>   
-            		 </Grid>
+						<Grid item xs={6}> 
+						<Autocomplete
+										
+										options={allDesignation}
+										filterSelectedOptions
+										getOptionLabel={(option) => option.label}
+										onChange={(e, v) => {
+											setDesignation(v);
+											setSupervisior();
+											setFoSupervisor([]);
+										}}
+										value={designation}
+										renderInput={(params) => <TextField {...params} variant="outlined" label="Select Designation" />}
+									/>			
+					</Grid>
+					
        
- {  showSupervisor && <>  <Grid item xs={12} md={3}>
+ { designation ? 
+	designation.id === "fieldPartner" ?
+ <>  <Grid item xs={6}>
              
             <Autocomplete
       multiple
       limitTags={2}
       id="multiple-limit-tags"
-      options={top100Films}
-      getOptionLabel={(option) => option.label}
-     
+      options={allSupervisor}
+      getOptionLabel={(option) => option.name}
+	  onChange={(e, v) => {
+		setFoSupervisor(v); 
+	}}
+	  value={foSupervisor}
       renderInput={(params) => (
         <TextField {...params} label="Supervisor" placeholder="select SuperVisior" />
       )}
  
     />
       
-             </Grid> </>}
+             </Grid> </>
+			: <></> :<></>
+			
+			}
 						
 							<Grid item xs={12}>
 								<Divider />
@@ -316,10 +394,10 @@ export default function AddCategory() {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{allEmpl.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data) => (
+								{allUser.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data) => (
 									<TableRow key={data._id} onClick={() => setData(data._id)} hover>
-										<TableCell component="td" scope="row">
-											Name : {data.categoryName} ; Description : {data.description} <br />
+										<TableCell key={data._id} component="td" scope="row">
+											Name : {data.name} ; mobileNo : {data.mobileNo} ;emailId:{data.emailId};Designation:{data.designation.label}  <br />
 										</TableCell>
 									</TableRow>
 								))}
@@ -327,7 +405,7 @@ export default function AddCategory() {
 							<TableFooter>
 								<TableRow>
 									<TablePagination
-										count={allEmpl.length}
+										count={allUser.length}
 										rowsPerPage={rowsPerPage}
 										page={page}
 										onChangePage={(e, page) => setPage(page)}
@@ -363,23 +441,3 @@ const top100Films = [
     { label: "Schindler's List", year: 1993 },
     { label: 'Pulp Fiction', year: 1994 }, ]
 
-    const columns = [
-     
-      { field: 'id', headerName: 'ID', width: 70 },
-      { field: 'fullName', headerName: 'Full Name', width: 130 },
-      { field: 'mobileNumber', headerName: 'mobileNumber', width: 130 },
-      { field: 'emailId', headerName: 'Email Id', width: 130 },
-      { field: 'designation', headerName: 'Designation', width: 130 },
-    ];
-    
-    const rows = [
-      { id: 1, mobileNumber: 'Snow',emailId: 'Snow',designation: 'Snow',lastName3: 'Snow',lastName4: 'Snow', fullName: 'Jon', age: 35 },
-      { id: 2, mobileNumber: 'Lannister', emailId: 'Lannister', designation: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', fullName: 'Cersei', age: 42 },
-      { id: 3, mobileNumber: 'Lannister', emailId: 'Lannister', designation: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', fullName: 'Jaime', age: 45 },
-      { id: 4, mobileNumber: 'Stark', emailId: 'Lannister', designation: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', fullName: 'Arya', age: 16 },
-      { id: 5, mobileNumber: 'Targaryen', emailId: 'Lannister', designation: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', fullName: 'Daenerys', age: null },
-      { id: 6, mobileNumber: 'Melisandre', emailId: 'Lannister', designation: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', fullName: null, age: 150 },
-      { id: 7, mobileNumber: 'Clifford', emailId: 'Lannister', designation: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', fullName: 'Ferrara', age: 44 },
-      { id: 8, mobileNumber: 'Frances', emailId: 'Lannister', designation: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', fullName: 'Rossini', age: 36 },
-      { id: 9, mobileNumber: 'Roxie', emailId: 'Lannister', designation: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', fullName: 'Harvey', age: 65 },
-    ];

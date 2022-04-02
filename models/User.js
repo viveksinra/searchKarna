@@ -7,20 +7,6 @@ const UserSchema = new Schema({
     type: String,
     default:""
   },
-  emailId: {
-    type: String,
-    default:""
-  },
-  emailVerified:{
-    type:Boolean,
-    default: false
-  },
-
-  password: {
-    type: String,
-    default:"createYourPassword"
-  },
-  
   mobileNo: {
     type: String,
     required:true
@@ -29,26 +15,56 @@ const UserSchema = new Schema({
     type:Boolean,
     default:false
   },
-  userName: {
+  emailId: {
     type: String,
     default:""
   },
-  // distributor
+  emailVerified:{
+    type:Boolean,
+    default: false
+  },
+  password: {
+    type: String,
+    default:"createYourPassword"
+  },
   designation: {
+    label:{
+      type: String,
+    default: "user"
+  },
+  id:{
     type: String,
     default: "user"
+  }
+},
+  foSupervisor:[
+    {
+      name:{
+        type: String,
+        default: ""
+      },
+      id:{
+        type: String,
+        default: ""
+      }
+    }
+  ],
+
+  // distributor
+  
+  
+  userName: {
+    type: String,
+    default:""
   },
   userImage: {
     type: String,
     default:""
   },
-
 language:{
   type:String,
   default:"english"
 },
-////
-
 gender: {
   type: String,
   default:""

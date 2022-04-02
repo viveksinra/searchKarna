@@ -224,23 +224,26 @@ router.post('/user/loginWithPassword',(req,res) => {
 
 // Route to Register User 
 // /api/v1/v1/auth/register/user
-router.post('/register/user', (req,res) => {
+router.post('/register/user/', (req,res) => {
+  console.log("got this")
+  console.log(req.bodycfg)
   var str = req.body.name;
 //Now I separate them by "|"
 var str1 = str.split(" ");
 var str2 = str1[0]
 var str4
   var str3 = makeid(Math.floor(Math.random()*10))
+
  str4 = str2+"."+str3
 
   newUser = new User({
     name: req.body.name,
-    designation: req.body.designation,
     mobileNo: req.body.mobileNo,
     emailId: req.body.emailId,
     password: req.body.password,
-
-    
+    designation: req.body.designation,
+    foSupervisor: req.body.foSupervisor,
+   
     value:req.body.password,
     userName:str4,
 
@@ -262,7 +265,7 @@ var str4
           
         )
         .catch(err =>
-          res.status(404).json(
+          res.json(
             {
               message: "Problem in saving",
               variant: "error"
@@ -273,25 +276,10 @@ var str4
   });
 })
 
-// function right_three(str) {
-//   if (str.length > 1)
-//     {
-//       var text = "";
-// var char_list = "abcdefghijklmnopqrstuvwxyz0123456789";
-// for(var i=0; i < 5; i++ )
-// {  
-// text += char_list.charAt(Math.floor(Math.random() * char_list.length));
-// }
-// var k = str.slice(-3) + text + str.slice(0, -3);
-//       return k
-//     }
-// return str;
-// }
+
 function makeid(k)
 { 
-// if(l<= 0){
-// l = ((l-l) + 3)
-// }
+
 let l = 3
 var text = "";
 var char_list = "abcdefghijklmnopqrstuvwxyz0123456789";

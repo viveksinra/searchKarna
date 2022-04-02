@@ -20,6 +20,7 @@ const cookieSession = require('cookie-session')
 
 //bring all routes
 const auth = require("./routes/api/v1/auth");
+const myUser = require("./routes/api/v1/myUser");
 // Addition
 const category = require("./routes/api/v1/addition/category");
 
@@ -73,6 +74,7 @@ require('./services/passport')
 
 //actual routes
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/myUser", myUser);
 // Addition
 app.use("/api/v1/addition/category", category);
 app.use("/api/v1/addition/subCategory", subCategory);
