@@ -140,7 +140,7 @@ if(
 );
 
 // @type    GET
-//@route    /api/v1/addition/myService/allservice
+//@route    /api/v1/addition/vendor/allservice
 // @desc    route for getting all data from  service
 // @access  PRIVATE
 
@@ -158,9 +158,83 @@ router.get(
       );
   }
 );
+// @type    GET
+//@route    /api/v1/addition/vendor/tableData
+// @desc    route for getting all data from  service
+// @access  PRIVATE
+
+router.get(
+  "/tableData",
+  // passport.authenticate("jwt", { session: false }),
+  async(req, res) => {
+   
+    let vendorData = await Vendor.aggregate([
+        //  {$match: {"designation.id": "supervisor"} }, 
+        {$project: { category:1,
+           businessName:1,
+           modesofPayment:1,
+           state:1,city:1 }  
+          }    
+        ]).exec()
+        for(let i=0;i<vendorData.length;i++){
+          vendorData[i].categoryName = vendorData[i].category.categoryName
+        }
+        res.json(vendorData)
+  }
+);
+// @type    GET
+//@route    /api/v1/addition/vendor/oneData
+// @desc    route for getting all data from  service
+// @access  PRIVATE
+
+router.get(
+  "/oneData/:id",
+  // passport.authenticate("jwt", { session: false }),
+  async(req, res) => {
+    var mongoose = require('mongoose');
+    var id = mongoose.Types.ObjectId(req.params.id);
+    let vendorData = await Vendor.findOne({
+      _id: id
+    })
+    .catch(err => res.json({
+      message: "Problem in finding With this Id",
+       variant: "error"}));
+// console.log(vendorData)
+let myData = []
+myData.push({"myKey":"state", "myValue": vendorData.state})
+myData.push({"myKey":"district", "myValue": vendorData.district})
+myData.push({"myKey":"city", "myValue": vendorData.city})
+myData.push({"myKey":"area", "myValue": vendorData.area})
+myData.push({"myKey":"pincode", "myValue": vendorData.pincode})
+myData.push({"myKey":"landmark", "myValue": vendorData.landmark})
+myData.push({"myKey":"registrationNo", "myValue": vendorData.registrationNo})
+myData.push({"myKey":"receiptNo", "myValue": vendorData.receiptNo})
+myData.push({"myKey":"contactPersonName", "myValue": vendorData.contactPersonName})
+myData.push({"myKey":"contactNo", "myValue": vendorData.contactNo})
+myData.push({"myKey":"businessName", "myValue": vendorData.businessName})
+myData.push({"myKey":"link", "myValue": vendorData.link})
+myData.push({"myKey":"emailId", "myValue": vendorData.emailId})
+myData.push({"myKey":"website", "myValue": vendorData.website})
+myData.push({"myKey":"categoryName", "myValue": vendorData.category.categoryName})
+myData.push({"myKey":"subCategoryName", "myValue": vendorData.subCategory.subCategoryName})
+myData.push({"myKey":"serviceName", "myValue": vendorData.myServices.serviceName})
+myData.push({"myKey":"yearEstablished", "myValue": vendorData.yearEstablished})
+myData.push({"myKey":"latitude", "myValue": vendorData.latitude})
+myData.push({"myKey":"longitude", "myValue": vendorData.longitude})
+myData.push({"myKey":"modesofPayment", "myValue": vendorData.modesofPayment})
+
+
+
+
+
+
+
+        res.json(myData)
+  }
+);
 
 // @type    get
-//@route    /api/v1/addition/myService/get/:id
+//@route    /api/v1/addition/vendor/get/:id
 // @desc    route to get single service by id
 // @access  PRIVATE
 router.get(
@@ -195,7 +269,7 @@ async function updateMe(req,res,serviceValues){
     }        
     )
     .catch(err =>
-      console.log("Problem in updating service value" + err)
+      console.log("Problem in updating service myValue" + err)
     );
 }
 

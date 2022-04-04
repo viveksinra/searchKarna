@@ -23,7 +23,7 @@ import {  Navigate } from "react-router-dom";
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function SignInSide(props) {
 	const [loginId, setLoginId] = useState("");
 	const [loginPass, setLoginPass] = useState("");
 	const [showPass, setShowPass] = useState(false);
@@ -49,19 +49,45 @@ export default function SignInSide() {
 			.catch((err) => console.log(err));
    
 	};
-	if (state.isAuthenticated) {
-		switch (state.designation) {
-			case "Admin":
-				return <Navigate to="/dashboard" />;
-			case "Admin":
-				return <Navigate to="/admin/dashboard" />;
-			case "Manager":
-				return <Navigate to="/admin/dashboard" />;
+	// if (state.isAuthenticated) {
+	// 	switch (state.designation) {
+	// 		case "Admin":
+	// 			return <Navigate to="/dashboard" />;
+	// 		case "Admin":
+	// 			return <Navigate to="/admin/dashboard" />;
+	// 		case "Manager":
+	// 			return <Navigate to="/admin/dashboard" />;
 
-			default:
-				return <Navigate to="/login" />;
-		}
-	}
+	// 		default:
+	// 			return <Navigate to="/login" />;
+	// 	}
+	// }
+  // useEffect(() => {
+  //   console.log(state.isAuthenticated)
+	// 	let isSubscribed= true
+	// 	if(isSubscribed){
+	// 			if (state.isAuthenticated) {
+    
+	// 	switch (state.designation.id) {
+	// 		case "admin":
+  //       props.history.push("/dashboard");
+	// 			 break;
+	// 		case "supervisor":
+  //       props.history.push("/dashboard");
+	// 			 break;
+	// 		case "fieldPartner":
+  //       props.history.push("/dashboard");
+	// 			 break;
+	// 		default:
+  //       props.history.push("/dashboard");
+	// 			 break;
+	// 	}
+	// 	}
+	// 	return () => {
+	// 		isSubscribed = false;
+	// 	};
+	// }
+	// }, [props.history,state.designation,state.isAuthenticated])
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>

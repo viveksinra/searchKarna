@@ -141,7 +141,7 @@ export default function MyDrawer() {
           {listData1.map((l, i) => (
              
               <Link href={l.link} color="inherit" underline="hover">
-                  <ListItem button key={l.text}>
+                  <ListItem button key={l.link}>
                   <Tooltip title={l.text} placement="right">
               <ListItemIcon>
                 {l.icon}
@@ -150,10 +150,6 @@ export default function MyDrawer() {
               <ListItemText primary={l.text} />
             </ListItem>
           </Link>
-    
-         
-                 
-            
                  
           ))}
         </List>

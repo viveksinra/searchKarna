@@ -537,16 +537,16 @@ link:""
               <Grid item xs={12} md={6}>                
         <Autocomplete
 										
-										options={testData}
-										filterSelectedOptions
-										getOptionLabel={(option) => option.label}
-										onChange={(e, v) => {
-											setModesofPayment(v);
-											// getSubCategory(v);
-											// setSubCategory({
-											// 	subCategoryName:""
-											// });
-										}}
+		 options={testData}
+		 filterSelectedOptions
+		 getOptionLabel={(option) => option.label}
+		 onChange={(e, v) => {
+		 	setModesofPayment(v);
+		 	// getSubCategory(v);
+		 	// setSubCategory({
+		 	// 	subCategoryName:""
+		 	// });
+		 }}
 										value={modesofPayment}
                renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type Mods of Payment" label="SEARCH Mods of Payment" />}
               />
@@ -593,8 +593,8 @@ link:""
 }
 
 const testData = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'The Godfather: Part II', year: 1974 },
+  { label: 'The Shawshank Redemption', id: 1994 },
+  { label: 'The Godfather', id: 1972 },
+  { label: 'The Godfather: Part II', id: 1974 },
  
 ];

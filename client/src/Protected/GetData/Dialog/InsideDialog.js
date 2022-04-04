@@ -1,12 +1,29 @@
-import * as React from 'react';
+import React, { Fragment, useState, useEffect, useRef } from "react";
+
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Chip, Grid, Paper } from '@mui/material';
+import axios from "axios";
 
 import useStyles from "../../useStyles";
-export default function InsideDialog() {
-  
+export default function InsideDialog(compo) {
+	const [myId, setMyId] = useState(compo.compo._id);
+	const [allData, setAllData] = useState([]);
+  console.log(myId)
+  useEffect(() => {
+    getDataWithId();
+  }, [myId]);
+
+  const getDataWithId = async () => {
+
+    await axios
+      .get(`/api/v1/addition/vendor/oneData/${myId}`)
+      .then((res) => (setAllData(res.data)))
+      .catch((err) => console.log(err));
+
+      console.log(allData)
+  };
     const classes = useStyles();
   return (
     <>
@@ -37,72 +54,23 @@ export default function InsideDialog() {
 
 
 							</Grid>
-          < Grid item xs={12}  md={2.4}>  
+             
+              {allData.map((l, i) => (
+                      < Grid item xs={12} sm={4} md={2.4} lg ={2}>  
         
-        <TextField
-          id="filled-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        /> </Grid>
-          < Grid item xs={12}  md={2.4}>  
-        
-        <TextField
-          id="filled-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        /> </Grid>
-          < Grid item xs={12}  md={2.4}>  
-        
-        <TextField
-          id="filled-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        /> </Grid>
-          < Grid item xs={12}  md={2.4}>  
-        
-        <TextField
-          id="filled-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        /> </Grid>
-          < Grid item xs={12}  md={2.4}>  
-        
-        <TextField
-          id="filled-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        /> </Grid>
-          < Grid item xs={12}  md={2.4}>  
-        
-        <TextField
-          id="filled-read-only-input"
-          label="Read Only"
-          defaultValue="Hello World"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="filled"
-        /> </Grid>
+                      <TextField
+                        id="filled-read-only-input"
+                        label={l.myKey}
+                        defaultValue={l.myValue}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        variant="filled"
+                      /> 
+                      </Grid>    
+                
+         ))}
+ 
          </Grid>
          </Paper>
          </Grid>

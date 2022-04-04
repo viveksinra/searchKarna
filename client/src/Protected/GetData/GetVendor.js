@@ -1,8 +1,9 @@
-import  React ,{useRef, useState,lazy,Suspense} from 'react';
+import  React ,{useRef,useEffect, useState,lazy,Suspense} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import CommonDash from './../../Protected/MyDashboard/CommonDash';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import axios from "axios";
 
 import { Autocomplete, TextField, Card,
      Accordion, AccordionSummary,
@@ -58,8 +59,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export default function DataTable() {
-    const [secondryReqNumber, setServiceNo]=useState("");
-    const [callerNumber,setCallerNo] =useState("");
+    
+    const [tableData,setTableData]=useState([]);
+
     const [expandBasic,setExpand]=useState(true);
     const [showAdv,setAdv]=useState(false);
     let todayDate = new Date()
@@ -72,7 +74,19 @@ export default function DataTable() {
     let formatDate = year + "-" + month + "-" + date;
     const [startDate, setStartDate] = React.useState(formatDate);
     const [endDate, setEndDate] = React.useState(formatDate);
- 
+    
+    useEffect(() => {
+      getTableData();
+    }, []);
+
+    const getTableData = async (word) => {
+	
+      await axios
+        .get(`/api/v1/addition/vendor/tableData`)
+        .then((res) => (setTableData(res.data)))
+        .catch((err) => console.log(err));
+    };
+
 console.log(formatDate)
     const classes = useStyles();
   return (
@@ -189,8 +203,9 @@ console.log(formatDate)
                     <Card className={classes.workArea}>
                     <div style={{ height: 400, width: '100%' }}>
       <DataGrid
-        rows={rows}
-        columns={columns}
+        getRowId={(row) => row._id}
+        rows={tableData}
+        columns={coData}
         pageSize={5}
         rowsPerPageOptions={[5]}
       />
@@ -214,48 +229,48 @@ const top100Films = [
     { label: "Schindler's List", year: 1993 },
     { label: 'Pulp Fiction', year: 1994 }, ]
 
-    const columns = [
+    const coData = [
       {field:"Detail",
-        renderCell:(cellValues) => {
+        renderCell:(params) => {
           return <FullScreenDialog insideData={ 
             <>
-            <InsideDialog/>
+            <InsideDialog compo = {params.row} />
           </>
           }/>
         }
     },
-      { field: 'id', headerName: 'ID', width: 70 },
-      { field: 'firstName', headerName: 'First name', width: 130 },
-      { field: 'lastName', headerName: 'Last name', width: 130 },
-      { field: 'lastName1', headerName: 'Last name1', width: 130 },
-      { field: 'lastName2', headerName: 'Last name2', width: 130 },
-      { field: 'lastName3', headerName: 'Last name3', width: 130 },
-      { field: 'lastName4', headerName: 'Last name4', width: 130 },
-      {
-        field: 'age',
-        headerName: 'Age',
-        type: 'number',
-        width: 90,
-      },
-      {
-        field: 'fullName',
-        headerName: 'Full name',
-        description: 'This column has a value getter and is not sortable.',
-        sortable: false,
-        width: 160,
-        valueGetter: (params) =>
-          `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-      },
+      { field: '_id', headerName: 'Unique Reg. ID', width: 210 },
+      { field: 'categoryName', headerName: 'Category', width: 130 },
+      { field: 'businessName', headerName: 'Buisness/Shop Name', width: 200 },
+      { field: 'modesofPayment', headerName: 'Payment Mode', width: 130 },
+      { field: 'state', headerName: 'State', width: 130 },
+      { field: 'city', headerName: 'city', width: 130 },
+      // {
+      //   field: 'age',
+      //   headerName: 'Age',
+      //   type: 'number',
+      //   width: 90,
+      // },
+      // {
+      //   field: 'fullName',
+      //   headerName: 'Full name',
+      //   description: 'This column has a value getter and is not sortable.',
+      //   sortable: false,
+      //   width: 160,
+      //   valueGetter: (params) =>
+      //     `${params.row.firstName || ''} ${params.row.categoryName || ''}`,
+      // },
     ];
+
     
-    const rows = [
-      { id: 1, lastName: 'Snow',lastName1: 'Snow',lastName2: 'Snow',lastName3: 'Snow',lastName4: 'Snow', firstName: 'Jon', age: 35 },
-      { id: 2, lastName: 'Lannister', lastName1: 'Lannister', lastName2: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', firstName: 'Cersei', age: 42 },
-      { id: 3, lastName: 'Lannister', lastName1: 'Lannister', lastName2: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', firstName: 'Jaime', age: 45 },
-      { id: 4, lastName: 'Stark', lastName1: 'Lannister', lastName2: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', firstName: 'Arya', age: 16 },
-      { id: 5, lastName: 'Targaryen', lastName1: 'Lannister', lastName2: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', firstName: 'Daenerys', age: null },
-      { id: 6, lastName: 'Melisandre', lastName1: 'Lannister', lastName2: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', firstName: null, age: 150 },
-      { id: 7, lastName: 'Clifford', lastName1: 'Lannister', lastName2: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', firstName: 'Ferrara', age: 44 },
-      { id: 8, lastName: 'Frances', lastName1: 'Lannister', lastName2: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', firstName: 'Rossini', age: 36 },
-      { id: 9, lastName: 'Roxie', lastName1: 'Lannister', lastName2: 'Lannister', lastName3: 'Lannister', lastName4: 'Lannister', firstName: 'Harvey', age: 65 },
+    const tableData = [
+      { _id: 1, categoryName: 'Snow',businessName: 'Snow',modesofPayment: 'Snow',state: 'Snow',city: 'Snow', firstName: 'Jon', age: 35 },
+      { _id: 2, categoryName: 'Lannister', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Cersei', age: 42 },
+      { _id: 3, categoryName: 'Lannister', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Jaime', age: 45 },
+      { _id: 4, categoryName: 'Stark', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Arya', age: 16 },
+      { _id: 5, categoryName: 'Targaryen', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Daenerys', age: null },
+      { _id: 6, categoryName: 'Melisandre', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: null, age: 150 },
+      { _id: 7, categoryName: 'Clifford', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Ferrara', age: 44 },
+      { _id: 8, categoryName: 'Frances', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Rossini', age: 36 },
+      { _id: 9, categoryName: 'Roxie', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Harvey', age: 65 },
     ];
