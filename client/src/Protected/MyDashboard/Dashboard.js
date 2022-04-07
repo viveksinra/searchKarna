@@ -3,7 +3,7 @@ import DasScreen from './DasScreen';
 import CommonDash from "./CommonDash"
 
 
-export default function MiniDrawer() {
+export default function Dashboard() {
 
 
   return (

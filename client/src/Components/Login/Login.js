@@ -19,11 +19,11 @@ import { InputAdornment } from '@mui/material';
 import axios from "axios";
 import { MainContext } from "../../Components/Context/MainContext";
 import { LOGIN_USER } from "../../Components/Context/types";
-import {  Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme();
 
-export default function SignInSide(props) {
+export default function SignInSide() {
 	const [loginId, setLoginId] = useState("");
 	const [loginPass, setLoginPass] = useState("");
 	const [showPass, setShowPass] = useState(false);
@@ -62,32 +62,34 @@ export default function SignInSide(props) {
 	// 			return <Navigate to="/login" />;
 	// 	}
 	// }
-  // useEffect(() => {
-  //   console.log(state.isAuthenticated)
-	// 	let isSubscribed= true
-	// 	if(isSubscribed){
-	// 			if (state.isAuthenticated) {
+  let navigate = useNavigate();
+  useEffect(() => {
+    console.log(state.isAuthenticated)
+		let isSubscribed= true
+		if(isSubscribed){
+				if (state.isAuthenticated) {
     
-	// 	switch (state.designation.id) {
-	// 		case "admin":
-  //       props.history.push("/dashboard");
-	// 			 break;
-	// 		case "supervisor":
-  //       props.history.push("/dashboard");
-	// 			 break;
-	// 		case "fieldPartner":
-  //       props.history.push("/dashboard");
-	// 			 break;
-	// 		default:
-  //       props.history.push("/dashboard");
-	// 			 break;
-	// 	}
-	// 	}
-	// 	return () => {
-	// 		isSubscribed = false;
-	// 	};
-	// }
-	// }, [props.history,state.designation,state.isAuthenticated])
+		switch (state.designation.id) {
+			case "admin":
+    
+        navigate("/dashboard");
+				 break;
+			case "supervisor":
+        navigate("/dashboard");
+				 break;
+			case "fieldPartner":
+        navigate("/dashboard");
+				 break;
+			default:
+        navigate("/dashboard");
+				 break;
+		}
+		}
+		return () => {
+			isSubscribed = false;
+		};
+	}
+	}, [state.designation,state.isAuthenticated])
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>

@@ -23,7 +23,7 @@ import Copyright from "./../General/copyright"
 		<ThemeProvider theme={theme}>
 		  <Container component="main" maxWidth="xs">
 			<CssBaseline />
-			{/* <Box
+			<Box
 			  sx={{
 				marginTop: 8,
 				display: 'flex',
@@ -106,7 +106,7 @@ import Copyright from "./../General/copyright"
 				</Grid>
 			  </Box>
 			</Box>
-			<Copyright sx={{ mt: 5 }} /> */}
+			<Copyright sx={{ mt: 5 }} /> 
 		  </Container>
 		</ThemeProvider>
 	  );

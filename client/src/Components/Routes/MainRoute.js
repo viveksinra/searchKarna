@@ -1,7 +1,8 @@
-import React from "react";
-import { Routes, Route} from "react-router-dom";
+import React, { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../Login/Login";
 import SignUp from "../Login/SignUp";
+import { MainContext } from "../Context/MainContext";
 import AddCategory from "../../Protected/Addition/Category/AddCategory"
 import AddSubCategory from "../../Protected/Addition/SubCategory/AddSubCategory"
 import AddVendor from "../../Protected/Addition/Vendor/AddVendor"
@@ -13,6 +14,12 @@ import GetVendor from "../../Protected/GetData/GetVendor";
 import ToCheck from "../../Protected/ToCheck";
 import AddEmployee from "../../Protected/User/AddEmployee";
 import LocationMaster from "../../Protected/DropDown/LocationMaster";
+const PrivateRoute = ({ component: Component, auth, ...rest }) => {
+	const { state } = useContext(MainContext);
+	let isAuthenticated = state.isAuthenticated && (state.designation.id === "admin" || state.designation.id === "user" ||  state.designation.id === "Supervisor") ? true : false;
+	return <Route {...rest} render={(props) => (isAuthenticated === true ? <Component {...props} /> : <Navigate  to={{pathname:"/",state:{from:props.location}}} />)} />;
+};
+
 export default function MainRoute() {
 	return (
 		<Routes>

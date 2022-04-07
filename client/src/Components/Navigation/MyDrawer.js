@@ -20,6 +20,9 @@ import Tooltip from '@mui/material/Tooltip';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CategoryIcon from '@mui/icons-material/Category';
 import ApprovalIcon from '@mui/icons-material/Approval';
+import AcUnitSharpIcon from '@mui/icons-material/AcUnitSharp';
+import AnimationSharpIcon from '@mui/icons-material/AnimationSharp';
+import ApiSharpIcon from '@mui/icons-material/ApiSharp';
 import ControlPointDuplicateIcon from '@mui/icons-material/ControlPointDuplicate';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -104,7 +107,7 @@ export default function MyDrawer() {
   };
 	const { state, dispatch } = useContext(MainContext);
 
-  const handleLogout = () => {
+const handleLogout = () => {
 		dispatch({ type: LOGOUT_USER });
 	};
   return (
@@ -125,7 +128,7 @@ export default function MyDrawer() {
           </IconButton>
           <Link href="/dashboard" color="inherit" underline="hover">
           <Typography variant="h6" noWrap component="div">
-            Just Test
+            Search Karona
           </Typography>
           </Link>
         </Toolbar>
@@ -201,11 +204,11 @@ const listData1 = [
 	{ text: "Add Category", link: "/AddCategory", icon: <CategoryIcon color="success" /> },
 	{ text: "Add SubCategory", link: "/AddSubCategory", icon: <ApprovalIcon color="success" />,Supervisor:true },
   { text: "Add Service", link: "/AddService", icon: <ControlPointDuplicateIcon color="success" />,Supervisor:true },
-  { text: "Add Vendor", link: "/AddVendor", icon: <ControlPointDuplicateIcon color="success" />,Supervisor:true },
-  { text: "Get Vendor", link: "/GetVendor", icon: <ControlPointDuplicateIcon color="success" />,Supervisor:true },
+  { text: "Add Vendor", link: "/AddVendor", icon: <AcUnitSharpIcon color="success" />,Supervisor:true },
+  { text: "Get Vendor", link: "/GetVendor", icon: <AnimationSharpIcon color="success" />,Supervisor:true },
 ];
 const listData2 = [
-	{ text: "Sign Up", link: "/signup", icon: <LoginIcon color="success"/> },
+	{ text: "Sign Up", link: "/signup", icon: <ApiSharpIcon color="success"/> },
 	// { text: "Login", link: "/login", icon: <LogoutIcon sx={{ color: red[500] }}/> },
 
 
