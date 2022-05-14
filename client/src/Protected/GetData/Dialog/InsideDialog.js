@@ -10,6 +10,9 @@ import useStyles from "../../useStyles";
 export default function InsideDialog(compo) {
 	const [myId, setMyId] = useState(compo.compo._id);
 	const [allData, setAllData] = useState([]);
+	const [visibility, setVisibility] = useState(
+    { label: "", id: "" }
+  );
   console.log(myId)
   useEffect(() => {
     getDataWithId();
@@ -41,12 +44,7 @@ export default function InsideDialog(compo) {
 									<Chip color="primary" label="Verify Vendor"  />
 									<span style={{flexGrow:1}}/>
                   
-                  <Autocomplete
-  disablePortal
-  id="combo-box-demo"
-  options={top100Films}
-  renderInput={(params) => <TextField {...params} label="Supervisor" />}
-/>
+      
 							
 								
 								<span style={{flexGrow:0.1}}/>
@@ -70,7 +68,16 @@ export default function InsideDialog(compo) {
                       </Grid>    
                 
          ))}
- 
+           < Grid item xs={12} sm={4} md={2.4} lg ={2}> 
+              <Autocomplete
+                  color="secondary"
+                  disablePortal
+                  id="combo-box-demo"
+                  options={visibilityOption}
+                  value={visibility}
+                  renderInput={(params) => <TextField {...params} label="Visibility" />}
+                  />
+                     </Grid>   
          </Grid>
          </Paper>
          </Grid>
@@ -84,13 +91,10 @@ export default function InsideDialog(compo) {
   );
 }
 
-const top100Films = [
-  { label: 'The Shawshank Redemption', year: 1994 },
-  { label: 'The Godfather', year: 1972 },
-  { label: 'The Godfather: Part II', year: 1974 },
-  { label: 'The Dark Knight', year: 2008 },
-  { label: '12 Angry Men', year: 1957 },
-  { label: "Schindler's List", year: 1993 },
-  { label: 'Pulp Fiction', year: 1994 }, ]
+const visibilityOption = [
+  { label: 'Public', id: "public" },
+  { label: 'Unlisted', id: "unlisted" },
+  { label: 'Private', id: "private" },
+]
 
 

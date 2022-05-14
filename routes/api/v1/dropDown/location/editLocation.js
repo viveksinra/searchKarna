@@ -5,7 +5,8 @@ const passport = require("passport");
 var mongoose = require('mongoose');
 
 
-const Location = require("../../../models/Location/Location");
+const Location = require('../../../../../models/DropDown/Location');
+
 
 // /api/location/editLocation/replaceScheme
 

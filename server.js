@@ -27,6 +27,10 @@ const category = require("./routes/api/v1/addition/category");
 const subCategory = require("./routes/api/v1/addition/subCategory");
 const myServices = require("./routes/api/v1/addition/myServices");
 const vendor = require("./routes/api/v1/addition/vendor");
+// DropDown
+const uploadLocation = require("./routes/api/v1/dropDown/location/uploadLocation")
+const editLocation = require("./routes/api/v1/dropDown/location/editLocation")
+const getLocation = require("./routes/api/v1/dropDown/location/getLocation")
 // other
 const primaryDdd = require("./routes/api/v1/other/primaryDdd");
 const fileUpload = require("./routes/api/v1/other/fileUpload");
@@ -80,6 +84,10 @@ app.use("/api/v1/addition/category", category);
 app.use("/api/v1/addition/subCategory", subCategory);
 app.use("/api/v1/addition/myServices", myServices);
 app.use("/api/v1/addition/vendor", vendor);
+//DropDown
+app.use("/api/v1/dropDown/location/uploadLocation",uploadLocation)
+app.use("/api/v1/dropDown/location/editLocation",editLocation)
+app.use("/api/v1/dropDown/location/getLocation",getLocation)
 // other
 app.use("/api/v1/other/fileUpload", fileUpload);
 app.use("/api/v1/other/primaryDdd", primaryDdd);

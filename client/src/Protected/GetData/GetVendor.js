@@ -80,9 +80,13 @@ export default function DataTable() {
     }, []);
 
     const getTableData = async (word) => {
-	
+      let dataToSend = {
+        startDate:startDate,
+        endDate:endDate,
+        word:word
+      }
       await axios
-        .get(`/api/v1/addition/vendor/tableData`)
+        .post(`/api/v1/addition/vendor/tableData`,dataToSend)
         .then((res) => (setTableData(res.data)))
         .catch((err) => console.log(err));
     };

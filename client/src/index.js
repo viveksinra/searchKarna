@@ -7,6 +7,7 @@ import MainRoute from "./Components/Routes/MainRoute";
 
 
 ReactDOM.render(
+	
 		<BrowserRouter>
 		<MainProvider>
 			<MainRoute />

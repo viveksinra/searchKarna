@@ -163,25 +163,32 @@ router.get(
 // @desc    route for getting all data from  service
 // @access  PRIVATE
 
-router.get(
+router.post(
   "/tableData",
   // passport.authenticate("jwt", { session: false }),
   async(req, res) => {
-   
-    let vendorData = await Vendor.aggregate([
-        //  {$match: {"designation.id": "supervisor"} }, 
-        {$project: { category:1,
-           businessName:1,
-           modesofPayment:1,
-           state:1,city:1 }  
-          }    
-        ]).exec()
-        for(let i=0;i<vendorData.length;i++){
-          vendorData[i].categoryName = vendorData[i].category.categoryName
-        }
-        res.json(vendorData)
+    let myMatch = {}
+
+    resData(res, myMatch)
+
   }
 );
+
+const resData = async(res, myMatch) => { 
+
+  let vendorData = await Vendor.aggregate([
+    //  {$match: {"designation.id": "supervisor"} }, 
+    {$project: { category:1,
+       businessName:1,
+       modesofPayment:1,
+       state:1,city:1 }  
+      }    
+    ]).exec()
+    for(let i=0;i<vendorData.length;i++){
+      vendorData[i].categoryName = vendorData[i].category.categoryName
+    }
+    res.json(vendorData)
+}
 // @type    GET
 //@route    /api/v1/addition/vendor/oneData
 // @desc    route for getting all data from  service

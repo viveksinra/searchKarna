@@ -143,8 +143,8 @@ const handleLogout = () => {
         <List>
           {listData1.map((l, i) => (
              
-              <Link href={l.link} color="inherit" underline="hover">
-                  <ListItem button key={l.link}>
+              <Link href={l.link} key={l.link} color="inherit" underline="hover">
+                  <ListItem button >
                   <Tooltip title={l.text} placement="right">
               <ListItemIcon>
                 {l.icon}
@@ -159,8 +159,8 @@ const handleLogout = () => {
         <Divider />
         <List>
         {listData2.map((l, i) => (
-             <Link href={l.link} color="inherit" underline="hover">
-                 <ListItem button key={l.text}>
+             <Link href={l.link} key={l.text} color="inherit" underline="hover">
+                 <ListItem button >
                  <Tooltip title={l.text} placement="right">
              <ListItemIcon>
                {l.icon}

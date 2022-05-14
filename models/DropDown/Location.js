@@ -25,8 +25,14 @@ village: {
     required: true
 },
 designation: {
-    type:String,
-    required:true
+    label:{
+        type:String,
+        required:true
+    },
+    id:{
+        type:String,
+        required:true
+    }
 }
 
 });

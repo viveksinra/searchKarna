@@ -113,7 +113,18 @@ subCategory:{
        type:String,
        default:""
    },
-
+   // pending public unlisted private
+   visibility:{
+       label:{
+        type:String,
+        default:"Pending"
+       },
+       id:{
+        type:String,
+        default:"pending"
+       }
+    
+   },
    date: {
     type: Date,
     default: Date.now

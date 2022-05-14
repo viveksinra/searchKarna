@@ -23,6 +23,7 @@ const useStyles = makeStyles(() => ({
 	dashbody: {
 		height: "100vh",
       display: 'flex',
+      background: "linear-gradient(to right, #e6bd03, #d1cd00, #b3dd00, #86ec00, #26fb0f)",
 		
 	},
     toolbar: {
@@ -35,13 +36,15 @@ const useStyles = makeStyles(() => ({
         flexGrow: 1,
     },
     cardArea:{
-        background: "linear-gradient(to left bottom, #ffbee3, #f3bdec, #e4bef3, #d2bff9, #bec0fc, #b0c8ff, #a3cfff, #9ad5ff, #9fe2fd, #adedfa, #c0f6f7, #d6fff7)",
+        background: "linear-gradient(to right, #e6bd03, #d1cd00, #b3dd00, #86ec00, #26fb0f)",
         minHeight:400,
         padding:theme.spacing(2),
     },
     importBox:{
         background:"white",
         borderRadius:20,
+
+
        
     }
  
@@ -50,7 +53,7 @@ export default function LocationMaster() {
   const classes = useStyles();
   const [file, setFile]= useState({});
   const [progress,setProgress]=useState(0)
-const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const snackRef = useRef();
 
 
@@ -63,7 +66,7 @@ const [loading, setLoading] = useState(false);
     fileData.append("photo", selectedFile, selectedFile.name);
     
           await axios
-      .post(`/api/upload/uploadLocation/check`, fileData, {
+      .post(`/api/v1/dropDown/location/uploadLocation/check`, fileData, {
         headers: {
           accept: "application/json",
           "Accept-Language": "en-US,en;q=0.8",
@@ -81,17 +84,16 @@ const [loading, setLoading] = useState(false);
 	return (
 		<>
 		<CommonDash compo = {
-			<Fragment>
+			<Fragment >
        <div className={classes.cardArea}>
             <Grid container spacing={4}>
                 <Grid item xs={12} style={{display:"flex",justifyContent:"flex-end"}}>
-             <Button onClick={()=>alert("Export Invalid Pressed")} color="primary" >
-			Export Invalid
-				</Button>
+     
                 <Button onClick={()=>alert("Download Sample")}  color="primary" >
-			Sample
-				</Button>
+		            	Sample
+		        		</Button>
                 </Grid>
+
                 <Grid item xs={12}>
                     {
                 progress !== 0 && 
@@ -113,19 +115,19 @@ const [loading, setLoading] = useState(false);
                <Grid item xs={12} className={classes.importBox}>
                <form onSubmit={(e) => handleLeads(e)} className="center">
                <TextField
-					variant="outlined"
-					type="file"
-					InputLabelProps={{ shrink: true }}
-					inputProps={{ accept: ".csv,application/vnd.ms-excel/*" }}										
-					label="Import Location "
-                    required
-                    onChange={e=> setFile(e.target.files[0])}
-					/>
+			      		variant="outlined"
+					      type="file"
+					      InputLabelProps={{ shrink: true }}
+					      inputProps={{ accept: ".csv,application/vnd.ms-excel/*" }}										
+					      label="Import Location "
+                required
+                onChange={e=> setFile(e.target.files[0])}
+				      	/>
                     <span style={{flexGrow:0.05}}/>
-                         <Button type="submit" variant="contained" color="primary">
-							Import
-					    </Button>
-                   </form>
+                <Button type="submit" variant="contained" color="primary">
+						    	Import
+					      </Button>
+              </form>
               
         
                </Grid>
