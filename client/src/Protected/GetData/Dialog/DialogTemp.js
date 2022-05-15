@@ -53,7 +53,7 @@ export default function FullScreenDialog({insideData}) {
             Data in Detail
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
-              save
+              Close
             </Button>
           </Toolbar>
         </AppBar>

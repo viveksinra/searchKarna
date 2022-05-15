@@ -244,13 +244,14 @@ myData.push({"myKey":"latitude", "myValue": vendorData.latitude})
 myData.push({"myKey":"longitude", "myValue": vendorData.longitude})
 myData.push({"myKey":"modesOfPayment", "myValue": vendorData.modesOfPayment})
 
+let locationLink = "#"
+if(vendorData.longitude != undefined && vendorData.longitude != ""){
+ locationLink = `https://maps.google.com/?q=${vendorData.latitude},${vendorData.longitude}`
+
+}
 
 
-
-
-
-
-        res.json({myData,visibility: vendorData.visibility})
+        res.json({myData,visibility: vendorData.visibility, locationLink})
   }
 );
 
@@ -267,6 +268,40 @@ router.get(
     }).then(Vendor => res.json(Vendor)).catch(err => res.json({message: "Problem in finding With this Id", variant: "error"}));
   }
 );
+// @type    POST
+//@route    /api/v1/addition/vendor/updateVisibility/:id
+// @desc    route to update Vendor Visibility
+// @access  PRIVATE
+router.post(
+  "/updateVisibility/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    let vendorValue = {
+      visibility: req.body.visibility
+    }
+    Vendor.findOne({
+      _id: req.params.id
+    }).then(
+      data => {
+        if(data){
+          Vendor.findOneAndUpdate(
+            { _id: req.params.id },
+            { $set: vendorValue },
+            { new: true }
+          ).then(
+            data => {
+              res.json({message: "Visibility Updated", variant: "success"});
+            }
+          )
+          .catch(err => res.json({message: "Problem in finding With this Id", variant: "error"}));
+        } else {
+          res.json({message: "Problem in finding With this Id", variant: "error"});
+        }
+      }
+    ).catch(err => res.json({message: "Problem in finding With this Id", variant: "error"}));
+  }
+);
+
 
 // @type    POST
 //@route    /api/v1/addition/myService/:id
