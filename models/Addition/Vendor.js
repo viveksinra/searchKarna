@@ -11,22 +11,22 @@ const VendorSchema = new Schema({
        type:String,
        default:""
    },
-    state:{
-       type:String,
-       default:""
-   },
-    district:{
-       type:String,
-       default:""
-   },
-    city:{
-       type:String,
-       default:""
-   },
-    area:{
-       type:String,
-       default:""
-   },
+   state: {
+    type: String,
+    required: true
+},    
+districtName: {
+type: String,
+required: true
+},    
+tahsilBlock: {
+    type: String,
+    required: true
+}, 
+village: {
+    type: String,
+    required: true
+},
     pincode:{
        type:String,
        default:""
@@ -99,7 +99,7 @@ subCategory:{
     type:String,
     default:""
 },
-   modesofPayment:{
+   modesOfPayment:{
        type:String,
        default:""
    },

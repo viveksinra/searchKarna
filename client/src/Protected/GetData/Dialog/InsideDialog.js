@@ -22,10 +22,9 @@ export default function InsideDialog(compo) {
 
     await axios
       .get(`/api/v1/addition/vendor/oneData/${myId}`)
-      .then((res) => (setAllData(res.data)))
+      .then((res) => (setAllData(res.data.myData), setVisibility(res.data.visibility)))
       .catch((err) => console.log(err));
 
-      console.log(allData)
   };
     const classes = useStyles();
   return (
@@ -95,6 +94,7 @@ const visibilityOption = [
   { label: 'Public', id: "public" },
   { label: 'Unlisted', id: "unlisted" },
   { label: 'Private', id: "private" },
+  {label: 'Pending', id: "pending" },
 ]
 
 

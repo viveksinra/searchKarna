@@ -45,7 +45,7 @@ export default function AddCategory() {
     const [emailId, setEmailId] = useState("");
     const [password, setPassword] = useState("");
 	const [state, setState] = useState("");
-	const [district, setDistrict] = useState("");
+	const [districtName, setDistrict] = useState("");
 	const [designation, setDesignation]= useState({
 		label: '', id: ""
 	})
@@ -107,7 +107,7 @@ export default function AddCategory() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		handleOpen();
-		let newUser = { _id: id, name, mobileNo, emailId, password, state,district,designation,  foSupervisor};
+		let newUser = { _id: id, name, mobileNo, emailId, password, state,districtName,designation,  foSupervisor};
 		await axios
 			.post(`/api/v1/auth/register/user/${id}`, newUser)
 			.then((res) => {
@@ -147,7 +147,7 @@ export default function AddCategory() {
 				setEmailId(res.data.emailId);
 				setPassword(res.data.value);
 				setState(res.data.state);
-				setDistrict(res.data.district);
+				setDistrict(res.data.districtName);
 				setDesignation(res.data.designation);
 				setFoSupervisor(res.data.foSupervisor);
 
@@ -291,7 +291,7 @@ export default function AddCategory() {
      					 options={top100Films}
      					 getOptionLabel={(option) => option.label}
      				 renderInput={(params) => (
-					 <TextField {...params} label="District" placeholder="click to select" />
+					 <TextField {...params} label="districtName" placeholder="click to select" />
      			 )} 
     				/>
 					</Grid>

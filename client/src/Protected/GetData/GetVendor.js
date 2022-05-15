@@ -246,7 +246,7 @@ const top100Films = [
       { field: '_id', headerName: 'Unique Reg. ID', width: 210 },
       { field: 'categoryName', headerName: 'Category', width: 130 },
       { field: 'businessName', headerName: 'Buisness/Shop Name', width: 200 },
-      { field: 'modesofPayment', headerName: 'Payment Mode', width: 130 },
+      { field: 'modesOfPayment', headerName: 'Payment Mode', width: 130 },
       { field: 'state', headerName: 'State', width: 130 },
       { field: 'city', headerName: 'city', width: 130 },
       // {
@@ -268,13 +268,13 @@ const top100Films = [
 
     
     const tableData = [
-      { _id: 1, categoryName: 'Snow',businessName: 'Snow',modesofPayment: 'Snow',state: 'Snow',city: 'Snow', firstName: 'Jon', age: 35 },
-      { _id: 2, categoryName: 'Lannister', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Cersei', age: 42 },
-      { _id: 3, categoryName: 'Lannister', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Jaime', age: 45 },
-      { _id: 4, categoryName: 'Stark', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Arya', age: 16 },
-      { _id: 5, categoryName: 'Targaryen', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Daenerys', age: null },
-      { _id: 6, categoryName: 'Melisandre', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: null, age: 150 },
-      { _id: 7, categoryName: 'Clifford', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Ferrara', age: 44 },
-      { _id: 8, categoryName: 'Frances', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Rossini', age: 36 },
-      { _id: 9, categoryName: 'Roxie', businessName: 'Lannister', modesofPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Harvey', age: 65 },
+      { _id: 1, categoryName: 'Snow',businessName: 'Snow',modesOfPayment: 'Snow',state: 'Snow',city: 'Snow', firstName: 'Jon', age: 35 },
+      { _id: 2, categoryName: 'Lannister', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Cersei', age: 42 },
+      { _id: 3, categoryName: 'Lannister', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Jaime', age: 45 },
+      { _id: 4, categoryName: 'Stark', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Arya', age: 16 },
+      { _id: 5, categoryName: 'Targaryen', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Daenerys', age: null },
+      { _id: 6, categoryName: 'Melisandre', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: null, age: 150 },
+      { _id: 7, categoryName: 'Clifford', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Ferrara', age: 44 },
+      { _id: 8, categoryName: 'Frances', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Rossini', age: 36 },
+      { _id: 9, categoryName: 'Roxie', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Harvey', age: 65 },
     ];

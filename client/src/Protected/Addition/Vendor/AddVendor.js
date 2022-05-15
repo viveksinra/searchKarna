@@ -28,9 +28,15 @@ export default function AddVendor() {
 	const [id, setId] = useState("");
 	const [link, setLink] = useState("");
 	const [state, setState] = useState("");
-	const [district, setDistrict] = useState("");
-	const [city, setCity] = useState("");
-	const [area, setArea] = useState("");
+	const [allStates, setAllStates] = useState([]);
+	const [districtName, setDistrict] = useState("");
+	const [allDistricts, setAllDistricts] = useState([]);
+	const [tahsilBlock, setTahsilBlock] = useState("");
+	const [allTahsilBlocks, setAllTahsilBlocks] = useState([]);
+	const [village, setVillage] = useState("");
+	const [allVillages, setAllVillages] = useState([]);
+
+	
 	const [pincode, setPincode] = useState("");
 	const [landmark, setLandmark] = useState("");
 	const [registrationNo, setRegistrationNo] = useState("");
@@ -58,7 +64,9 @@ link:""
 	});
 	
 	const [yearEstablished, setYearEstablished] = useState("");
-	const [modesofPayment, setModesofPayment] = useState("");
+	const [allYearStablished, setAllYearStablished] = useState(allYearStablished2);
+	const [modesOfPayment, setModesofPayment] = useState("");
+	const [allModesOfPayment, setAllModesofPayment] = useState(allModesOfPayment2);
 	const [latitude, setLatitude] = useState("");
 	const [longitude, setLongitude] = useState("");
 	const [status, setStatus] = useState("Click the button");
@@ -67,6 +75,7 @@ link:""
 	const snackRef = useRef();
 	useEffect(() => {
 		getCategory();
+		getState();
 	}, []);
 	const handleChange=(value,name,type)=>{
 		if(type==="text"){
@@ -101,20 +110,20 @@ link:""
 		console.log("submit");
 		e.preventDefault();
 		let newCat = { _id: id, 
-			link,state,district,city,area,pincode,landmark,
+			link,state,districtName,tahsilBlock,village,pincode,landmark,
 			registrationNo,receiptNo,contactPersonName,
 			contactNo,businessName,emailId,website,
 			category,subCategory,myServices,
 			yearEstablished,
 			latitude,longitude,
-			modesofPayment,
+			modesOfPayment,
 
 		};
 		await axios
 			.post(`/api/v1/addition/vendor/${id}`, newCat)
 			.then((res) => {
 				snackRef.current.handleSnack(res.data);
-				handleClear();
+				// handleClear();
 			})
 			.catch((err) => console.log(err));
 	};
@@ -123,8 +132,8 @@ link:""
 		setLink("");
 		setState("");
 		setDistrict("");
-		setCity("");
-		setArea("");
+		setTahsilBlock("");
+		setVillage("");
 		setPincode("");
 		setLandmark("");
 		setRegistrationNo("");
@@ -184,6 +193,48 @@ link:""
 					.catch((err) => console.log(err));
 			}
 		};
+		const getState = () => {
+			let fieldData = {}
+			axios
+				.post(`/api/v1/dropDown/location/getLocation/state`,fieldData)
+				.then((res) => setAllStates(res.data))
+				.catch((err) => console.log(err));
+			};
+		const getDistrict = (state) => {
+			let fieldData = {
+				state: state
+			}
+			axios
+				.post(`/api/v1/dropDown/location/getLocation/districtName`,fieldData)
+				.then((res) => setAllDistricts(res.data))
+				.catch((err) => console.log(err));
+		
+			};
+		const getTahsilBlock = (state,districtName) => {
+			let fieldData = {
+				state: state,
+				districtName: districtName
+			}
+			axios
+				.post(`/api/v1/dropDown/location/getLocation/tahsilBlock`,fieldData)
+				.then((res) => setAllTahsilBlocks(res.data))
+				.catch((err) => console.log(err));
+		
+			};
+		const getVillage = (state,districtName,tahsilBlock ) => {
+			let fieldData = {
+				state: state,
+				districtName: districtName,
+				tahsilBlock: tahsilBlock
+			}
+			axios
+				.post(`/api/v1/dropDown/location/getLocation/village`,fieldData)
+				.then((res) => setAllVillages(res.data))
+				.catch((err) => console.log(err));
+		
+			};
+
+
 		const getMyServices = (v) => {
 			if (v) {
 				axios
@@ -246,66 +297,80 @@ link:""
               <Grid item xs={12} md={6}> 
 			  <Autocomplete
 										
-										options={testData}
+										options={allStates}
 										filterSelectedOptions
-										getOptionLabel={(option) => option.label}
+										getOptionLabel={(option) => option}
+										isOptionEqualToValue={(option, value) => (option === value )}
 										onChange={(e, v) => {
 											setState(v);
-											// getSubCategory(v);
-											// setSubCategory({
-											// 	subCategoryName:""
-											// });
+											setAllDistricts([]);
+											setDistrict("");
+											setAllTahsilBlocks([])
+											setTahsilBlock("");
+											setAllVillages([]);
+											setVillage("");
+											getDistrict(v);
+
+
 										}}
 										value={state}
 										renderInput={(params) => <TextField {...params} variant="outlined" label="SEARCH State" />}
 									/>               
       
               </Grid>
-            {/* data --- District		 */}
+            {/* data --- districtName		 */}
               <Grid item xs={12} md={6}>                
         <Autocomplete
 										
-										options={testData}
+										options={allDistricts}
 										filterSelectedOptions
-										getOptionLabel={(option) => option.label}
+										getOptionLabel={(option) => option}
+										isOptionEqualToValue={(option, value) => (option === value )}
 										onChange={(e, v) => {
-											setDistrict(v);
-											// getSubCategory(v);
-											// setSubCategory({
-											// 	subCategoryName:""
-											// });
+											setDistrict(v);										
+											setAllTahsilBlocks([])
+											setTahsilBlock("");
+											setAllVillages([]);
+											setVillage("");
+											getTahsilBlock(state,v);
+
 										}}
-										value={district}
-               							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type District" label="SEARCH District" />}
+										value={districtName}
+               							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type districtName" label="SEARCH districtName" />}
               />
               </Grid>
-            {/* data --- City		 */}
+            {/* data --- tahsilBlock		 */}
               					<Grid item xs={12} md={6}>                
        									 <Autocomplete
-										options={testData}
+										options={allTahsilBlocks}
 										filterSelectedOptions
-										getOptionLabel={(option) => option.label}
+										getOptionLabel={(option) => option}
+										isOptionEqualToValue={(option, value) => (option === value )}
 										onChange={(e, v) => {
-											setCity(v);
+											setTahsilBlock(v);
+											setAllVillages([]);
+											setVillage("");
+											getVillage(state,districtName,v);
 										
 										}}
-										value={city} 
-               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type City" label="SEARCH City" />}
+										value={tahsilBlock} 
+               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type tahsilBlock" label="SEARCH tahsilBlock" />}
               />
               </Grid>
-            {/* data --- Area		 */}
+            {/* data --- Village		 */}
               <Grid item xs={12} md={6}>                
         <Autocomplete
 										
-										options={testData}
+										options={allVillages}
 										filterSelectedOptions
-										getOptionLabel={(option) => option.label}
+										getOptionLabel={(option) => option}
+										isOptionEqualToValue={(option, value) => (option === value )}
 										onChange={(e, v) => {
-											setArea(v);
+											setVillage(v);				
 										
 										}}
-										value={area}
-               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type Area" label="SEARCH Area" />}
+										value={village}
+               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type Village" label="SEARCH Village" />}
               />
               </Grid>
               
@@ -456,16 +521,18 @@ link:""
 										options={allCategory}
 										filterSelectedOptions
 										getOptionLabel={(option) => option.categoryName}
+										isOptionEqualToValue={(option, value) => (option.categoryName === value.categoryName )}
+
 										onChange={(e, v) => {
 											setCategory(v);
 											getSubCategory(v);
 											setSubCategory({
 												subCategoryName:"",
-link:""
+												link:""
 											});
 											setMyServices({
 												serviceName:"",
-link:""
+												link:""
 											});
 										}}
 										value={category}
@@ -478,6 +545,7 @@ link:""
 										options={allSubCategory}
 										filterSelectedOptions
 										getOptionLabel={(option) => option.subCategoryName}
+										isOptionEqualToValue={(option, value) => (option.categoryName === value.subCategoryName )}
 										onChange={(e, v) => {
 											setSubCategory(v);
 											getMyServices(v);
@@ -508,9 +576,10 @@ link:""
               <Grid item xs={12} md={6}>                
         <Autocomplete
 										
-										options={testData}
+										options={allYearStablished}
 										filterSelectedOptions
-										getOptionLabel={(option) => option.label}
+										getOptionLabel={(option) => option}
+										isOptionEqualToValue={(option, value) => (option === value )}
 										onChange={(e, v) => {
 											setYearEstablished(v);
 											// getSubCategory(v);
@@ -537,18 +606,16 @@ link:""
               <Grid item xs={12} md={6}>                
         <Autocomplete
 										
-		 options={testData}
+		 options={allModesOfPayment}
 		 filterSelectedOptions
-		 getOptionLabel={(option) => option.label}
+		 getOptionLabel={(option) => option}
+		isOptionEqualToValue={(option, value) => (option === value )}
 		 onChange={(e, v) => {
 		 	setModesofPayment(v);
-		 	// getSubCategory(v);
-		 	// setSubCategory({
-		 	// 	subCategoryName:""
-		 	// });
+		
 		 }}
-										value={modesofPayment}
-               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type Mods of Payment" label="SEARCH Mods of Payment" />}
+										value={modesOfPayment}
+               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Select Mode of Payment" label="SEARCH Mode of Payment" />}
               />
               </Grid>
          
@@ -591,6 +658,34 @@ link:""
 	
 	);
 }
+const allYearStablished2 = [ 
+	"2000",
+	"2001",
+	"2002",
+	"2003",
+	"2004",
+	"2005",
+	"2006",
+	"2007",
+	"2008",
+	"2009",
+	"2010",
+	"2011",
+	"2012",
+	"2013",
+	"2014",
+	"2015",
+	"2016",
+	"2017",
+	"2018",
+	"2019",
+	"2020",
+	"2021",
+	"2022",
+]
+const allModesOfPayment2 = [
+	"Cash","Online","Cheque","Card","Other"
+]
 
 const testData = [
   { label: 'The Shawshank Redemption', id: 1994 },

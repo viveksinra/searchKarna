@@ -8,13 +8,13 @@ const LocationSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "myUser"
       },
-    state: {
-        type: String,
-        required: true
-    },    
-    districtName: {
+state: {
     type: String,
     required: true
+},    
+districtName: {
+type: String,
+required: true
 },    
 tahsilBlock: {
     type: String,

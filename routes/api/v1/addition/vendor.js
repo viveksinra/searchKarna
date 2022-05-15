@@ -18,6 +18,7 @@ router.post(
   "/",
    passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+    console.log(req.body)
     const serviceValues = {
    
       category:{},
@@ -35,10 +36,10 @@ router.post(
     });
     serviceValues.link = rests;
 //link end
-    // serviceValues.state = req.body.state;
-    // serviceValues.district = req.body.district;
-    // serviceValues.city = req.body.city;
-    // serviceValues.area = req.body.area;
+    serviceValues.state = req.body.state;
+    serviceValues.districtName = req.body.districtName;
+    serviceValues.tahsilBlock = req.body.tahsilBlock;
+    serviceValues.village = req.body.village;
     serviceValues.pincode = req.body.pincode;
     serviceValues.landmark = req.body.landmark;
     serviceValues.registrationNo = req.body.registrationNo;
@@ -50,6 +51,8 @@ router.post(
     serviceValues.website = req.body.website;
     serviceValues.latitude = req.body.latitude;
     serviceValues.longitude = req.body.longitude;
+    serviceValues.yearEstablished = req.body.yearEstablished;
+    serviceValues.modesOfPayment = req.body.modesOfPayment;
 
     serviceValues.category.categoryName = req.body.category.categoryName;
     serviceValues.category.link = req.body.category.link;
@@ -80,7 +83,18 @@ if(
 })
 
   
-    } else {
+    }else if(
+      serviceValues.state == undefined || serviceValues.state == "" ||
+      serviceValues.districtName == undefined || serviceValues.districtName == "" ||
+      serviceValues.tahsilBlock == undefined || serviceValues.tahsilBlock == "" ||
+      serviceValues.village == undefined || serviceValues.village == "" 
+    ){
+      res.json({
+        message: "Locations are Required field",
+        variant: "error"
+      })
+    }
+    else {
     
           Vendor.findOne({
             emailId: serviceValues.emailId
@@ -180,8 +194,8 @@ const resData = async(res, myMatch) => {
     //  {$match: {"designation.id": "supervisor"} }, 
     {$project: { category:1,
        businessName:1,
-       modesofPayment:1,
-       state:1,city:1 }  
+       modesOfPayment:1,
+       state:1,tahsilBlock:1 }  
       }    
     ]).exec()
     for(let i=0;i<vendorData.length;i++){
@@ -208,10 +222,10 @@ router.get(
        variant: "error"}));
 // console.log(vendorData)
 let myData = []
-myData.push({"myKey":"state", "myValue": vendorData.state})
-myData.push({"myKey":"district", "myValue": vendorData.district})
-myData.push({"myKey":"city", "myValue": vendorData.city})
-myData.push({"myKey":"area", "myValue": vendorData.area})
+myData.push({"myKey":"State", "myValue": vendorData.state})
+myData.push({"myKey":"districtName", "myValue": vendorData.districtName})
+myData.push({"myKey":"tahsilBlock", "myValue": vendorData.tahsilBlock})
+myData.push({"myKey":"village", "myValue": vendorData.village})
 myData.push({"myKey":"pincode", "myValue": vendorData.pincode})
 myData.push({"myKey":"landmark", "myValue": vendorData.landmark})
 myData.push({"myKey":"registrationNo", "myValue": vendorData.registrationNo})
@@ -228,7 +242,7 @@ myData.push({"myKey":"serviceName", "myValue": vendorData.myServices.serviceName
 myData.push({"myKey":"yearEstablished", "myValue": vendorData.yearEstablished})
 myData.push({"myKey":"latitude", "myValue": vendorData.latitude})
 myData.push({"myKey":"longitude", "myValue": vendorData.longitude})
-myData.push({"myKey":"modesofPayment", "myValue": vendorData.modesofPayment})
+myData.push({"myKey":"modesOfPayment", "myValue": vendorData.modesOfPayment})
 
 
 
@@ -236,7 +250,7 @@ myData.push({"myKey":"modesofPayment", "myValue": vendorData.modesofPayment})
 
 
 
-        res.json(myData)
+        res.json({myData,visibility: vendorData.visibility})
   }
 );
 
