@@ -1,6 +1,9 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import useStyles from "../../useStyles";
 import MySnackbar from "../../../Components/MySnackbar";
+import VendorImgPrevDeleteCom from "./../Vendor/VendorImgPrevDelete";
+import TermAndConCom from "./../Vendor/TermAndCon";
+
 import {
 	Grid,
 	Chip,
@@ -69,6 +72,9 @@ link:""
 	const [allModesOfPayment, setAllModesofPayment] = useState(allModesOfPayment2);
 	const [latitude, setLatitude] = useState("");
 	const [longitude, setLongitude] = useState("");
+	
+	const [allImage,setAllImage] = useState([]);
+
 	const [status, setStatus] = useState("Click the button");
 
 	const [err] = useState({ errIn: "", msg: "" });
@@ -126,6 +132,41 @@ link:""
 				// handleClear();
 			})
 			.catch((err) => console.log(err));
+	};
+	const clearImage = (imgId) => { 
+		console.log("imgId")
+		console.log(imgId)
+		
+var newAllImg = allImage.filter((img) => img.imgId !== imgId)
+// console.log(newAllImg)
+		setAllImage(newAllImg);
+	}
+	const imgUpload = async (e, name) => {
+		if (e) {
+			const selectedFile = e;
+			const imgData = new FormData();
+			imgData.append("photo", selectedFile, selectedFile.name);
+			let link = `/api/v1/other/fileupload/mainfolder/vendorImage`
+			
+				await axios
+					.post(link, imgData, {
+						headers: {
+							accept: "application/json",
+							"Accept-Language": "en-US,en;q=0.8",
+							"Content-Type": `multipart/form-data; boundary=${imgData._boundary}`,
+						},
+					})
+					.then((res) => {
+						if (name === "image") {
+							let imgUrl = res.data.result.secure_url;
+							let imgId = res.data.result.public_id;
+							setAllImage([...allImage, { imgUrl, imgId }]);
+						}
+					
+					})
+					.catch((err) => console.log(err));
+			
+		}
 	};
 	const handleClear = () => {
 		setId("");
@@ -623,6 +664,43 @@ link:""
 							<Grid item xs={12}>
 								<Divider />
 							</Grid>
+							
+							{allImage.length !== 0 && (
+							allImage.map((image, index) => (
+								<Grid item key={index} xs={12} md={6}>
+								<VendorImgPrevDeleteCom 
+								type ={"Image"} 
+								imageLink={image.imgUrl} 
+								imageId={image.imgId}
+								clearImage ={clearImage} 
+								dataId={id}
+								/>
+								</Grid>
+							)	)				
+						)} 
+							{
+								allImage.length <= 4 && (
+									<Grid item  xs={12} md={6}>
+									<TextField
+									// required
+										variant="outlined"
+										type="file"
+										InputLabelProps={{ shrink: true }}
+										inputProps={{ accept: "image/*" }}
+										fullWidth
+										value={""}
+										onBlur={() => handleErr("image")}
+										error={err.errIn === "image" ? true : false}
+										label={err.errIn === "image" ? err.msg : "Vendor Image"}
+										onChange={(e) => imgUpload(e.target.files[0],"image")}
+									/> 
+									</Grid>
+								)
+							}
+							<Grid item xs={12}>
+							<TermAndConCom />
+							</Grid>
+							
 							<Grid item xs={12}>
 								<center>
 								 <Tooltip title={id === "" ? "Save" : "Update"}>
@@ -653,6 +731,8 @@ link:""
 	</Fragment>
 
 		} />
+		
+
 		</>
 		
 	

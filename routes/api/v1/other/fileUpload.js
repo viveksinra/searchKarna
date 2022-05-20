@@ -24,12 +24,17 @@ app.post("/mainfolder/:folderName", function(req, res, next) {
 });
  // /api/v1/other/fileupload/delete
 app.post("/delete", function(req, res, next) {
-  console.log(req.body)
-  const id = req.body.id;
+  // console.log(req.body)
+  let id = ""
+  if(req.body.id)
+ {  id = req.body.id;}
+ else {
+  id = req.body.imgId;
+ }
   // console.log(id)
- 
-  cloudinary.uploader.destroy(id, function(error,result)  { 
-    console.log({error,result})
+ if(id)
+{  cloudinary.uploader.destroy(id, function(error,result)  { 
+    // console.log({error,result})
     if(result){
       if(result.result== "ok" || result.result== "not found"){
         res.json({ message: "Deleted Succesfully ",
@@ -45,7 +50,11 @@ app.post("/delete", function(req, res, next) {
 
        
 
-  });
+  });}
+  else {
+    res.json({ message: "Deletion Failed - no id found",
+    variant: "error" });
+  }
 
 });
 
