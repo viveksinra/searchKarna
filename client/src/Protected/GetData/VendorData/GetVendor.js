@@ -1,6 +1,6 @@
 import  React ,{useRef,useEffect, useState,lazy,Suspense} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import CommonDash from './../../Protected/MyDashboard/CommonDash';
+import CommonDash from './../../../Protected/MyDashboard/CommonDash';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import axios from "axios";
@@ -74,16 +74,44 @@ export default function DataTable() {
     let formatDate = year + "-" + month + "-" + date;
     const [startDate, setStartDate] = React.useState(formatDate);
     const [endDate, setEndDate] = React.useState(formatDate);
+    const [visibility, setVisibility] = useState(
+      { label: "", id: "" }
+    );
+    const [allStatus,setAllStatus]=useState([]);
+    const [supervisor,setSupervisor]=useState("");
+    const [allSupervisor,setAllSupervisor]=useState([]);
+    const [employee,setEmployee]=useState("");
+    const [allEmployee,setAllEmployee]=useState([]);
+    const [state, setState] = useState("");
+  	const [allStates, setAllStates] = useState([]);
+  	const [districtName, setDistrict] = useState("");
+  	const [allDistricts, setAllDistricts] = useState([]);
     
     useEffect(() => {
       getTableData();
+      getState();
     }, []);
-
+    const getState = () => {
+			let fieldData = {}
+			axios
+				.post(`/api/v1/dropDown/location/getLocation/state`,fieldData)
+				.then((res) => setAllStates(res.data))
+				.catch((err) => console.log(err));
+			};
+		const getDistrict = (state) => {
+			let fieldData = {
+				state: state
+			}
+			axios
+				.post(`/api/v1/dropDown/location/getLocation/districtName`,fieldData)
+				.then((res) => setAllDistricts(res.data))
+				.catch((err) => console.log(err));
+		
+			};
     const getTableData = async (word) => {
       let dataToSend = {
         startDate:startDate,
         endDate:endDate,
-        word:word
       }
       await axios
         .post(`/api/v1/addition/vendor/tableData`,dataToSend)
@@ -134,11 +162,18 @@ console.log(formatDate)
              </Grid>
             <Grid item xs={12} md={4}>
             <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={top100Films}
-             renderInput={(params) => <TextField {...params} label="Status" />}
-              />
+                  color="secondary"
+                  disablePortal
+                  id="combo-box-demo"
+                  options={visibilityOption}
+                  value={visibility}
+                  getOptionLabel={(option) => option.label}
+                  onChange={(e, v) => {
+                    setVisibility(v);
+                    
+                  }}
+                  renderInput={(params) => <TextField {...params} label="Visibility" />}
+                  />
         
              </Grid>
         
@@ -160,22 +195,42 @@ console.log(formatDate)
   renderInput={(params) => <TextField {...params} label="Employee" />}
 />
            </Grid>
-            <Grid item xs={12} md={3}>
-            <Autocomplete
-  disablePortal
-  id="combo-box-demo"
-  options={top100Films}
-  renderInput={(params) => <TextField {...params} label="State" />}
-/>
-           </Grid>
-            <Grid item xs={12} md={3}>
-            <Autocomplete
-  disablePortal
-  id="combo-box-demo"
-  options={top100Films}
-  renderInput={(params) => <TextField {...params} label="City" />}
-/>
-           </Grid>
+            {/* data --- State	 */}
+            <Grid item xs={12} md={3}> 
+			  <Autocomplete
+										
+										options={allStates}
+										filterSelectedOptions
+										getOptionLabel={(option) => option}
+										isOptionEqualToValue={(option, value) => (option === value )}
+										onChange={(e, v) => {
+											setState(v);
+											setAllDistricts([]);
+											setDistrict("");
+											getDistrict(v);
+										}}
+										value={state}
+										renderInput={(params) => <TextField {...params} variant="outlined" label="Select State" />}
+									/>               
+      
+              </Grid>
+            {/* data --- districtName		 */}
+              <Grid item xs={12} md={3}>                
+        <Autocomplete
+										
+										options={allDistricts}
+										filterSelectedOptions
+										getOptionLabel={(option) => option}
+										isOptionEqualToValue={(option, value) => (option === value )}
+										onChange={(e, v) => {
+											setDistrict(v);										
+								
+
+										}}
+										value={districtName}
+               							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type district" label="Select district" />}
+              />
+              </Grid>
        
             
             </>}
@@ -265,7 +320,12 @@ const top100Films = [
       //     `${params.row.firstName || ''} ${params.row.categoryName || ''}`,
       // },
     ];
-
+    const visibilityOption = [
+      { label: 'Public', id: "public" },
+      { label: 'Unlisted', id: "unlisted" },
+      { label: 'Private', id: "private" },
+      {label: 'Pending', id: "pending" },
+    ]
     
     const tableData = [
       { _id: 1, categoryName: 'Snow',businessName: 'Snow',modesOfPayment: 'Snow',state: 'Snow',city: 'Snow', firstName: 'Jon', age: 35 },

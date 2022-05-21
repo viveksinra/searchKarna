@@ -15,8 +15,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function TermAndConCom({cState}) {
+export default function TermAndConCom({cState,setIsTandCAccepted,handleCheck}) {
   const [open, setOpen] = useState(cState);
+  const checkBeforeOpen = () => {
+    let checkMsg = handleCheck()
+    if(checkMsg.variant === "success"){
+      handleClickOpen();
+    }
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,8 +34,8 @@ export default function TermAndConCom({cState}) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open full-screen dialog
+      <Button variant="outlined" onClick={checkBeforeOpen} color="success">
+        Accept T & C 
       </Button>
       <Dialog
         fullScreen
@@ -47,7 +53,7 @@ export default function TermAndConCom({cState}) {
             >
               <CloseIcon />
             </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div" >
               Term and Condition
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
@@ -61,12 +67,14 @@ export default function TermAndConCom({cState}) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
+          <Button autoFocus onClick={handleClose} variant="outlined" color="error">
             Disagree
           </Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
-          </Button>
+          <Button variant="contained" color="success" onClick={() => {
+            setIsTandCAccepted(true);
+            console.log("hello1")}}>
+          Agree
+      </Button>          
         </DialogActions>
       </Dialog>
     </div>
@@ -106,7 +114,7 @@ Refund and Cancellation Policy
 
 Our focus is complete customer satisfaction.Please use our FREE plan before you make payment for any paid plan. The FREE plan is pretty much enough to understand our design or quality of content.In the event, if you are displeased with the services provided, we will not refund back the money, provided the reasons are genuine and proved after investigation like, Fail of Transaction/Money debited but not reflected as service of that account. Plase Note, in case of payment has deducted and service is not started for that account within 24 hours, the user has to send us information via Email/Post regarding the valid transactional details, and same bank account details And after verification of the case, user can get the refund of money or the service with-in 7 working days (max) of the information. Please read the fine prints of each deal before buying it, it provides all the details about the services or the product you purchase. In case of dissatisfaction from our services, clients do not have the liberty to cancel their projects and request a refund from us. Our Policy for the cancellation and refund will be as follows: Please use our FREE Trail before you pay for any plan. Refund Policy We will try our best to create the suitable design concepts for our clients. In case any client is not completely satisfied with our products we can NOT provide any refund.
 
-Key Persons :- Mr. Raghav Jha & Mr. Vivek Singh (Grievance Officer)
+Key Persons :-  Mr. Vivek Singh (Grievance Officer)
 http://quallifier.co.in/
 Registered under, The MSME Act,2006 (A unit of Softechinfra)
 Email: softechinfra@gmail.com Ph: +91-9460117600`

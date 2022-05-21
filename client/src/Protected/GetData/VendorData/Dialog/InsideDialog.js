@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
-import MySnackbar from "../../../Components/MySnackbar";
+import MySnackbar from "../../../../Components/MySnackbar";
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 
 import Box from '@mui/material/Box';
@@ -9,7 +9,7 @@ import { Chip, Grid, Paper } from '@mui/material';
 import Button from '@mui/material/Button';
 import axios from "axios";
 
-import useStyles from "../../useStyles";
+import useStyles from "../../../useStyles";
 export default function InsideDialog(compo) {
   const snackRef = useRef();
 

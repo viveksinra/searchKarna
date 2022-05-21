@@ -10,7 +10,7 @@ import AddService from "../../Protected/Addition/Services/AddServices"
 
 import Dashboard from "../../Protected/MyDashboard/Dashboard";
 import App from "../../App";
-import GetVendor from "../../Protected/GetData/GetVendor";
+import GetVendor from "../../Protected/GetData/VendorData/GetVendor";
 import ToCheck from "../../Protected/ToCheck";
 import AddEmployee from "../../Protected/User/AddEmployee";
 import LocationMaster from "../../Protected/DropDown/LocationMaster";

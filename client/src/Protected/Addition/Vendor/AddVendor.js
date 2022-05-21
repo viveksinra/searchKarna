@@ -3,7 +3,8 @@ import useStyles from "../../useStyles";
 import MySnackbar from "../../../Components/MySnackbar";
 import VendorImgPrevDeleteCom from "./../Vendor/VendorImgPrevDelete";
 import TermAndConCom from "./../Vendor/TermAndCon";
-
+import OtpDialogCom from "./../Vendor/OtpDialog";
+import VerifyFieldsFun from "./../Vendor/VerifyFields";
 import {
 	Grid,
 	Chip,
@@ -72,17 +73,58 @@ link:""
 	const [allModesOfPayment, setAllModesofPayment] = useState(allModesOfPayment2);
 	const [latitude, setLatitude] = useState("");
 	const [longitude, setLongitude] = useState("");
+	const [isTandCAccepted, setIsTandCAccepted] = useState(false);
+	const [isOtpVerified, setIsOtpVerified] = useState(false);
+	const [otp, setOtp] = useState("");
 	
 	const [allImage,setAllImage] = useState([]);
 
 	const [status, setStatus] = useState("Click the button");
 
-	const [err] = useState({ errIn: "", msg: "" });
+	const [err,setErr] = useState({ errIn: "", msg: "" });
 	const snackRef = useRef();
 	useEffect(() => {
 		getCategory();
 		getState();
 	}, []);
+	const callOtpFun = (myotp,isVerified) => { 
+		setIsOtpVerified(isVerified);
+		setOtp(myotp);
+	}
+	const checkBeforeSubmit = (e) => {
+		let checkMsg = handleCheck()
+		if(checkMsg.variant === "success"){
+			handleSubmit(e);
+		}
+	  }
+	const handleCheck = () => {
+		let allValues = {
+			id,link,state,districtName,tahsilBlock,
+			village,pincode,landmark,registrationNo,
+			receiptNo,contactPersonName,contactNo,
+			businessName,emailId,website,category,
+			subCategory,myServices,yearEstablished,
+			modesOfPayment,latitude,longitude,
+			isTandCAccepted,isOtpVerified,otp
+		}
+		let checkMsg = VerifyFieldsFun(allValues)
+		if (checkMsg.variant !== "success") { 
+			if(checkMsg.variant==="error" || checkMsg.variant==="success"){
+				snackRef.current.handleSnack({
+					message: checkMsg.message,
+					variant: checkMsg.variant,
+				})
+			 } else {
+				snackRef.current.handleSnack({
+					message: `"Invalid message Type = " ${checkMsg.variant}`,
+					variant: "error",
+				}) 
+			 }
+
+			
+		}
+		return checkMsg;
+	}
 	const handleChange=(value,name,type)=>{
 		if(type==="text"){
 		   var re = /^[A-Za-z_ ]*$/;
@@ -91,7 +133,15 @@ link:""
 				 case "landmark":
 					setLandmark(value)
 					break;
-				
+				case "contactPersonName":
+					setContactPersonName(value)
+					break;
+				case "businessName":
+					setBusinessName(value)
+					break;
+				case "link":
+					setLink(value)
+					break;
 				 default:
 					break;
 			  }
@@ -104,11 +154,30 @@ link:""
 				case "pincode":
 					setPincode(value)
 				   break;
-				
+				case "registrationNo":
+					setRegistrationNo(value)
+					break;
+				case "receiptNo":
+					setReceiptNo(value)
+					break;	
+				case "contactNo":
+					setContactNo(value)
+					break;
+
 				default:
 				   break;
 			 }
 		   }
+		} else if (type==="emailId"){
+			var re = /^[A-Za-z@. ]*$/;
+			if (value === '' || re.test(value)) { 
+				setEmailId(value)
+			}
+		} else if (type==="website"){
+			var re = /^[A-Za-z. ]*$/;
+			if (value === '' || re.test(value)) { 
+				setWebsite(value)
+			}
 		}
 	   
 	}
@@ -129,7 +198,8 @@ link:""
 			.post(`/api/v1/addition/vendor/${id}`, newCat)
 			.then((res) => {
 				snackRef.current.handleSnack(res.data);
-				// handleClear();
+				if(res.data.variant==="success"){
+				handleClear();}
 			})
 			.catch((err) => console.log(err));
 	};
@@ -274,8 +344,7 @@ link:""
 				.catch((err) => console.log(err));
 		
 			};
-
-
+	
 		const getMyServices = (v) => {
 			if (v) {
 				axios
@@ -294,10 +363,10 @@ link:""
 	};
 	const handleErr = (errIn) => {
 		switch (errIn) {
-			case "title":
-				// if(title.length  < 10){
-				//     setErr({errIn:"mobileNo", msg:"Enter 10 Digits Mobile No."})
-				// }else setErr({errIn:"", msg:""})
+			case "text":
+				if(pincode.length  !== 6){
+				    setErr({errIn:"pincode", msg:"Enter 6 Digit Pin code"})
+				}else setErr({errIn:"", msg:""})
 				break;
 			default:
 				break;
@@ -312,7 +381,8 @@ link:""
 	
 			<Grid item xs={12} md={10}>
 				<Paper className={classes.entryArea}>
-					<form onSubmit={(e) => handleSubmit(e)} style={{ maxWidth: "100vw" }}>
+					<form onSubmit={(e) => checkBeforeSubmit(e)} style={{ maxWidth: "100vw" }}>
+				
 						<Grid container spacing={2}>
 							
 							<Grid item xs={12} style={{display:"flex",alignItems:"center",}}>
@@ -420,14 +490,14 @@ link:""
 									variant="outlined"
 									required
 									fullWidth
-									inputProps={{ maxLength: "42",
+									inputProps={{ maxLength: "6",
 									 inputMode: 'numeric', pattern: '[0-9]*' }}
 									onBlur={() => handleErr("pincode")}
 									error={err.errIn === "pincode" ? true : false}
 									label={err.errIn === "pincode" ? err.msg : "Pincode"}
 									placeholder="Enter Pincode"
 									value={pincode}
-									onChange={(e) =>handleChange(e.target.value,"pincode","number") }
+									onChange={(e) =>handleChange(e.target.value,"pincode","number",) }
 								/>
 							</Grid>
               <Grid item xs={12} md={6}>  
@@ -455,7 +525,7 @@ link:""
 									label={err.errIn === "registrationNo" ? err.msg : "Registration No	"}
 									placeholder="Enter Registration No..."
 									value={registrationNo}
-									onChange={(e) => setRegistrationNo(e.target.value)}
+									onChange={(e) =>  handleChange(e.target.value,"registrationNo","number")}
 								/>
 							</Grid>
               <Grid item xs={12} md={6}>  
@@ -469,7 +539,7 @@ link:""
 									label={err.errIn === "receiptNo" ? err.msg : "Receipt no "}
 									placeholder="Enter Receipt no..."
 									value={receiptNo}
-									onChange={(e) => setReceiptNo(e.target.value)}
+									onChange={(e) => handleChange(e.target.value,"receiptNo","number")}
 								/>
 							</Grid>
               <Grid item xs={12} md={6}>  
@@ -483,7 +553,7 @@ link:""
 									label={err.errIn === "contactPersonName" ? err.msg : "Contact Person Name	"}
 									placeholder="Enter Contact Person Name..."
 									value={contactPersonName}
-									onChange={(e) => setContactPersonName(e.target.value)}
+									onChange={(e) => handleChange(e.target.value,"contactPersonName","text")}
 								/>
 							</Grid>
               <Grid item xs={12} md={6}>  
@@ -491,13 +561,17 @@ link:""
 									variant="outlined"
 									required
 									fullWidth
-									inputProps={{ maxLength: "42" }}
+									inputProps={{ maxLength: "10" }}
 									onBlur={() => handleErr("contactNo")}
 									error={err.errIn === "contactNo" ? true : false}
 									label={err.errIn === "contactNo" ? err.msg : "Contact No "}
 									placeholder="Enter Contact No..."
 									value={contactNo}
-									onChange={(e) => setContactNo(e.target.value)}
+									InputProps={{
+										maxLength: "10",
+										readOnly: isOtpVerified,
+									  }}
+									onChange={(e) => handleChange(e.target.value,"contactNo","number")}
 								/>
 							</Grid>
               <Grid item xs={12} md={6}>  
@@ -511,7 +585,7 @@ link:""
 									label={err.errIn === "businessName" ? err.msg : "Shop/Business Name "}
 									placeholder="Enter Shop/Business Name..."
 									value={businessName}
-									onChange={(e) => setBusinessName(e.target.value)}
+									onChange={(e) => handleChange(e.target.value,"businessName","text")}
 								/>
 							</Grid>
               <Grid item xs={12} md={6}>  
@@ -525,7 +599,7 @@ link:""
 									label={err.errIn === "link" ? err.msg : "link "}
 									placeholder="Enter Shop/Business Name..."
 									value={link}
-									onChange={(e) => setLink(e.target.value)}
+									onChange={(e) => handleChange(e.target.value,"link","text")}
 								/>
 							</Grid>
               <Grid item xs={12} md={6}>  
@@ -539,7 +613,7 @@ link:""
 									label={err.errIn === "emailId" ? err.msg : "Email Id"}
 									placeholder="Enter Email Id..."
 									value={emailId}
-									onChange={(e) => setEmailId(e.target.value)}
+									onChange={(e) => handleChange(e.target.value,"emailId","emailId")}
 								/>
 							</Grid>
               <Grid item xs={12} md={6}>  
@@ -553,7 +627,7 @@ link:""
 									label={err.errIn === "website" ? err.msg : "Website "}
 									placeholder="Enter Website..."
 									value={website}
-									onChange={(e) => setWebsite(e.target.value)}
+									onChange={(e) => handleChange(e.target.value,"website","website")}
 								/>
 							</Grid>
 							<Grid item xs={12} md={6}>
@@ -696,21 +770,33 @@ link:""
 									/> 
 									</Grid>
 								)
-							}
-							<Grid item xs={12}>
-							<TermAndConCom />
-							</Grid>
+							}							
 							
 							<Grid item xs={12}>
 								<center>
-								 <Tooltip title={id === "" ? "Save" : "Update"}>
+									
+								{!(isTandCAccepted) && (
+									<div className={classes.button} >
+								<TermAndConCom 
+							setIsTandCAccepted={setIsTandCAccepted}
+							handleCheck={handleCheck}
+							/>
+							</div>
+							)}
+								{(isTandCAccepted && !isOtpVerified) && (
+									<div className={classes.button} >
+								<OtpDialogCom 
+							callOtpFun={callOtpFun}
+							contactNo={contactNo}
+							handleCheck={handleCheck}
+							/>
+							</div>
+							)}
+								 {(isTandCAccepted && isOtpVerified) && (<Tooltip title={id === "" ? "Save" : "Update"}>
 										<Fab color="primary" type="submit" className={classes.button}>
 											<MdDoneAll />
 										</Fab>
-									</Tooltip> 
-									 {/* <Tooltip title={id === "" ? "Save" : "Update"}>
-                  <AlertDialog />						
-									</Tooltip>  */}
+									</Tooltip> )}
 									<Tooltip title="Clear All">
 										<Fab size="small" color="secondary" onClick={() => handleClear()} className={classes.button}>
 											<MdClearAll />
@@ -719,8 +805,9 @@ link:""
 															
 								</center>
 							</Grid>
-						</Grid>
-					</form>
+						</Grid>				
+						
+						</form>
 				</Paper>
 			</Grid>
 			
