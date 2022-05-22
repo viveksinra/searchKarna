@@ -196,7 +196,7 @@ export default function DataTable() {
       options={top100Films}
       getOptionLabel={(option) => option.label}
       renderInput={(params) => (
-        <TextField {...params} label="districtName" placeholder="click to select" />
+        <TextField {...params} label="district" placeholder="click to select" />
       )}
  
     />

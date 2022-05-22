@@ -222,11 +222,10 @@ router.post('/user/loginWithPassword',(req,res) => {
  
 })
 
-// Route to Register User 
+// Route to Register/Add User 
 // /api/v1/v1/auth/register/user
 router.post('/register/user/', (req,res) => {
   console.log("got this")
-  console.log(req.bodycfg)
   var str = req.body.name;
 //Now I separate them by "|"
 var str1 = str.split(" ");
@@ -241,8 +240,10 @@ var str4
     mobileNo: req.body.mobileNo,
     emailId: req.body.emailId,
     password: req.body.password,
+    state: req.body.state,
+    district: req.body.district,
     designation: req.body.designation,
-    foSupervisor: req.body.foSupervisor,
+    supervisor: req.body.supervisor,
    
     value:req.body.password,
     userName:str4,
@@ -307,21 +308,25 @@ router.post(
 const updateUser = async(req, res) => {
 
       
-  var des = req.user.designation;
-  var des1 = "Admin";
-  var des2 = "Manager";
+  var des = req.user.designation.id;
+  var des1 = "admin";
+  var des2 = "manager";
 // here we are checking designation in last step, that is in funtion called
  if (des == des1 || des == des2  ) {
 
 
   const userValues = { 
-    
+    supervisor:{}
   };
 
   if(req.body.name)userValues.name = req.body.name;
-  if(req.body.emailId)userValues.emailId = req.body.emailId;
   if(req.body.mobileNo)userValues.mobileNo = req.body.mobileNo;
+  if(req.body.emailId)userValues.emailId = req.body.emailId;
+  // state district designation supervisor
+  if(req.body.state)userValues.state = req.body.state;
+  if(req.body.district)userValues.district = req.body.district;
   if(req.body.designation)userValues.designation = req.body.designation;
+  if(req.body.supervisor)userValues.supervisor = req.body.supervisor;
   if(req.body.password)userValues.value = req.body.password;
   if(req.body.password)userValues.password = req.body.password;
   if(req.body.password) {

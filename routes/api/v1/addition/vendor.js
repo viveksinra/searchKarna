@@ -37,7 +37,7 @@ router.post(
     serviceValues.link = rests;
 //link end
     serviceValues.state = req.body.state;
-    serviceValues.districtName = req.body.districtName;
+    serviceValues.district = req.body.district;
     serviceValues.tahsilBlock = req.body.tahsilBlock;
     serviceValues.village = req.body.village;
     serviceValues.pincode = req.body.pincode;
@@ -85,7 +85,7 @@ if(
   
     }else if(
       serviceValues.state == undefined || serviceValues.state == "" ||
-      serviceValues.districtName == undefined || serviceValues.districtName == "" ||
+      serviceValues.district == undefined || serviceValues.district == "" ||
       serviceValues.tahsilBlock == undefined || serviceValues.tahsilBlock == "" ||
       serviceValues.village == undefined || serviceValues.village == "" 
     ){
@@ -223,7 +223,7 @@ router.get(
 // console.log(vendorData)
 let myData = []
 myData.push({"myKey":"State", "myValue": vendorData.state})
-myData.push({"myKey":"districtName", "myValue": vendorData.districtName})
+myData.push({"myKey":"district", "myValue": vendorData.district})
 myData.push({"myKey":"tahsilBlock", "myValue": vendorData.tahsilBlock})
 myData.push({"myKey":"village", "myValue": vendorData.village})
 myData.push({"myKey":"pincode", "myValue": vendorData.pincode})

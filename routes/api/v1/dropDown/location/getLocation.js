@@ -32,9 +32,9 @@ router.post('/state',
 
 }
 )
-// districtName
-// /api/v1/dropDown/location/getLocation/districtName
-router.post('/districtName',
+// district
+// /api/v1/dropDown/location/getLocation/district
+router.post('/district',
 // passport.authenticate("jwt", { session: false }),
  async(req,res) => {
         
@@ -43,7 +43,7 @@ router.post('/districtName',
 
     let U1 = await Location.aggregate([
         {$match: {state:state} },
-        { $group : { _id : "$districtName" } }  
+        { $group : { _id : "$district" } }  
         // {$project: { regNumber:1}},
     
     
@@ -67,11 +67,11 @@ router.post('/tahsilBlock',
  async(req,res) => {
     
     let state = req.body.state
-    let districtName = req.body.districtName
+    let district = req.body.district
     
 
     let U1 = await Location.aggregate([
-        {$match: {state:state,districtName:districtName} },
+        {$match: {state:state,district:district} },
         { $group : { _id : "$tahsilBlock" } }  
         // {$project: { regNumber:1}},
     
@@ -98,14 +98,14 @@ router.post('/village',
  async(req,res) => {
     
     let state = req.body.state
-    let districtName = req.body.districtName
+    let district = req.body.district
     let tahsilBlock = req.body.tahsilBlock
     
     let U1 = await Location.aggregate([
         {$match: {
             
             state:state,
-            districtName:districtName,
+            district:district,
             tahsilBlock:tahsilBlock,
             
         } },

@@ -15,7 +15,7 @@ const VendorSchema = new Schema({
     type: String,
     required: true
 },    
-districtName: {
+district: {
 type: String,
 required: true
 },    

@@ -27,29 +27,42 @@ const UserSchema = new Schema({
     type: String,
     default:"createYourPassword"
   },
+  state: {
+    type: String,
+    required: true
+},    
+district: {
+type: String,
+required: true
+},  
+  // user , admin , 
+  // supervisor , fieldPartner
   designation: {
     label:{
       type: String,
-    default: "user"
+    default: "User"
   },
   id:{
     type: String,
     default: "user"
   }
 },
-  foSupervisor:[
+  supervisor:
     {
       name:{
         type: String,
         default: ""
       },
-      id:{
+      _id:{
         type: String,
         default: ""
       }
     }
-  ],
-
+  ,
+accountStatus:{
+  type:String,
+  default:"active"
+},
   // distributor
   
   

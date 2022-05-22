@@ -77,20 +77,42 @@ export default function DataTable() {
     const [visibility, setVisibility] = useState(
       { label: "", id: "" }
     );
-    const [allStatus,setAllStatus]=useState([]);
-    const [supervisor,setSupervisor]=useState("");
+    const [supervisor,setSupervisor]=useState(
+      {name:"",_id:""}
+    );
     const [allSupervisor,setAllSupervisor]=useState([]);
-    const [employee,setEmployee]=useState("");
-    const [allEmployee,setAllEmployee]=useState([]);
+    const [fieldPartner,setFieldPartner]=useState(
+      {name:"",_id:""}
+    );
+    const [allFieldPartner,setAllFieldPartner]=useState([]);
     const [state, setState] = useState("");
   	const [allStates, setAllStates] = useState([]);
-  	const [districtName, setDistrict] = useState("");
+  	const [district, setDistrict] = useState("");
   	const [allDistricts, setAllDistricts] = useState([]);
     
     useEffect(() => {
       getTableData();
       getState();
+      getSupervisors();
     }, []);
+    const getSupervisors = () => {
+      console.log("getSupervisors");
+			let fieldData = {}
+			axios
+				.post(`/api/v1/myUser/allSupervisors`,fieldData)
+				.then((res) => setAllSupervisor(res.data))
+				.catch((err) => console.log(err));
+			};
+		const getUserWithSupervisor = (supervisorId) => {
+			let fieldData = {
+				supervisorId: supervisor._id
+			}
+			axios
+				.post(`/api/v1/myUser/userWithSupervisor`,fieldData)
+				.then((res) => allFieldPartner(res.data))
+				.catch((err) => console.log(err));
+		
+			};
     const getState = () => {
 			let fieldData = {}
 			axios
@@ -103,7 +125,7 @@ export default function DataTable() {
 				state: state
 			}
 			axios
-				.post(`/api/v1/dropDown/location/getLocation/districtName`,fieldData)
+				.post(`/api/v1/dropDown/location/getLocation/district`,fieldData)
 				.then((res) => setAllDistricts(res.data))
 				.catch((err) => console.log(err));
 		
@@ -179,22 +201,43 @@ console.log(formatDate)
         
             {showAdv && <>
         
-            <Grid item xs={12} md={3}>
-            <Autocomplete
-  disablePortal
-  id="combo-box-demo"
-  options={top100Films}
-  renderInput={(params) => <TextField {...params} label="Supervisor" />}
-/>
-           </Grid>
-            <Grid item xs={12} md={3}>
-            <Autocomplete
-  disablePortal
-  id="combo-box-demo"
-  options={top100Films}
-  renderInput={(params) => <TextField {...params} label="Employee" />}
-/>
-           </Grid>
+            {/* data --- supervisor	 */}
+            <Grid item xs={12} md={3}> 
+			  <Autocomplete
+										
+										options={allSupervisor}
+										filterSelectedOptions
+										getOptionLabel={(option) => option.name}
+										isOptionEqualToValue={(option, value) => (option.name === value.name )}
+										onChange={(e, v) => {
+                      console.log({e,v});
+											setSupervisor(v);
+											setAllFieldPartner([]);
+											setFieldPartner({name:"",id:""});
+											getUserWithSupervisor(v);
+										}}
+										value={supervisor}
+										renderInput={(params) => <TextField {...params} variant="outlined" label="Select Supervisor" />}
+									/>               
+      
+              </Grid>
+            {/* data --- 	FieldPartner	 */}
+              <Grid item xs={12} md={3}>                
+        <Autocomplete
+										
+										options={allFieldPartner}
+										filterSelectedOptions
+										getOptionLabel={(option) => option.name}
+										isOptionEqualToValue={(option, value) => (option.name === value.name )}
+										onChange={(e, v) => {
+											setFieldPartner(v);										
+								
+
+										}}
+										value={fieldPartner}
+               							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type district" label="Select district" />}
+              />
+              </Grid>
             {/* data --- State	 */}
             <Grid item xs={12} md={3}> 
 			  <Autocomplete
@@ -214,7 +257,7 @@ console.log(formatDate)
 									/>               
       
               </Grid>
-            {/* data --- districtName		 */}
+            {/* data --- district		 */}
               <Grid item xs={12} md={3}>                
         <Autocomplete
 										
@@ -227,7 +270,7 @@ console.log(formatDate)
 								
 
 										}}
-										value={districtName}
+										value={district}
                							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type district" label="Select district" />}
               />
               </Grid>

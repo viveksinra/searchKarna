@@ -6,7 +6,7 @@
 const id = allValues.id;
 const link = allValues.link;
 const state = allValues.state;
-const districtName = allValues.districtName;
+const district = allValues.district;
 const tahsilBlock = allValues.tahsilBlock;
 const village = allValues.village;
 const pincode = allValues.pincode;
@@ -33,8 +33,8 @@ const otp = allValues.otp;
 if(state === undefined || state === null || state === ""){
 	returnStatement.message = "state is required";
 	returnStatement.variant = "error";
-} else if(districtName === undefined || districtName === null || districtName === ""){
-	returnStatement.message = "districtName is required";
+} else if(district === undefined || district === null || district === ""){
+	returnStatement.message = "district is required";
 	returnStatement.variant = "error";
 } else if(tahsilBlock === undefined || tahsilBlock === null || tahsilBlock === ""){
 	returnStatement.message = "tahsilBlock is required";

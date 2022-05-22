@@ -30,7 +30,7 @@ router.get(
 // @desc    route for getting all data from  user
 // @access  PRIVATE
 
-router.get(
+router.post(
   "/allSupervisors",
   passport.authenticate("jwt", { session: false }),
   async(req, res) => {
@@ -40,9 +40,38 @@ router.get(
         {$project: { name:1 }  }
     
         ]).exec()
-        console.log(allSupervisor)
+        console.log("allSupervisor",allSupervisor)
         res.json(allSupervisor)
 
+  }
+);
+// @type    GET
+//@route    /api/v1/myUser/userWithSupervisor
+// @desc    route for getting all data from  user
+// @access  PRIVATE
+
+router.post(
+  "/userWithSupervisor",
+  passport.authenticate("jwt", { session: false }),
+  async(req, res) => {
+    console.log(req.body)
+   if(req.body.supervisorId){
+    let allSupervisor = await User.aggregate([
+         {$match: {
+           "designation.id": "fieldPartner",
+          "foSupervisor.id": req.body.supervisorId
+        } }, 
+        {$project: { name:1 }  }
+    
+        ]).exec()
+        console.log(allSupervisor)
+        res.json(allSupervisor)
+      }else{
+        res.json({
+          "message":"Please provide supervisorId",
+          "variant":"error"
+        }) 
+      }
   }
 );
 

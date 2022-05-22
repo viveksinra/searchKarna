@@ -33,7 +33,7 @@ export default function AddVendor() {
 	const [link, setLink] = useState("");
 	const [state, setState] = useState("");
 	const [allStates, setAllStates] = useState([]);
-	const [districtName, setDistrict] = useState("");
+	const [district, setDistrict] = useState("");
 	const [allDistricts, setAllDistricts] = useState([]);
 	const [tahsilBlock, setTahsilBlock] = useState("");
 	const [allTahsilBlocks, setAllTahsilBlocks] = useState([]);
@@ -99,7 +99,7 @@ link:""
 	  }
 	const handleCheck = () => {
 		let allValues = {
-			id,link,state,districtName,tahsilBlock,
+			id,link,state,district,tahsilBlock,
 			village,pincode,landmark,registrationNo,
 			receiptNo,contactPersonName,contactNo,
 			businessName,emailId,website,category,
@@ -185,7 +185,7 @@ link:""
 		console.log("submit");
 		e.preventDefault();
 		let newCat = { _id: id, 
-			link,state,districtName,tahsilBlock,village,pincode,landmark,
+			link,state,district,tahsilBlock,village,pincode,landmark,
 			registrationNo,receiptNo,contactPersonName,
 			contactNo,businessName,emailId,website,
 			category,subCategory,myServices,
@@ -316,15 +316,15 @@ link:""
 				state: state
 			}
 			axios
-				.post(`/api/v1/dropDown/location/getLocation/districtName`,fieldData)
+				.post(`/api/v1/dropDown/location/getLocation/district`,fieldData)
 				.then((res) => setAllDistricts(res.data))
 				.catch((err) => console.log(err));
 		
 			};
-		const getTahsilBlock = (state,districtName) => {
+		const getTahsilBlock = (state,district) => {
 			let fieldData = {
 				state: state,
-				districtName: districtName
+				district: district
 			}
 			axios
 				.post(`/api/v1/dropDown/location/getLocation/tahsilBlock`,fieldData)
@@ -332,10 +332,10 @@ link:""
 				.catch((err) => console.log(err));
 		
 			};
-		const getVillage = (state,districtName,tahsilBlock ) => {
+		const getVillage = (state,district,tahsilBlock ) => {
 			let fieldData = {
 				state: state,
-				districtName: districtName,
+				district: district,
 				tahsilBlock: tahsilBlock
 			}
 			axios
@@ -429,7 +429,7 @@ link:""
 									/>               
       
               </Grid>
-            {/* data --- districtName		 */}
+            {/* data --- district		 */}
               <Grid item xs={12} md={6}>                
         <Autocomplete
 										
@@ -446,8 +446,8 @@ link:""
 											getTahsilBlock(state,v);
 
 										}}
-										value={districtName}
-               							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type districtName" label="SEARCH districtName" />}
+										value={district}
+               							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type district" label="SEARCH district" />}
               />
               </Grid>
             {/* data --- tahsilBlock		 */}
@@ -461,7 +461,7 @@ link:""
 											setTahsilBlock(v);
 											setAllVillages([]);
 											setVillage("");
-											getVillage(state,districtName,v);
+											getVillage(state,district,v);
 										
 										}}
 										value={tahsilBlock} 

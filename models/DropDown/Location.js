@@ -12,7 +12,7 @@ state: {
     type: String,
     required: true
 },    
-districtName: {
+district: {
 type: String,
 required: true
 },    

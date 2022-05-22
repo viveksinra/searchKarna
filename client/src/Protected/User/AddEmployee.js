@@ -37,7 +37,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 const theme = createTheme();
 
-export default function AddCategory() {
+export default function AddEmployee() {
 	const classes = useStyles();
 	const [id, setId] = useState("");
 	const [name, setName] = useState("");
@@ -45,13 +45,16 @@ export default function AddCategory() {
     const [emailId, setEmailId] = useState("");
     const [password, setPassword] = useState("");
 	const [state, setState] = useState("");
-	const [districtName, setDistrict] = useState("");
+	const [allStates, setAllStates] = useState([]);
+	const [district, setDistrict] = useState("");
+	const [allDistricts, setAllDistricts] = useState([]);
+	const [allSupervisor,setAllSupervisor]=useState([]);
+	const [supervisor,setSupervisor]=useState(
+		{name:"",_id:""}
+	  );
 	const [designation, setDesignation]= useState({
 		label: '', id: ""
-	})
-    const [foSupervisor, setFoSupervisor] = useState([]);
-    const [allSupervisor, setAllSupervisor] = useState([]);
-
+	});
     const [allUser, setAllUser] = useState([]); 
 	const [values, setValues] = React.useState({
 		amount: '',
@@ -59,9 +62,7 @@ export default function AddCategory() {
 		weightRange: '',
 		showPassword: false,
 	  });	
-	  const handleChange = (prop) => (event) => {
-		setValues({ ...values, [prop]: event.target.value });
-	  };	
+	  	
 	  const handleClickShowPassword = () => {
 		setValues({
 		  ...values,
@@ -73,7 +74,7 @@ export default function AddCategory() {
 	  };    
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(10);
-	const [err] = useState({ errIn: "", msg: "" });
+	const [err,setErr] = useState({ errIn: "", msg: "" });
 	const snackRef = useRef();
 	const [open, setOpen] = useState(false);
 	const handleClose = () => {
@@ -84,10 +85,36 @@ export default function AddCategory() {
 	};
 	useEffect(() => {
 		getData("");
+		getState();
+		getSupervisors();
 	}, []);
-
-	const getData = async (word) => {
+	const getSupervisors = () => {
+		console.log("getSupervisors");
+			  let fieldData = {}
+			  axios
+				  .post(`/api/v1/myUser/allSupervisors`,fieldData)
+				  .then((res) => setAllSupervisor(res.data))
+				  .catch((err) => console.log(err));
+			  };
+	const getState = () => {
+		let fieldData = {}
+		axios
+			.post(`/api/v1/dropDown/location/getLocation/state`,fieldData)
+			.then((res) => setAllStates(res.data))
+			.catch((err) => console.log(err));
+		};
+	const getDistrict = (state) => {
+		let fieldData = {
+			state: state
+		}
+		axios
+			.post(`/api/v1/dropDown/location/getLocation/district`,fieldData)
+			.then((res) => setAllDistricts(res.data))
+			.catch((err) => console.log(err));
 	
+		};
+	const getData = async (word) => {
+	console.log("word",word)
 		await axios
 			.get(`/api/v1/myUser/allUsers/${word}`)
 			.then((res) => (setAllUser(res.data))
@@ -95,19 +122,73 @@ export default function AddCategory() {
 			)
 			.catch((err) => console.log(err));
 	};
-	const setSupervisior = async () => {
+	const handleCheckBeforeSubmit = () => {
+		if (name === "") {
+			setErr({ errIn: "name", msg: "Name is required" });
+			snackRef.current.handleSnack(
+				{"message":"Name is required",
+				"variant":"error"}
+			);
+			return false;
+		} else if (mobileNo === "") {
+			setErr({ errIn: "mobileNo", msg: "Mobile No is required" });
+			snackRef.current.handleSnack(
+				{"message":"Mobile No is required",
+				"variant":"error"}
+			);
+			return false;
+		} else if (emailId === "") {
+			setErr({ errIn: "emailId", msg: "Email Id is required" });
+			snackRef.current.handleSnack(
+				{"message":"Email Id is required",
+				"variant":"error"}
+			);
+			return false;
+		} else if (password === "") {
+			setErr({ errIn: "password", msg: "Password is required" });
+			snackRef.current.handleSnack(
+				{"message":"Password is required",
+				"variant":"error"}
+			);
+			return false;
+		} else if (state === "") {
+			setErr({ errIn: "state", msg: "State is required" });
+			snackRef.current.handleSnack(
+				{"message":"State is required",
+				"variant":"error"}
+			);
+			return false;
+		} else if (district === "") {
+			setErr({ errIn: "district", msg: "District is required" });
+			snackRef.current.handleSnack(
+				{"message":"District is required",
+				"variant":"error"}
+			);
+			return false;
+		} else if (designation.id === "") {
+			setErr({ errIn: "designation", msg: "Designation is required" });
+			snackRef.current.handleSnack(
+				{"message":"Designation is required",
+				"variant":"error"}
+			);
+			return false;
+		} else if (designation.id === "fieldPartner" && supervisor._id === "") {
+			setErr({ errIn: "supervisor", msg: "Supervisor is required" });
+			snackRef.current.handleSnack(
+				{"message":"Supervisor is required",
+				"variant":"error"}
+			);
+			return false;
+		} else {
+			return true;
+		}
 	
-		await axios
-			.get(`/api/v1/myUser/allSupervisors`)
-			.then((res) => (setAllSupervisor(res.data))
-			
-			)
-			.catch((err) => console.log(err));
-	};
+	}
 	const handleSubmit = async (e) => {
-		e.preventDefault();
+		e.preventDefault();		
+	if(handleCheckBeforeSubmit()){
 		handleOpen();
-		let newUser = { _id: id, name, mobileNo, emailId, password, state,districtName,designation,  foSupervisor};
+			let newUser = { _id: id, name, mobileNo, emailId, password, state,district,designation,  supervisor};
 		await axios
 			.post(`/api/v1/auth/register/user/${id}`, newUser)
 			.then((res) => {
@@ -119,7 +200,7 @@ export default function AddCategory() {
 
 				}
 			})
-			.catch((err) => console.log(err));
+			.catch((err) => console.log(err));}
 	};
 	const handleClear = () => {
 		setId("");
@@ -132,7 +213,7 @@ export default function AddCategory() {
 		setDesignation({
 			label: '', id: ""
 		});
-		setFoSupervisor([])
+		setSupervisor({name:"",_id:""})
 
 	};
 
@@ -147,9 +228,9 @@ export default function AddCategory() {
 				setEmailId(res.data.emailId);
 				setPassword(res.data.value);
 				setState(res.data.state);
-				setDistrict(res.data.districtName);
+				setDistrict(res.data.district);
 				setDesignation(res.data.designation);
-				setFoSupervisor(res.data.foSupervisor);
+				setSupervisor(res.data.supervisor);
 
 		
 				
@@ -168,7 +249,7 @@ export default function AddCategory() {
 	};
 	const handleErr = (errIn) => {
 		switch (errIn) {
-			case "categoryName":
+			case "employeeName":
 				// if(title.length  < 10){
 				//     setErr({errIn:"mobileNo", msg:"Enter 10 Digits Mobile No."})
 				// }else setErr({errIn:"", msg:""})
@@ -199,7 +280,7 @@ export default function AddCategory() {
 							<Grid item xs={4}></Grid>
 							<Grid item xs={4}>
 								<center>
-									<Chip color="primary" label="Add Category" />
+									<Chip color="primary" label="Add Employee" />
 								</center>
 							</Grid>
 							<Grid item xs={4}></Grid>
@@ -271,31 +352,43 @@ export default function AddCategory() {
           />
         </FormControl>
 							</Grid>						
-						<Grid item xs={6}> 
-						<Autocomplete
-      					multiple
-      					limitTags={2}
-      					id="multiple-limit-tags"
-     					 options={top100Films}
-      					getOptionLabel={(option) => option.label}
-     			 renderInput={(params) => (
-       			 <TextField {...params} label="State" placeholder="click to select" />
-     			 )} 
-   				 />
-						</Grid>
-						<Grid item xs={6}> 
-						<Autocomplete
-     					 multiple
-   						limitTags={2}
-      					id="multiple-limit-tags"
-     					 options={top100Films}
-     					 getOptionLabel={(option) => option.label}
-     				 renderInput={(params) => (
-					 <TextField {...params} label="districtName" placeholder="click to select" />
-     			 )} 
-    				/>
-					</Grid>
-						<Grid item xs={6}> 
+						       {/* data --- State	 */}
+							   <Grid item xs={12} md={6}> 
+			  <Autocomplete
+										
+										options={allStates}
+										filterSelectedOptions
+										getOptionLabel={(option) => option}
+										isOptionEqualToValue={(option, value) => (option === value )}
+										onChange={(e, v) => {
+											setState(v);
+											setAllDistricts([]);
+											setDistrict("");
+											getDistrict(v);
+										}}
+										value={state}
+										renderInput={(params) => <TextField {...params} variant="outlined" label="Select State" />}
+									/>               
+      
+              </Grid>
+            {/* data --- district		 */}
+              <Grid item xs={12} md={6}>                
+        <Autocomplete
+										
+										options={allDistricts}
+										filterSelectedOptions
+										getOptionLabel={(option) => option}
+										isOptionEqualToValue={(option, value) => (option === value )}
+										onChange={(e, v) => {
+											setDistrict(v);										
+								
+
+										}}
+										value={district}
+               							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type district" label="Select district" />}
+              />
+              </Grid>
+						<Grid item xs={12} md={6}> 
 						<Autocomplete
 										
 										options={allDesignation}
@@ -303,8 +396,10 @@ export default function AddCategory() {
 										getOptionLabel={(option) => option.label}
 										onChange={(e, v) => {
 											setDesignation(v);
-											setSupervisior();
-											setFoSupervisor([]);
+											setSupervisor(
+												{name:"",_id:""}
+											  );
+											getSupervisors();
 										}}
 										value={designation}
 										renderInput={(params) => <TextField {...params} variant="outlined" label="Select Designation" />}
@@ -314,25 +409,25 @@ export default function AddCategory() {
        
  { designation ? 
 	designation.id === "fieldPartner" ?
- <>  <Grid item xs={6}>
-             
-            <Autocomplete
-      multiple
-      limitTags={2}
-      id="multiple-limit-tags"
-      options={allSupervisor}
-      getOptionLabel={(option) => option.name}
-	  onChange={(e, v) => {
-		setFoSupervisor(v); 
-	}}
-	  value={foSupervisor}
-      renderInput={(params) => (
-        <TextField {...params} label="Supervisor" placeholder="select SuperVisior" />
-      )}
- 
-    />
+ <>  
+  {/* data --- supervisor	 */}
+  <Grid item xs={12} md={6}> 
+			  <Autocomplete
+									
+				options={allSupervisor}
+				filterSelectedOptions
+				getOptionLabel={(option) => option.name}
+				isOptionEqualToValue={(option, value) => (option.name === value.name )}
+				onChange={(e, v) => {
+				setSupervisor(v);
+		
+				}}
+				value={supervisor}
+				renderInput={(params) => <TextField {...params} variant="outlined" label="Select Supervisor" />}
+				/>               
       
-             </Grid> </>
+              </Grid>
+			 </>
 			: <></> :<></>
 			
 			}
@@ -374,13 +469,13 @@ export default function AddCategory() {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder= {`Search Category...`}
+              placeholder= {`Search Employee...`}
 			  onChange={(e) => getData(e.target.value)}
 			   
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-				{/* <SearchBar name={ "Category"}  onChange={(e) => getData(e.target.value)} /> */}
+				{/* <SearchBar name={ "Employee"}  onChange={(e) => getData(e.target.value)} /> */}
 				
 				</div>
 				<div className={classes.searchResult}>
