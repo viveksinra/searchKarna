@@ -54,18 +54,17 @@ router.post(
   "/userWithSupervisor",
   passport.authenticate("jwt", { session: false }),
   async(req, res) => {
-    console.log(req.body)
    if(req.body.supervisorId){
-    let allSupervisor = await User.aggregate([
+    let allFieldPartner = await User.aggregate([
          {$match: {
            "designation.id": "fieldPartner",
-          "foSupervisor.id": req.body.supervisorId
+          "supervisor._id": req.body.supervisorId
         } }, 
         {$project: { name:1 }  }
     
         ]).exec()
-        console.log(allSupervisor)
-        res.json(allSupervisor)
+        console.log(allFieldPartner)
+        res.json(allFieldPartner)
       }else{
         res.json({
           "message":"Please provide supervisorId",

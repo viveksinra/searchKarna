@@ -63,7 +63,7 @@ export default function DataTable() {
     const [tableData,setTableData]=useState([]);
 
     const [expandBasic,setExpand]=useState(true);
-    const [showAdv,setAdv]=useState(false);
+    const [showAdv,setAdv]=useState(true);
     let todayDate = new Date()
     let date = todayDate.getDate();
     let month = todayDate.getMonth() + 1;
@@ -103,13 +103,14 @@ export default function DataTable() {
 				.then((res) => setAllSupervisor(res.data))
 				.catch((err) => console.log(err));
 			};
-		const getUserWithSupervisor = (supervisorId) => {
+		const getFpWithSupervisor = (supervisorId) => {
 			let fieldData = {
-				supervisorId: supervisor._id
+				supervisorId: supervisorId._id,
+        "Data":"pata"
 			}
 			axios
 				.post(`/api/v1/auth/getDeleteUser/userWithSupervisor`,fieldData)
-				.then((res) => allFieldPartner(res.data))
+				.then((res) => setAllFieldPartner(res.data))
 				.catch((err) => console.log(err));
 		
 			};
@@ -132,9 +133,24 @@ export default function DataTable() {
 			};
     const getTableData = async (word) => {
       let dataToSend = {
+ 
+      }
+      await axios
+        .post(`/api/v1/addition/vendor/tableData`,dataToSend)
+        .then((res) => (setTableData(res.data)))
+        .catch((err) => console.log(err));
+    };
+    const getTableDataWithFiter = async (word) => {
+      let dataToSend = {
         startDate:startDate,
         endDate:endDate,
+        visibility:visibility,
+        supervisor:supervisor,
+        fieldPartner:fieldPartner,
+        state:state,
+        district:district
       }
+      console.log({word,dataToSend})
       await axios
         .post(`/api/v1/addition/vendor/tableData`,dataToSend)
         .then((res) => (setTableData(res.data)))
@@ -214,7 +230,7 @@ console.log(formatDate)
 											setSupervisor(v);
 											setAllFieldPartner([]);
 											setFieldPartner({name:"",id:""});
-											getUserWithSupervisor(v);
+											getFpWithSupervisor(v);
 										}}
 										value={supervisor}
 										renderInput={(params) => <TextField {...params} variant="outlined" label="Select Supervisor" />}
@@ -230,12 +246,10 @@ console.log(formatDate)
 										getOptionLabel={(option) => option.name}
 										isOptionEqualToValue={(option, value) => (option.name === value.name )}
 										onChange={(e, v) => {
-											setFieldPartner(v);										
-								
-
+											setFieldPartner(v);								
 										}}
 										value={fieldPartner}
-               							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type district" label="Select district" />}
+               							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type FP" label="Select Field Partner" />}
               />
               </Grid>
             {/* data --- State	 */}
@@ -283,7 +297,7 @@ console.log(formatDate)
         variant="outlined"
         color="primary"
         startIcon={<FcSearch />}
-        // onClick={handleSearch}
+        onClick={getTableDataWithFiter("vivek")}
       >
         Get Data
       </Button>
