@@ -19,8 +19,9 @@ const cookieSession = require('cookie-session')
 
 
 //bring all routes
-const auth = require("./routes/api/v1/auth");
-const myUser = require("./routes/api/v1/myUser");
+const register = require("./routes/api/v1/auth/register");
+const loginApi = require("./routes/api/v1/auth/loginApi");
+const getDeleteUser = require("./routes/api/v1/auth/getDeleteUser");
 // Addition
 const category = require("./routes/api/v1/addition/category");
 
@@ -78,8 +79,9 @@ require('./services/passport')
 
 
 //actual routes
-app.use("/api/v1/auth", auth);
-app.use("/api/v1/myUser", myUser);
+app.use("/api/v1/auth/register", register);
+app.use("/api/v1/auth/loginApi", loginApi);
+app.use("/api/v1/auth/getDeleteUser", getDeleteUser);
 // Addition
 app.use("/api/v1/addition/category", category);
 app.use("/api/v1/addition/subCategory", subCategory);

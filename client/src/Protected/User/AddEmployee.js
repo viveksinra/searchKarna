@@ -92,7 +92,7 @@ export default function AddEmployee() {
 		console.log("getSupervisors");
 			  let fieldData = {}
 			  axios
-				  .post(`/api/v1/myUser/allSupervisors`,fieldData)
+				  .post(`/api/v1/auth/getDeleteUser/allSupervisors`,fieldData)
 				  .then((res) => setAllSupervisor(res.data))
 				  .catch((err) => console.log(err));
 			  };
@@ -116,7 +116,7 @@ export default function AddEmployee() {
 	const getData = async (word) => {
 	console.log("word",word)
 		await axios
-			.get(`/api/v1/myUser/allUsers/${word}`)
+			.get(`/api/v1/auth/getDeleteUser/allUsers/${word}`)
 			.then((res) => (setAllUser(res.data))
 			
 			)
@@ -190,7 +190,7 @@ export default function AddEmployee() {
 		handleOpen();
 			let newUser = { _id: id, name, mobileNo, emailId, password, state,district,designation,  supervisor};
 		await axios
-			.post(`/api/v1/auth/register/user/${id}`, newUser)
+			.post(`/api/v1/auth/register/register/user/${id}`, newUser)
 			.then((res) => {
 				snackRef.current.handleSnack(res.data);
 				getData("");
@@ -220,7 +220,7 @@ export default function AddEmployee() {
 	const setData = async (id) => {
 		handleOpen();
 		await axios
-			.get(`/api/v1/myUser/get/${id}`)
+			.get(`/api/v1/auth/getDeleteUser/get/${id}`)
 			.then((res) => {
 				setId(res.data._id);
 				setName(res.data.name);
@@ -241,7 +241,7 @@ export default function AddEmployee() {
 
 	const handleDelete = (id) => {
 		axios
-			.delete(`/api/v1/myUser/delete/${id}`)
+			.delete(`/api/v1/auth/getDeleteUser/delete/${id}`)
 			.then((res) => alert(res.data.message))
 			.then(() => getData(""))
 			.catch((err) => console.log(err));

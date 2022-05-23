@@ -99,7 +99,7 @@ export default function DataTable() {
       console.log("getSupervisors");
 			let fieldData = {}
 			axios
-				.post(`/api/v1/myUser/allSupervisors`,fieldData)
+				.post(`/api/v1/auth/getDeleteUser/allSupervisors`,fieldData)
 				.then((res) => setAllSupervisor(res.data))
 				.catch((err) => console.log(err));
 			};
@@ -108,7 +108,7 @@ export default function DataTable() {
 				supervisorId: supervisor._id
 			}
 			axios
-				.post(`/api/v1/myUser/userWithSupervisor`,fieldData)
+				.post(`/api/v1/auth/getDeleteUser/userWithSupervisor`,fieldData)
 				.then((res) => allFieldPartner(res.data))
 				.catch((err) => console.log(err));
 		

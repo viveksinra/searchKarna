@@ -36,7 +36,7 @@ export default function SignInSide() {
 		e.preventDefault();
 			// Login With Password
 		axios
-			.post("/api/v1/auth/user/loginWithPassword", { loginId:loginId, password : loginPass })
+			.post("/api/v1/auth/loginApi/user/loginWithPassword", { loginId:loginId, password : loginPass })
 			.then((res) => {
         console.log(res.data)
 				if (res.data.success) {
