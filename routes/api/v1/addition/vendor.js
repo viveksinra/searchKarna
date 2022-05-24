@@ -18,6 +18,7 @@ router.post(
   "/",
    passport.authenticate("jwt", { session: false }),
   async (req, res) => {
+    if(req.user.designation.id == "fieldPartner"){
     console.log(req.body)
     const serviceValues = {
    
@@ -26,6 +27,7 @@ router.post(
       myServices:{},
     };
     serviceValues.user = req.user.id;
+    serviceValues.createdByUser = req.user.id;
     serviceValues.creationDate = new Date();
     
 //link start
@@ -150,7 +152,13 @@ if(
             .catch(err => console.log(err));   
 
     }
+    } else {
+      res.json({
+        "message":"Only Field Partners is allowed to Add Vendor",
+        "variant":"error"
+      })
     }
+  }
 );
 
 // @type    GET
@@ -276,6 +284,7 @@ router.post(
   "/updateVisibility/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    if(req.user.designation.id == "supervisor"){
     let vendorValue = {
       visibility: req.body.visibility
     }
@@ -299,6 +308,12 @@ router.post(
         }
       }
     ).catch(err => res.json({message: "Problem in finding With this Id", variant: "error"}));
+  } else {
+    res.json({
+      "message":"Only Supervisor is allowed to change visibility",
+      "variant":"error"
+    })
+  }
   }
 );
 

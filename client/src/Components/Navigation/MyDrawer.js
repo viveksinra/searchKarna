@@ -27,6 +27,7 @@ import ControlPointDuplicateIcon from '@mui/icons-material/ControlPointDuplicate
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { red } from '@mui/material/colors';
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -95,6 +96,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function MyDrawer() {
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -106,7 +108,7 @@ export default function MyDrawer() {
     setOpen(false);
   };
 	const { state, dispatch } = useContext(MainContext);
-
+  const designationId = state.designation.id;
 const handleLogout = () => {
 		dispatch({ type: LOGOUT_USER });
 	};
@@ -142,8 +144,8 @@ const handleLogout = () => {
         <Divider />
         <List>
           {listData1.map((l, i) => (
-             
-              <Link href={l.link} key={l.link} color="inherit" underline="hover">
+              ((designationId==="admin" && l.admin=== true) || (designationId==="supervisor" && l.supervisor=== true) || (designationId==="fieldPartner" && l.fieldPartner=== true)) &&
+              (<Link href={l.link} key={l.link} color="inherit" underline="hover">
                   <ListItem button >
                   <Tooltip title={l.text} placement="right">
               <ListItemIcon>
@@ -152,7 +154,7 @@ const handleLogout = () => {
               </Tooltip>
               <ListItemText primary={l.text} />
             </ListItem>
-          </Link>
+          </Link>)
                  
           ))}
         </List>
@@ -200,15 +202,17 @@ const handleLogout = () => {
 }
 
 const listData1 = [
-	{ text: "Dashboard", link: "/dashboard", icon: <DashboardIcon color="primary"  /> },
-	{ text: "Add Category", link: "/AddCategory", icon: <CategoryIcon color="success" /> },
-	{ text: "Add SubCategory", link: "/AddSubCategory", icon: <ApprovalIcon color="success" />,Supervisor:true },
-  { text: "Add Service", link: "/AddService", icon: <ControlPointDuplicateIcon color="success" />,Supervisor:true },
-  { text: "Add Vendor", link: "/AddVendor", icon: <AcUnitSharpIcon color="success" />,Supervisor:true },
-  { text: "Get Vendor", link: "/GetVendor", icon: <AnimationSharpIcon color="success" />,Supervisor:true },
+	{ text: "Dashboard", link: "/dashboard", icon: <DashboardIcon color="primary"  />,admin:true,supervisor:true,fieldPartner:true  },
+	{ text: "Add Category", link: "/AddCategory", icon: <CategoryIcon color="success" />,admin:true },
+	{ text: "Add SubCategory", link: "/AddSubCategory", icon: <ApprovalIcon color="success" />,admin:true },
+  { text: "Add Service", link: "/AddService", icon: <AcUnitSharpIcon color="success" />,admin:true},
+  { text: "Add Vendor", link: "/AddVendor", icon: <ControlPointDuplicateIcon color="success" />,admin:true,supervisor:true,fieldPartner:true },
+  { text: "Get Vendor", link: "/GetVendor", icon: <AnimationSharpIcon color="success" />,admin:true,supervisor:true,fieldPartner:true },
+  { text: "Location Master", link: "/LocationMaster", icon: <CategoryIcon color="success" />,admin:true },
+  { text: "Add Employee", link: "/AddEmployee", icon: <ApprovalIcon color="success" />,admin:true },
 ];
 const listData2 = [
-	{ text: "Sign Up", link: "/signup", icon: <ApiSharpIcon color="success"/> },
+	{ text: "Sign Up", link: "/signup", icon: <ApiSharpIcon color="success"/>,admin:true },
 	// { text: "Login", link: "/login", icon: <LogoutIcon sx={{ color: red[500] }}/> },
 
 

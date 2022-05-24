@@ -16,10 +16,23 @@ import AddEmployee from "../../Protected/User/AddEmployee";
 import LocationMaster from "../../Protected/DropDown/LocationMaster";
 // public
 
-const PrivateRoute = ({ component: Component, auth, ...rest }) => {
+const PrivateRoute = ({ children }) => {
 	const { state } = useContext(MainContext);
-	let isAuthenticated = state.isAuthenticated && (state.designation.id === "admin" || state.designation.id === "user" ||  state.designation.id === "Supervisor") ? true : false;
-	return <Route {...rest} render={(props) => (isAuthenticated === true ? <Component {...props} /> : <Navigate  to={{pathname:"/",state:{from:props.location}}} />)} />;
+	let isAuthenticated = state.isAuthenticated && (state.designation.id === "admin" || state.designation.id === "supervisor" ||  state.designation.id === "fieldPartner") ? true : false;
+	if(isAuthenticated){
+   return children
+  } else {
+    return <Login />
+  }
+};
+const AdminRoute = ({ children }) => {
+	const { state } = useContext(MainContext);
+	let isAuthenticated = state.isAuthenticated && (state.designation.id === "admin" ) ? true : false;
+	if(isAuthenticated){
+   return children
+  } else {
+    return <Dashboard />
+  }
 };
 
 export default function MainRoute() {
@@ -28,15 +41,31 @@ export default function MainRoute() {
       	<Route path="/" element={<App />}/>
         <Route  path="/login" element={<Login />} />
         <Route  path="/signup" element={<SignUp />} />
-        <Route  path="/Dashboard" element={<Dashboard />} />
-        <Route  path="/AddCategory" element={<AddCategory />} />
-        <Route  path="/AddSubCategory" element={<AddSubCategory />} />
-        <Route  path="/AddVendor" element={<AddVendor />} />
-        <Route  path="/AddService" element={<AddService />} />
-        <Route  path="/GetVendor" element={<GetVendor />} />
+        <Route  path="/Dashboard" element={
+          <PrivateRoute children={<Dashboard />} />        
+        } />
+        <Route  path="/AddCategory" element={
+          <PrivateRoute children={<AddCategory />} />     
+        } />
+        <Route  path="/AddSubCategory" element={
+           <PrivateRoute children={<AddSubCategory />} />          
+        } />
+        <Route  path="/AddVendor" element={
+          <PrivateRoute children={<AddVendor />} />          
+        } />
+        <Route  path="/AddService" element={
+        <PrivateRoute children={<AddService />} />  
+        } />
+        <Route  path="/GetVendor" element={
+          <PrivateRoute children={<GetVendor />} />        
+        } />
         <Route  path="/check" element={<ToCheck />} />
-        <Route  path="/AddEmployee" element={<AddEmployee />} />
-        <Route  path="/LocationMaster" element={<LocationMaster />} />
+        <Route  path="/AddEmployee" element={
+          <AdminRoute children={<AddEmployee />} />        
+        } />
+        <Route  path="/LocationMaster" element={
+        <PrivateRoute children={<LocationMaster />} />         
+        } />
         {/* public */}
 
         

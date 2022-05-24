@@ -140,7 +140,7 @@ export default function DataTable() {
         .then((res) => (setTableData(res.data)))
         .catch((err) => console.log(err));
     };
-    const getTableDataWithFiter = async (word) => {
+    const getTableDataWithFiter = async(word) => {
       let dataToSend = {
         startDate:startDate,
         endDate:endDate,
@@ -152,12 +152,12 @@ export default function DataTable() {
       }
       console.log({word,dataToSend})
       await axios
-        .post(`/api/v1/addition/vendor/tableData`,dataToSend)
+        .post(`/api/v1/addition/getVendor/filterData`,dataToSend)
         .then((res) => (setTableData(res.data)))
         .catch((err) => console.log(err));
     };
 
-console.log(formatDate)
+
     const classes = useStyles();
   return (
     <CommonDash compo = 
@@ -297,7 +297,7 @@ console.log(formatDate)
         variant="outlined"
         color="primary"
         startIcon={<FcSearch />}
-        onClick={getTableDataWithFiter("vivek")}
+        onClick={getTableDataWithFiter()}
       >
         Get Data
       </Button>

@@ -254,6 +254,7 @@ var newAllImg = allImage.filter((img) => img.imgId !== imgId)
 		setBusinessName("");
 		setEmailId("");
 		setWebsite("");
+		setAllImage([]);
 		setCategory({
 			categoryName:"",
 link:""

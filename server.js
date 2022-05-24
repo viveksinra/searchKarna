@@ -28,6 +28,7 @@ const category = require("./routes/api/v1/addition/category");
 const subCategory = require("./routes/api/v1/addition/subCategory");
 const myServices = require("./routes/api/v1/addition/myServices");
 const vendor = require("./routes/api/v1/addition/vendor");
+const getVendor = require("./routes/api/v1/addition/getVendor");
 // DropDown
 const uploadLocation = require("./routes/api/v1/dropDown/location/uploadLocation")
 const editLocation = require("./routes/api/v1/dropDown/location/editLocation")
@@ -87,6 +88,7 @@ app.use("/api/v1/addition/category", category);
 app.use("/api/v1/addition/subCategory", subCategory);
 app.use("/api/v1/addition/myServices", myServices);
 app.use("/api/v1/addition/vendor", vendor);
+app.use("/api/v1/addition/getVendor", getVendor);
 //DropDown
 app.use("/api/v1/dropDown/location/uploadLocation",uploadLocation)
 app.use("/api/v1/dropDown/location/editLocation",editLocation)

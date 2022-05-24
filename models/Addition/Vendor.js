@@ -7,6 +7,14 @@ const VendorSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "myUser"
       },
+      createdByUser: {
+        type:String,
+        default:""
+      },
+      lastUpdatedByUser: {
+        type:String,
+        default:""
+        },
     link:{
        type:String,
        default:""
