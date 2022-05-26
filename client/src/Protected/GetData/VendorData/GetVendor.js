@@ -136,7 +136,7 @@ export default function DataTable() {
  
       }
       await axios
-        .post(`/api/v1/addition/vendor/tableData`,dataToSend)
+        .post(`/api/v1/addition/getVendor/withoutFilterData`,dataToSend)
         .then((res) => (setTableData(res.data)))
         .catch((err) => console.log(err));
     };
@@ -154,6 +154,23 @@ export default function DataTable() {
       await axios
         .post(`/api/v1/addition/getVendor/filterData`,dataToSend)
         .then((res) => (setTableData(res.data)))
+        .catch((err) => console.log(err));
+    };
+    const exportVendorData = async(word) => {
+      console.log("exportVendorData");
+      let dataToSend = {
+        startDate:startDate,
+        endDate:endDate,
+        visibility:visibility,
+        supervisor:supervisor,
+        fieldPartner:fieldPartner,
+        state:state,
+        district:district
+      }
+      console.log({word,dataToSend})
+      await axios
+        .post(`/api/v1/addition/ven/exportVendor/downloadVendor`,dataToSend)
+        .then((res) => (console.log("got")))
         .catch((err) => console.log(err));
     };
 
@@ -190,12 +207,12 @@ export default function DataTable() {
         <Grid container spacing={4}>
             <Grid item xs={12} md={4}>
               
-            <TextField type="date" fullWidth  value={startDate} required="false" onChange={e=>(setStartDate(e.target.value),setEndDate(e.target.value))} inputProps={{ max:formatDate,min:"2022-01-11"}} InputLabelProps={{ shrink: true }}  label="Start Date" />
+            <TextField type="date" fullWidth  value={startDate} required={false} onChange={e=>(setStartDate(e.target.value),setEndDate(e.target.value))} inputProps={{ max:formatDate,min:"2022-01-11"}} InputLabelProps={{ shrink: true }}  label="Start Date" />
         
              </Grid>
             <Grid item xs={12} md={4}>
               
-            <TextField type="date" fullWidth  value={endDate} required="false" onChange={e=>(setEndDate(e.target.value))} inputProps={{ max:formatDate,min:startDate}} InputLabelProps={{ shrink: true }}  label="End Date" />
+            <TextField type="date" fullWidth  value={endDate} required={false} onChange={e=>(setEndDate(e.target.value))} inputProps={{ max:formatDate,min:startDate}} InputLabelProps={{ shrink: true }}  label="End Date" />
         
              </Grid>
             <Grid item xs={12} md={4}>
@@ -297,17 +314,17 @@ export default function DataTable() {
         variant="outlined"
         color="primary"
         startIcon={<FcSearch />}
-        onClick={getTableDataWithFiter()}
+        onClick={() => getTableDataWithFiter()}
       >
         Get Data
       </Button>
       <span style={{flexGrow:0.05}}/>
-      {/* <Button
+       <Button
         endIcon={<FcRefresh />}
-        // onClick={handleClear}
+        onClick={() => exportVendorData()}
       >
-        Reset
-      </Button> */}
+        Export Data
+      </Button> 
             </Grid>
         </Grid>
         </AccordionDetails>
@@ -336,14 +353,6 @@ export default function DataTable() {
   );
 }
 
-const top100Films = [
-    { label: 'The Shawshank Redemption', year: 1994 },
-    { label: 'The Godfather', year: 1972 },
-    { label: 'The Godfather: Part II', year: 1974 },
-    { label: 'The Dark Knight', year: 2008 },
-    { label: '12 Angry Men', year: 1957 },
-    { label: "Schindler's List", year: 1993 },
-    { label: 'Pulp Fiction', year: 1994 }, ]
 
     const coData = [
       {field:"Detail",
@@ -384,14 +393,3 @@ const top100Films = [
       {label: 'Pending', id: "pending" },
     ]
     
-    const tableData = [
-      { _id: 1, categoryName: 'Snow',businessName: 'Snow',modesOfPayment: 'Snow',state: 'Snow',city: 'Snow', firstName: 'Jon', age: 35 },
-      { _id: 2, categoryName: 'Lannister', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Cersei', age: 42 },
-      { _id: 3, categoryName: 'Lannister', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Jaime', age: 45 },
-      { _id: 4, categoryName: 'Stark', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Arya', age: 16 },
-      { _id: 5, categoryName: 'Targaryen', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Daenerys', age: null },
-      { _id: 6, categoryName: 'Melisandre', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: null, age: 150 },
-      { _id: 7, categoryName: 'Clifford', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Ferrara', age: 44 },
-      { _id: 8, categoryName: 'Frances', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Rossini', age: 36 },
-      { _id: 9, categoryName: 'Roxie', businessName: 'Lannister', modesOfPayment: 'Lannister', state: 'Lannister', city: 'Lannister', firstName: 'Harvey', age: 65 },
-    ];
