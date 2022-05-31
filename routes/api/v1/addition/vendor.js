@@ -269,7 +269,7 @@ if(vendorData.longitude != undefined && vendorData.longitude != ""){
 // @access  PRIVATE
 router.get(
   "/get/:id",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Vendor.findOne({
       _id: req.params.id

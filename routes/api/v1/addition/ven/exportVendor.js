@@ -153,6 +153,8 @@ const specification = {
 router.post('/exportMe',
 passport.authenticate("jwt", { session: false }),
 async(req,res) => {
+
+  console.log(req.body);
   /////
     // You can then return this straight
 let startDate = req.body.startDate;
