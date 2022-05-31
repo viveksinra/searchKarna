@@ -191,7 +191,7 @@ link:""
 			category,subCategory,myServices,
 			yearEstablished,
 			latitude,longitude,
-			modesOfPayment,
+			modesOfPayment,allImage
 
 		};
 		await axios

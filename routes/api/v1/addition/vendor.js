@@ -55,6 +55,7 @@ router.post(
     serviceValues.longitude = req.body.longitude;
     serviceValues.yearEstablished = req.body.yearEstablished;
     serviceValues.modesOfPayment = req.body.modesOfPayment;
+    serviceValues.allImage = req.body.allImage;
 
     serviceValues.category.categoryName = req.body.category.categoryName;
     serviceValues.category.link = req.body.category.link;

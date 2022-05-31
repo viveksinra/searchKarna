@@ -35,7 +35,7 @@ export default function InsideDialog(compo) {
       setLocationLink(res.data.locationLink), setPreviousVisibility(res.data.visibility)
       ))
       .catch((err) => console.log(err));
-
+console.log(allData)
   };
 
   const updateVisibility = () => {
@@ -94,6 +94,11 @@ export default function InsideDialog(compo) {
            
            <Button variant="outlined" target="_blank" href={locationLink} startIcon={<AddLocationAltIcon />}>
         Check Location On Map
+      </Button>
+            </Grid>
+            < Grid item xs={12} sm={4} md={2.4} lg ={2}> 
+           <Button variant="outlined" target="_blank" href={`https://publicsearchkaro.vercel.app/oneVendor/${myId}`} startIcon={<AddLocationAltIcon />}>
+        Check This on Website
       </Button>
                      </Grid>   
            < Grid item xs={12} sm={4} md={2.4} lg ={2}> 

@@ -121,6 +121,19 @@ subCategory:{
        type:String,
        default:""
    },
+
+   allImage:[
+       {
+        imgUrl:{
+            type:String,
+            default:""
+        },
+        imgId:{
+            type:String,
+            default:""
+        }  
+       }
+   ],
    // pending public unlisted private
    visibility:{
        label:{
