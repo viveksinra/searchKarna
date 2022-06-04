@@ -30,7 +30,7 @@ export default function InsideDialog(compo) {
   const getDataWithId = async () => {
 
     await axios
-      .get(`/api/v1/addition/vendor/oneData/${myId}`)
+      .get(`/api/v1/addition/vendor/addVendor/oneData/${myId}`)
       .then((res) => (setAllData(res.data.myData), setVisibility(res.data.visibility),
       setLocationLink(res.data.locationLink), setPreviousVisibility(res.data.visibility)
       ))
@@ -43,7 +43,7 @@ console.log(allData)
       visibility: visibility
     }
     axios
-      .post(`/api/v1/addition/vendor/updateVisibility/${myId}`,fieldData)
+      .post(`/api/v1/addition/vendor/addVendor/updateVisibility/${myId}`,fieldData)
       .then((res) => (getDataWithId(),snackRef.current.handleSnack(res.data)))
       .catch((err) => console.log(err));
   

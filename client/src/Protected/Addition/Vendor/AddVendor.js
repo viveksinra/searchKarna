@@ -195,7 +195,7 @@ link:""
 
 		};
 		await axios
-			.post(`/api/v1/addition/vendor/${id}`, newCat)
+			.post(`/api/v1/addition/vendor/addVendor/${id}`, newCat)
 			.then((res) => {
 				snackRef.current.handleSnack(res.data);
 				if(res.data.variant==="success"){

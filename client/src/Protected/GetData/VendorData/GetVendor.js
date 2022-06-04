@@ -89,6 +89,7 @@ export default function DataTable() {
   	const [allStates, setAllStates] = useState([]);
   	const [district, setDistrict] = useState("");
   	const [allDistricts, setAllDistricts] = useState([]);
+    const [exportId,setExportId]=useState("");
     
     useEffect(() => {
       getTableData();
@@ -136,7 +137,7 @@ export default function DataTable() {
  
       }
       await axios
-        .post(`/api/v1/addition/getVendor/withoutFilterData`,dataToSend)
+        .post(`/api/v1/addition/vendor/getVendor/withoutFilterData`,dataToSend)
         .then((res) => (setTableData(res.data)))
         .catch((err) => console.log(err));
     };
@@ -152,7 +153,7 @@ export default function DataTable() {
       }
       console.log({word,dataToSend})
       await axios
-        .post(`/api/v1/addition/getVendor/filterData`,dataToSend)
+        .post(`/api/v1/addition/vendor/getVendor/filterData`,dataToSend)
         .then((res) => (setTableData(res.data)))
         .catch((err) => console.log(err));
     };
@@ -169,8 +170,8 @@ export default function DataTable() {
       }
       console.log({word,dataToSend})
       await axios
-        .post(`/api/v1/addition/ven/exportVendor/downloadVendor`,dataToSend)
-        .then((res) => (console.log("got")))
+        .post(`/api/v1/addition/vendor/exportVendor/createExportId`,dataToSend)
+        .then((res) => (setExportId(res.data.id)))
         .catch((err) => console.log(err));
     };
 
@@ -319,12 +320,18 @@ export default function DataTable() {
         Get Data
       </Button>
       <span style={{flexGrow:0.05}}/>
-       <Button
+      {!exportId && ( <Button
         endIcon={<FcRefresh />}
         onClick={() => exportVendorData()}
       >
+        Create Export Link
+      </Button> )}
+      {exportId && ( <Button
+        endIcon={<FcRefresh />}
+        target="_blank" href={`http://localhost:2040/api/v1/addition/vendor/exportVendor/downloadVendor/${exportId}`}
+      >
         Export Data
-      </Button> 
+      </Button> )}
             </Grid>
         </Grid>
         </AccordionDetails>
