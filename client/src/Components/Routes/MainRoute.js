@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../Login/Login";
-import SignUp from "../Login/SignUp";
 import { MainContext } from "../Context/MainContext";
 import AddCategory from "../../Protected/Addition/Category/AddCategory"
 import AddSubCategory from "../../Protected/Addition/SubCategory/AddSubCategory"
@@ -40,7 +39,6 @@ export default function MainRoute() {
 		<Routes>
       	<Route path="/" element={<App />}/>
         <Route  path="/login" element={<Login />} />
-        <Route  path="/signup" element={<SignUp />} />
         <Route  path="/Dashboard" element={
           <PrivateRoute children={<Dashboard />} />        
         } />

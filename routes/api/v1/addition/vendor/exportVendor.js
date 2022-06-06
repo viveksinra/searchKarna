@@ -12,7 +12,8 @@ router.post(
   '/createExportId',
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    let filterData = {visibility:{},supervisor:{},fieldPartner:{}}
+    if(req.user.designation.id == "admin" )
+   { let filterData = {visibility:{},supervisor:{},fieldPartner:{}}
     filterData.user = req.user._id;
  
     if(req.body.startDate)filterData.startDate = req.body.startDate
@@ -39,7 +40,12 @@ router.post(
     "message": 'Error creating ExportVendor',
     "variant": 'error'
     })
-  })
+  })} else {
+    res.json({
+    "message": 'You are not authorized to create ExportVendor',
+    "variant": 'error'
+    })
+  }
 
 
 

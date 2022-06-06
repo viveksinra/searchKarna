@@ -328,7 +328,7 @@ export default function DataTable() {
       </Button> )}
       {exportId && ( <Button
         endIcon={<FcRefresh />}
-        target="_blank" href={`http://localhost:2040/api/v1/addition/vendor/exportVendor/downloadVendor/${exportId}`}
+        target="_blank" href={`https://searchkarna.com/api/v1/addition/vendor/exportVendor/downloadVendor/${exportId}`}
       >
         Export Data
       </Button> )}

@@ -81,11 +81,16 @@ const getVendorData = async(res, myMatch) => {
 
 router.post(
   "/withoutFilterData",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   async(req, res) => {
     let myMatch = {}
-
-    getVendorData(res, myMatch)
+    vendorData = []
+    if(req.user.designation.id == "admin" )
+   {
+      getVendorData(res, myMatch)
+    }else {
+      res.json(vendorData)
+    }
 
   }
 );

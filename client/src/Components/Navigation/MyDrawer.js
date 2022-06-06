@@ -130,7 +130,7 @@ const handleLogout = () => {
           </IconButton>
           <Link href="/dashboard" color="inherit" underline="hover">
           <Typography variant="h6" noWrap component="div">
-            Search Karona
+            Search Karna
           </Typography>
           </Link>
         </Toolbar>
@@ -212,7 +212,7 @@ const listData1 = [
   { text: "Add Employee", link: "/AddEmployee", icon: <ApprovalIcon color="success" />,admin:true },
 ];
 const listData2 = [
-	{ text: "Sign Up", link: "/signup", icon: <ApiSharpIcon color="success"/>,admin:true },
+	// { text: "Sign Up", link: "/signup", icon: <ApiSharpIcon color="success"/>,admin:true },
 	// { text: "Login", link: "/login", icon: <LogoutIcon sx={{ color: red[500] }}/> },
 
 

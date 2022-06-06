@@ -4,6 +4,7 @@ const passport = require("passport");
 
 //Load User Model
 const User = require("./../../../../models/User");
+ObjectId = require('mongodb').ObjectID;
 
 // @type    GET
 //@route    /api/v1/myUser/allUsers
@@ -34,15 +35,35 @@ router.post(
   "/allSupervisors",
   passport.authenticate("jwt", { session: false }),
   async(req, res) => {
-   
+    if(req.user.designation.id == "admin" ||
+     req.user.designation.id == "supervisor" ||
+      req.user.designation.id == "fieldPartner")
+      {
+   let myMatch = {}
+if(req.user.designation.id == "admin"){ 
+ myMatch = {"designation.id": "supervisor"}
+} else if(req.user.designation.id == "supervisor"){
+  myMatch = {
+    _id: ObjectId(req.user._id)
+  }
+} else if(req.user.designation.id == "fieldPartner"){
+  myMatch = {
+    _id: ObjectId(req.user.supervisor._id)
+  }
+}
+
     let allSupervisor = await User.aggregate([
-         {$match: {"designation.id": "supervisor"} }, 
+         {$match: myMatch }, 
         {$project: { name:1 }  }
     
         ]).exec()
-        console.log("allSupervisor",allSupervisor)
         res.json(allSupervisor)
-
+      } else {
+        res.json({
+          "message":"You are not authorized to view this page",
+          "variant":"error"
+        })
+      }
   }
 );
 // @type    GET
@@ -55,11 +76,16 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   async(req, res) => {
    if(req.body.supervisorId){
+     let myMatch = {
+      "designation.id": "fieldPartner",
+     "supervisor._id": req.body.supervisorId
+   }
+   if(req.user.designation.id == "fieldPartner"){
+    myMatch = {
+      _id: ObjectId(req.user._id)
+    }}
     let allFieldPartner = await User.aggregate([
-         {$match: {
-           "designation.id": "fieldPartner",
-          "supervisor._id": req.body.supervisorId
-        } }, 
+         {$match: myMatch }, 
         {$project: { name:1 }  }
     
         ]).exec()

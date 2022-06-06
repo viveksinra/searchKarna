@@ -1,6 +1,8 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import MySnackbar from "../../../../Components/MySnackbar";
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+import CameraEnhanceIcon from '@mui/icons-material/CameraEnhance';
+import WebIcon from '@mui/icons-material/Web';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -22,6 +24,7 @@ export default function InsideDialog(compo) {
 	const [previousVisibility, setPreviousVisibility] = useState(
     { label: "", id: "" }
   );
+  const [allImage, setAllImage] = useState([]);
   console.log(myId)
   useEffect(() => {
     getDataWithId();
@@ -32,7 +35,8 @@ export default function InsideDialog(compo) {
     await axios
       .get(`/api/v1/addition/vendor/addVendor/oneData/${myId}`)
       .then((res) => (setAllData(res.data.myData), setVisibility(res.data.visibility),
-      setLocationLink(res.data.locationLink), setPreviousVisibility(res.data.visibility)
+      setLocationLink(res.data.locationLink), setPreviousVisibility(res.data.visibility),
+      setAllImage(res.data.allImage)
       ))
       .catch((err) => console.log(err));
 console.log(allData)
@@ -93,14 +97,23 @@ console.log(allData)
            < Grid item xs={12} sm={4} md={2.4} lg ={2}> 
            
            <Button variant="outlined" target="_blank" href={locationLink} startIcon={<AddLocationAltIcon />}>
-        Check Location On Map
+        Location On Map
       </Button>
             </Grid>
             < Grid item xs={12} sm={4} md={2.4} lg ={2}> 
-           <Button variant="outlined" target="_blank" href={`https://publicsearchkaro.vercel.app/oneVendor/${myId}`} startIcon={<AddLocationAltIcon />}>
-        Check This on Website
+           <Button variant="outlined" color="secondary"
+            target="_blank" 
+            href={`https://publicsearchkaro.vercel.app/oneVendor/${myId}`} startIcon={<WebIcon />}>
+        Website Preview
       </Button>
                      </Grid>   
+          {  allImage.map((data, i) =>(
+            < Grid item xs={12} sm={4} md={2.4} lg ={2} key={i}> 
+           <Button variant="contained" color="success" target="_blank" href={data.imgUrl} startIcon={<CameraEnhanceIcon />}>
+        Go to Image no {i+1}
+      </Button>
+        </Grid>
+          ) ) }  
            < Grid item xs={12} sm={4} md={2.4} lg ={2}> 
            
               <Autocomplete

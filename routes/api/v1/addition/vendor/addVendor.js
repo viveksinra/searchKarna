@@ -267,7 +267,7 @@ if(vendorData.longitude != undefined && vendorData.longitude != ""){
 }
 
 
-        res.json({myData,visibility: vendorData.visibility, locationLink})
+        res.json({myData,visibility: vendorData.visibility, locationLink,allImage: vendorData.allImage})
   }
 );
 
