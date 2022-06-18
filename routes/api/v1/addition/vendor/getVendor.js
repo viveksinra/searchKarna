@@ -64,7 +64,7 @@ const getVendorData = async(res, myMatch) => {
     {$project: { category:1,
        businessName:1,
        modesOfPayment:1,
-       state:1,tahsilBlock:1 }  
+       state:1,cityBlock:1 }  
       }    
     ]).exec()
     for(let i=0;i<vendorData.length;i++){

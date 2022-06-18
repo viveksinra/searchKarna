@@ -19,8 +19,8 @@ passport.authenticate("jwt", { session: false }),
   console.log(data)
 let data1 = data[0]
   if( data1.state && 
-    data1.district && data1.tahsilBlock &&
-     data1.village ){
+    data1.district && data1.cityBlock &&
+     data1.areaName ){
          console.log('Inside if')
         let x = 0 ;
 console.log(x < data.length)
@@ -51,13 +51,13 @@ console.log(x < data.length)
 // Crop Name
 const checkLocation = async(req,res,data1) => {
 if(data1.state && 
-    data1.district && data1.tahsilBlock &&
-     data1.village ){
+    data1.district && data1.cityBlock &&
+     data1.areaName ){
         let myValue = {
             state:(data1.state).trim(), 
             district:(data1.district).trim(),
-            tahsilBlock:(data1.tahsilBlock).trim(),
-            village:(data1.village).trim(),         
+            cityBlock:(data1.cityBlock).trim(),
+            areaName:(data1.areaName).trim(),         
            }
                
            let U1 = await Location.aggregate([

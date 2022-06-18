@@ -11,8 +11,8 @@ router.post(
 //   passport.authenticate("jwt", { session: false }),
   async(req, res) => {
    
-    const  contactNo  = req.body.contactNo;
-    if(contactNo.length != 10){
+    const  contactNo1 = req.body.contactNo1;
+    if(contactNo1.length != 10){
       res.json({
           message:"Contact number should be 10 digit",
         variant: "error"
@@ -37,7 +37,7 @@ router.post(
 //   passport.authenticate("jwt", { session: false }),
   async(req, res) => {
    
-    const  contactNo  = req.body.contactNo;
+    const  contactNo1 = req.body.contactNo1;
     const otp = req.body.otp;
     if(otp == "1234"){
       res.json({

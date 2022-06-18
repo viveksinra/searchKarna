@@ -26,7 +26,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function OtpDialogCom({cState,contactNo,callOtpFun,handleCheck}) {
+export default function OtpDialogCom({cState,contactNo1,callOtpFun,handleCheck}) {
 	const classes = useStyles();
 	const snackRef = useRef();
 
@@ -43,7 +43,7 @@ export default function OtpDialogCom({cState,contactNo,callOtpFun,handleCheck}) 
   }
   const sendOtpFun = async (number) => {
 		// handleOpen();
-		let myValue = { contactNo: contactNo };
+		let myValue = { contactNo1: contactNo1 };
 		await axios
 			.post(`/api/v1/other/sendVerifyOtp/sendOtp`, myValue)
 			.then((res) => {				
@@ -60,7 +60,7 @@ export default function OtpDialogCom({cState,contactNo,callOtpFun,handleCheck}) 
   const verifyOtpFun = async (number,ourOtp) => {
 		// handleOpen();
 		let myValue = { 
-      contactNo: number,
+      contactNo1: number,
       otp:ourOtp
      };
 		await axios
@@ -140,7 +140,7 @@ export default function OtpDialogCom({cState,contactNo,callOtpFun,handleCheck}) 
                   <TextField
                   id="filled-read-only-input"
                   label="Mobile number"
-                 value={contactNo}
+                 value={contactNo1}
                  InputProps={{
                    readOnly: true,
                  }}
@@ -154,7 +154,7 @@ export default function OtpDialogCom({cState,contactNo,callOtpFun,handleCheck}) 
                   <Button 
                   variant="contained" 
                   color="secondary"
-                  onClick={() => {sendOtpFun(contactNo)}}
+                  onClick={() => {sendOtpFun(contactNo1)}}
                   >
                   Send OTP
                    </Button>
@@ -184,7 +184,7 @@ export default function OtpDialogCom({cState,contactNo,callOtpFun,handleCheck}) 
                   variant="contained" 
                   color="success" 
                   style={{marginLeft:"4px"}}
-                  onClick={() => {verifyOtpFun(contactNo,otp)}}
+                  onClick={() => {verifyOtpFun(contactNo1,otp)}}
                   >
                   Verify OTP
                    </Button>

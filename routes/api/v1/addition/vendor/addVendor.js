@@ -19,7 +19,7 @@ router.post(
    passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     if(req.user.designation.id == "fieldPartner"){
-    console.log(req.body)
+   
     const serviceValues = {
    
       category:{},
@@ -40,14 +40,17 @@ router.post(
 //link end
     serviceValues.state = req.body.state;
     serviceValues.district = req.body.district;
-    serviceValues.tahsilBlock = req.body.tahsilBlock;
-    serviceValues.village = req.body.village;
+    serviceValues.cityBlock = req.body.cityBlock;
+    serviceValues.areaName = req.body.areaName;
     serviceValues.pincode = req.body.pincode;
     serviceValues.landmark = req.body.landmark;
-    serviceValues.registrationNo = req.body.registrationNo;
+    
     serviceValues.receiptNo = req.body.receiptNo;
     serviceValues.contactPersonName = req.body.contactPersonName;
-    serviceValues.contactNo = req.body.contactNo;
+    serviceValues.contactNo1 = req.body.contactNo1;
+    serviceValues.contactNo2 = req.body.contactNo2;
+    serviceValues.contactNo3 = req.body.contactNo3;
+    serviceValues.contactNo4 = req.body.contactNo4;
     serviceValues.businessName = req.body.businessName;
     serviceValues.emailId = req.body.emailId;
     serviceValues.website = req.body.website;
@@ -96,16 +99,35 @@ if(
     else if(
       serviceValues.state == undefined || serviceValues.state == "" ||
       serviceValues.district == undefined || serviceValues.district == "" ||
-      serviceValues.tahsilBlock == undefined || serviceValues.tahsilBlock == "" ||
-      serviceValues.village == undefined || serviceValues.village == "" 
+      serviceValues.cityBlock == undefined || serviceValues.cityBlock == "" ||
+      serviceValues.areaName == undefined || serviceValues.areaName == "" 
     ){
       res.json({
         message: "Locations are Required field",
         variant: "error"
       })
+    } else if (serviceValues.receiptNo == undefined || serviceValues.receiptNo == ""){
+      res.json({
+        message: "Receipt No is Required field",
+        variant: "error"
+      })   
+      
     }
     else {
-    
+      let today = new Date();
+      let month = today.getMonth()+1
+      if(month<10){
+        month = 0+''+month
+      }
+      
+      var date = today.getDate()+''+(month)+''+ today.getFullYear();
+      
+      let receiptNo = serviceValues.receiptNo
+      
+      let FiveD = Math.floor(10000 + Math.random() * 90000)
+      
+      serviceValues.registrationNo = `${date}${receiptNo}${FiveD}k`;
+
           Vendor.findOne({
             emailId: serviceValues.emailId
           })
@@ -118,13 +140,13 @@ if(
                 });
               } else {
                 Vendor.findOne({
-                    contactNo: serviceValues.contactNo
+                    contactNo1: serviceValues.contactNo1
                 })
                   .then(service => {
                     //Username already exists
                     if (service) {
                       res.json({
-                        message: "contactNo Already exist ",
+                        message: "contactNo1 Already exist ",
                         variant: "error"
                       });
                     } else {
@@ -211,7 +233,7 @@ const resData = async(res, myMatch) => {
     {$project: { category:1,
        businessName:1,
        modesOfPayment:1,
-       state:1,tahsilBlock:1 }  
+       state:1,cityBlock:1 }  
       }    
     ]).exec()
     for(let i=0;i<vendorData.length;i++){
@@ -240,14 +262,17 @@ router.get(
 let myData = []
 myData.push({"myKey":"State", "myValue": vendorData.state})
 myData.push({"myKey":"district", "myValue": vendorData.district})
-myData.push({"myKey":"tahsilBlock", "myValue": vendorData.tahsilBlock})
-myData.push({"myKey":"village", "myValue": vendorData.village})
+myData.push({"myKey":"cityBlock", "myValue": vendorData.cityBlock})
+myData.push({"myKey":"areaName", "myValue": vendorData.areaName})
 myData.push({"myKey":"pincode", "myValue": vendorData.pincode})
 myData.push({"myKey":"landmark", "myValue": vendorData.landmark})
 myData.push({"myKey":"registrationNo", "myValue": vendorData.registrationNo})
 myData.push({"myKey":"receiptNo", "myValue": vendorData.receiptNo})
 myData.push({"myKey":"contactPersonName", "myValue": vendorData.contactPersonName})
-myData.push({"myKey":"contactNo", "myValue": vendorData.contactNo})
+myData.push({"myKey":"contactNo1", "myValue": vendorData.contactNo1})
+myData.push({"myKey":"contactNo2", "myValue": vendorData.contactNo2})
+myData.push({"myKey":"contactNo3", "myValue": vendorData.contactNo3})
+myData.push({"myKey":"contactNo4", "myValue": vendorData.contactNo4})
 myData.push({"myKey":"businessName", "myValue": vendorData.businessName})
 myData.push({"myKey":"link", "myValue": vendorData.link})
 myData.push({"myKey":"emailId", "myValue": vendorData.emailId})

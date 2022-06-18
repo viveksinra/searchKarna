@@ -3,6 +3,8 @@ import useStyles from "../../useStyles";
 import MySnackbar from "../../../Components/MySnackbar";
 import VendorImgPrevDeleteCom from "./../Vendor/VendorImgPrevDelete";
 import TermAndConCom from "./../Vendor/TermAndCon";
+import PrevPageCom from "./../Vendor/PrevPage";
+import TimingCom from "./../Vendor/Timing";
 import OtpDialogCom from "./../Vendor/OtpDialog";
 import VerifyFieldsFun from "./../Vendor/VerifyFields";
 import {
@@ -35,10 +37,10 @@ export default function AddVendor() {
 	const [allStates, setAllStates] = useState([]);
 	const [district, setDistrict] = useState("");
 	const [allDistricts, setAllDistricts] = useState([]);
-	const [tahsilBlock, setTahsilBlock] = useState("");
-	const [allTahsilBlocks, setAllTahsilBlocks] = useState([]);
-	const [village, setVillage] = useState("");
-	const [allVillages, setAllVillages] = useState([]);
+	const [cityBlock, setCityBlock] = useState("");
+	const [allCityBlocks, setAllCityBlocks] = useState([]);
+	const [areaName, setAreaName] = useState("");
+	const [allAreaNames, setAllAreaNames] = useState([]);
 
 	
 	const [pincode, setPincode] = useState("");
@@ -46,7 +48,10 @@ export default function AddVendor() {
 	const [registrationNo, setRegistrationNo] = useState("");
 	const [receiptNo, setReceiptNo] = useState("");
 	const [contactPersonName, setContactPersonName] = useState("");
-	const [contactNo, setContactNo] = useState("");
+	const [contactNo1, setContactNo1] = useState("");
+	const [contactNo2, setContactNo2] = useState("");
+	const [contactNo3, setContactNo3] = useState("");
+	const [contactNo4, setContactNo4] = useState("");
 	const [businessName, setBusinessName] = useState("");
 	const [emailId, setEmailId] = useState("");
 	const [website, setWebsite] = useState("");
@@ -62,14 +67,11 @@ link:""
 link:""
 	}); 
 	const [allMyServices, setAllMyServices] = useState([]);
-	const [myServices, setMyServices] = useState({
-		serviceName:"",
-link:""
-	});
+	const [myServices, setMyServices] = useState([]);
 	
 	const [yearEstablished, setYearEstablished] = useState("");
 	const [allYearStablished, setAllYearStablished] = useState(allYearStablished2);
-	const [modesOfPayment, setModesofPayment] = useState("");
+	const [modesOfPayment, setModesofPayment] = useState([]);
 	const [allModesOfPayment, setAllModesofPayment] = useState(allModesOfPayment2);
 	const [latitude, setLatitude] = useState("");
 	const [longitude, setLongitude] = useState("");
@@ -78,6 +80,7 @@ link:""
 	const [otp, setOtp] = useState("");
 	
 	const [allImage,setAllImage] = useState([]);
+	const [prevPage, setPrevPage] = useState(true);
 
 	const [status, setStatus] = useState("Click the button");
 
@@ -99,13 +102,13 @@ link:""
 	  }
 	const handleCheck = () => {
 		let allValues = {
-			id,link,state,district,tahsilBlock,
-			village,pincode,landmark,registrationNo,
-			receiptNo,contactPersonName,contactNo,
+			id,link,state,district,cityBlock,
+			areaName,pincode,landmark,registrationNo,
+			receiptNo,contactPersonName,contactNo1,contactNo2,contactNo3,contactNo4,
 			businessName,emailId,website,category,
 			subCategory,myServices,yearEstablished,
 			modesOfPayment,latitude,longitude,
-			isTandCAccepted,isOtpVerified,otp
+			isTandCAccepted,isOtpVerified,otp,allImage
 		}
 		let checkMsg = VerifyFieldsFun(allValues)
 		if (checkMsg.variant !== "success") { 
@@ -160,8 +163,17 @@ link:""
 				case "receiptNo":
 					setReceiptNo(value)
 					break;	
-				case "contactNo":
-					setContactNo(value)
+				case "contactNo1":
+					setContactNo1(value)
+					break;
+				case "contactNo2":
+					setContactNo2(value)
+					break;
+				case "contactNo3":
+					setContactNo3(value)
+					break;
+				case "contactNo4":
+					setContactNo4(value)
 					break;
 
 				default:
@@ -185,9 +197,9 @@ link:""
 		console.log("submit");
 		e.preventDefault();
 		let newCat = { _id: id, 
-			link,state,district,tahsilBlock,village,pincode,landmark,
+			link,state,district,cityBlock,areaName,pincode,landmark,
 			registrationNo,receiptNo,contactPersonName,
-			contactNo,businessName,emailId,website,
+			contactNo1,contactNo2,contactNo3,contactNo4,businessName,emailId,website,
 			category,subCategory,myServices,
 			yearEstablished,
 			latitude,longitude,
@@ -243,14 +255,17 @@ var newAllImg = allImage.filter((img) => img.imgId !== imgId)
 		setLink("");
 		setState("");
 		setDistrict("");
-		setTahsilBlock("");
-		setVillage("");
+		setCityBlock("");
+		setAreaName("");
 		setPincode("");
 		setLandmark("");
 		setRegistrationNo("");
 		setReceiptNo("");
 		setContactPersonName("");
-		setContactNo("");
+		setContactNo1("");
+		setContactNo2("");
+		setContactNo3("");
+		setContactNo4("");
 		setBusinessName("");
 		setEmailId("");
 		setWebsite("");
@@ -322,37 +337,39 @@ link:""
 				.catch((err) => console.log(err));
 		
 			};
-		const getTahsilBlock = (state,district) => {
+		const getCityBlock = (state,district) => {
 			let fieldData = {
 				state: state,
 				district: district
 			}
 			axios
-				.post(`/api/v1/dropDown/location/getLocation/tahsilBlock`,fieldData)
-				.then((res) => setAllTahsilBlocks(res.data))
+				.post(`/api/v1/dropDown/location/getLocation/cityBlock`,fieldData)
+				.then((res) => setAllCityBlocks(res.data))
 				.catch((err) => console.log(err));
 		
 			};
-		const getVillage = (state,district,tahsilBlock ) => {
+		const getAreaName = (state,district,cityBlock ) => {
 			let fieldData = {
 				state: state,
 				district: district,
-				tahsilBlock: tahsilBlock
+				cityBlock: cityBlock
 			}
 			axios
-				.post(`/api/v1/dropDown/location/getLocation/village`,fieldData)
-				.then((res) => setAllVillages(res.data))
+				.post(`/api/v1/dropDown/location/getLocation/areaName`,fieldData)
+				.then((res) => setAllAreaNames(res.data))
 				.catch((err) => console.log(err));
 		
 			};
 	
 		const getMyServices = (v) => {
-			if (v) {
-				axios
-					.get(`/api/v1/other/primaryDdd/getServices/${v.link}`)
-					.then((res) => {setAllMyServices(res.data);console.log(res.data);console.log({v})})	
-					.catch((err) => console.log(err));
-			}
+			if (v) {}
+			
+			axios
+			.get(`/api/v1/other/primaryDdd/getServices/${v.link}`)
+			.then((res) => setAllMyServices(res.data))
+			.catch((err) => console.log(err));
+
+			
 		};
 
 	const handleDelete = (id) => {
@@ -404,7 +421,63 @@ link:""
 
 
 							</Grid>
-						
+							<Grid item xs={12} md={6}>
+									<Autocomplete
+										
+										options={allCategory}
+										filterSelectedOptions
+										getOptionLabel={(option) => option.categoryName}
+										isOptionEqualToValue={(option, value) => (option.categoryName === value.categoryName )}
+
+										onChange={(e, v) => {
+											setCategory(v);
+											getSubCategory(v);
+											setSubCategory({
+												subCategoryName:"",
+												link:""
+											});
+											setMyServices({
+												serviceName:"",
+												link:""
+											});
+										}}
+										value={category}
+										renderInput={(params) => <TextField {...params} variant="outlined" label="Select Category" />}
+									/>
+								</Grid>
+							<Grid item xs={12} md={6}>
+									<Autocomplete
+										
+										options={allSubCategory}
+										filterSelectedOptions
+										getOptionLabel={(option) => option.subCategoryName}
+										isOptionEqualToValue={(option, value) => (option.categoryName === value.subCategoryName )}
+										onChange={(e, v) => {
+											setSubCategory(v);
+											getMyServices(v);
+											setMyServices({
+												serviceName:"",
+link:""
+											});
+										}}
+										value={subCategory}
+										renderInput={(params) => <TextField {...params} variant="outlined" label="Select SubCategory" />}
+									/>
+								</Grid>
+							<Grid item xs={12} md={6}>
+							<Autocomplete
+						multiple
+						options={allMyServices}
+						noOptionsText="First Select Sub Category"
+						// filterSelectedOptions
+						getOptionLabel={(option) => (option.serviceName)}
+						onChange={(e, v) =>setMyServices(v)}
+						value={myServices}
+						renderInput={(params) => <TextField {...params} label="Select Services" variant="outlined" fullWidth />}
+					/>   
+
+								</Grid>
+								{/* // drop down ends */}			
             {/* data --- State	 */}
               <Grid item xs={12} md={6}> 
 			  <Autocomplete
@@ -417,10 +490,10 @@ link:""
 											setState(v);
 											setAllDistricts([]);
 											setDistrict("");
-											setAllTahsilBlocks([])
-											setTahsilBlock("");
-											setAllVillages([]);
-											setVillage("");
+											setAllCityBlocks([])
+											setCityBlock("");
+											setAllAreaNames([]);
+											setAreaName("");
 											getDistrict(v);
 
 
@@ -440,49 +513,49 @@ link:""
 										isOptionEqualToValue={(option, value) => (option === value )}
 										onChange={(e, v) => {
 											setDistrict(v);										
-											setAllTahsilBlocks([])
-											setTahsilBlock("");
-											setAllVillages([]);
-											setVillage("");
-											getTahsilBlock(state,v);
+											setAllCityBlocks([])
+											setCityBlock("");
+											setAllAreaNames([]);
+											setAreaName("");
+											getCityBlock(state,v);
 
 										}}
 										value={district}
                							renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type district" label="SEARCH district" />}
               />
               </Grid>
-            {/* data --- tahsilBlock		 */}
+            {/* data --- cityBlock		 */}
               					<Grid item xs={12} md={6}>                
        									 <Autocomplete
-										options={allTahsilBlocks}
+										options={allCityBlocks}
 										filterSelectedOptions
 										getOptionLabel={(option) => option}
 										isOptionEqualToValue={(option, value) => (option === value )}
 										onChange={(e, v) => {
-											setTahsilBlock(v);
-											setAllVillages([]);
-											setVillage("");
-											getVillage(state,district,v);
+											setCityBlock(v);
+											setAllAreaNames([]);
+											setAreaName("");
+											getAreaName(state,district,v);
 										
 										}}
-										value={tahsilBlock} 
-               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type tahsilBlock" label="SEARCH tahsilBlock" />}
+										value={cityBlock} 
+               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type cityBlock" label="SEARCH City Block" />}
               />
               </Grid>
-            {/* data --- Village		 */}
+            {/* data --- AreaName		 */}
               <Grid item xs={12} md={6}>                
         <Autocomplete
 										
-										options={allVillages}
+										options={allAreaNames}
 										filterSelectedOptions
 										getOptionLabel={(option) => option}
 										isOptionEqualToValue={(option, value) => (option === value )}
 										onChange={(e, v) => {
-											setVillage(v);				
+											setAreaName(v);				
 										
 										}}
-										value={village}
-               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type Village" label="SEARCH Village" />}
+										value={areaName}
+               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Type AreaName" label="SEARCH Area Name" />}
               />
               </Grid>
               
@@ -515,7 +588,7 @@ link:""
 									onChange={(e) => handleChange(e.target.value,"landmark","text") }
 								/>
 							</Grid>
-              <Grid item xs={12} md={6}>  
+              {registrationNo && (<Grid item xs={12} md={6}>  
 								<TextField
 									variant="outlined"
 									required
@@ -528,7 +601,7 @@ link:""
 									value={registrationNo}
 									onChange={(e) =>  handleChange(e.target.value,"registrationNo","number")}
 								/>
-							</Grid>
+							</Grid>)}
               <Grid item xs={12} md={6}>  
 								<TextField
 									variant="outlined"
@@ -563,16 +636,70 @@ link:""
 									required
 									fullWidth
 									inputProps={{ maxLength: "10" }}
-									onBlur={() => handleErr("contactNo")}
-									error={err.errIn === "contactNo" ? true : false}
-									label={err.errIn === "contactNo" ? err.msg : "Contact No "}
-									placeholder="Enter Contact No..."
-									value={contactNo}
+									onBlur={() => handleErr("contactNo1")}
+									error={err.errIn === "contactNo1" ? true : false}
+									label={err.errIn === "contactNo1" ? err.msg : "Primary Contact No"}
+									placeholder="Enter Primary Contact No..."
+									value={contactNo1}
 									InputProps={{
 										maxLength: "10",
 										readOnly: isOtpVerified,
 									  }}
-									onChange={(e) => handleChange(e.target.value,"contactNo","number")}
+									onChange={(e) => handleChange(e.target.value,"contactNo1","number")}
+								/>
+							</Grid>
+              <Grid item xs={12} md={6}>  
+								<TextField
+									variant="outlined"
+									required
+									fullWidth
+									inputProps={{ maxLength: "10" }}
+									onBlur={() => handleErr("contactNo2")}
+									error={err.errIn === "contactNo2" ? true : false}
+									label={err.errIn === "contactNo2" ? err.msg : "Secondary Contact No "}
+									placeholder="Enter Secondary Contact No..."
+									value={contactNo2}
+									InputProps={{
+										maxLength: "10",
+										readOnly: isOtpVerified,
+									  }}
+									onChange={(e) => handleChange(e.target.value,"contactNo2","number")}
+								/>
+							</Grid>
+              <Grid item xs={12} md={6}>  
+								<TextField
+									variant="outlined"
+									required
+									fullWidth
+									inputProps={{ maxLength: "10" }}
+									onBlur={() => handleErr("contactNo3")}
+									error={err.errIn === "contactNo3" ? true : false}
+									label={err.errIn === "contactNo3" ? err.msg : "Other Contact No 1"}
+									placeholder="Enter Other Contact No 1..."
+									value={contactNo3}
+									InputProps={{
+										maxLength: "10",
+										readOnly: isOtpVerified,
+									  }}
+									onChange={(e) => handleChange(e.target.value,"contactNo3","number")}
+								/>
+							</Grid>
+              <Grid item xs={12} md={6}>  
+								<TextField
+									variant="outlined"
+									required
+									fullWidth
+									inputProps={{ maxLength: "10" }}
+									onBlur={() => handleErr("contactNo4")}
+									error={err.errIn === "contactNo4" ? true : false}
+									label={err.errIn === "contactNo4" ? err.msg : "Other Contact No 2"}
+									placeholder="Enter Other Contact No 2..."
+									value={contactNo4}
+									InputProps={{
+										maxLength: "10",
+										readOnly: isOtpVerified,
+									  }}
+									onChange={(e) => handleChange(e.target.value,"contactNo4","number")}
 								/>
 							</Grid>
               <Grid item xs={12} md={6}>  
@@ -631,64 +758,10 @@ link:""
 									onChange={(e) => handleChange(e.target.value,"website","website")}
 								/>
 							</Grid>
-							<Grid item xs={12} md={6}>
-									<Autocomplete
-										
-										options={allCategory}
-										filterSelectedOptions
-										getOptionLabel={(option) => option.categoryName}
-										isOptionEqualToValue={(option, value) => (option.categoryName === value.categoryName )}
-
-										onChange={(e, v) => {
-											setCategory(v);
-											getSubCategory(v);
-											setSubCategory({
-												subCategoryName:"",
-												link:""
-											});
-											setMyServices({
-												serviceName:"",
-												link:""
-											});
-										}}
-										value={category}
-										renderInput={(params) => <TextField {...params} variant="outlined" label="Select Category" />}
-									/>
-								</Grid>
-							<Grid item xs={12} md={6}>
-									<Autocomplete
-										
-										options={allSubCategory}
-										filterSelectedOptions
-										getOptionLabel={(option) => option.subCategoryName}
-										isOptionEqualToValue={(option, value) => (option.categoryName === value.subCategoryName )}
-										onChange={(e, v) => {
-											setSubCategory(v);
-											getMyServices(v);
-											setMyServices({
-												serviceName:"",
-link:""
-											});
-										}}
-										value={subCategory}
-										renderInput={(params) => <TextField {...params} variant="outlined" label="Select SubCategory" />}
-									/>
-								</Grid>
-							<Grid item xs={12} md={6}>
-									<Autocomplete
-										
-										options={allMyServices}
-										filterSelectedOptions
-										getOptionLabel={(option) => option.serviceName}
-										onChange={(e, v) => {
-											setMyServices(v);
-											
-										}}
-										value={myServices}
-										renderInput={(params) => <TextField {...params} variant="outlined" label="Select Services" />}
-									/>
-								</Grid>
-								{/* // drop down ends */}
+							<Grid item xs={12} md={6}> 
+								<TimingCom />	     
+     
+             				 </Grid>
               <Grid item xs={12} md={6}>                
         <Autocomplete
 										
@@ -719,21 +792,21 @@ link:""
       {latitude && (" Latitude:" + latitude)}
       {longitude && (" Longitude:" + longitude)} </Link></p>
               </Grid>
-              <Grid item xs={12} md={6}>                
-        <Autocomplete
-										
-		 options={allModesOfPayment}
-		 filterSelectedOptions
-		 getOptionLabel={(option) => option}
-		isOptionEqualToValue={(option, value) => (option === value )}
-		 onChange={(e, v) => {
-		 	setModesofPayment(v);
-		
-		 }}
-										value={modesOfPayment}
-               renderInput={(params) => <TextField {...params} variant="outlined" placeholder="Select Mode of Payment" label="SEARCH Mode of Payment" />}
-              />
+              <Grid item xs={12} md={6}> 
+			  <Autocomplete
+						multiple
+						options={allModesOfPayment}
+						noOptionsText="First Select Sub Category"
+						filterSelectedOptions
+						getOptionLabel={(option) => option}
+						onChange={(e, v) =>setModesofPayment(v)}
+						value={modesOfPayment}
+						renderInput={(params) => <TextField {...params} label="Select Payment" variant="outlined" fullWidth />}
+					/>   
+		     
+     
               </Grid>
+            
          
 						
 							<Grid item xs={12}>
@@ -772,7 +845,6 @@ link:""
 									</Grid>
 								)
 							}							
-							
 							<Grid item xs={12}>
 								<center>
 									
@@ -788,7 +860,7 @@ link:""
 									<div className={classes.button} >
 								<OtpDialogCom 
 							callOtpFun={callOtpFun}
-							contactNo={contactNo}
+							contactNo1={contactNo1}
 							handleCheck={handleCheck}
 							/>
 							</div>
@@ -815,6 +887,8 @@ link:""
 			<Grid item xs={0} md={1}> </Grid>
 
 		</Grid>
+		< PrevPageCom />
+
 		<MySnackbar ref={snackRef} />
 	</Fragment>
 

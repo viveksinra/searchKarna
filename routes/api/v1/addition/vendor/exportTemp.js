@@ -78,8 +78,23 @@ const specification = {
     headerStyle: styles.headerDark,
     width: 100
     },
-    contactNo: {
-    displayName: 'Contact_No',
+    contactNo1: {
+    displayName: 'Contact_No1',
+    headerStyle: styles.headerDark,
+    width: 100
+    },
+    contactNo2: {
+    displayName: 'Contact_No2',
+    headerStyle: styles.headerDark,
+    width: 100
+    },
+    contactNo3: {
+    displayName: 'Contact_No3',
+    headerStyle: styles.headerDark,
+    width: 100
+    },
+    contactNo4: {
+    displayName: 'Contact_No4',
     headerStyle: styles.headerDark,
     width: 100
     },
@@ -135,13 +150,13 @@ const specification = {
     headerStyle: styles.headerDark,
     width: 100
     },
-    tahsilBlock: {
+    cityBlock: {
     displayName: 'Tahsil_Block',
     headerStyle: styles.headerDark,
     width: 100
     },
-    village: {
-    displayName: 'Village',
+    areaName: {
+    displayName: 'AreaName',
     headerStyle: styles.headerDark,
     width: 100
     },

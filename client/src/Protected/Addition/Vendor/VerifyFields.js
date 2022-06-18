@@ -7,14 +7,17 @@ const id = allValues.id;
 const link = allValues.link;
 const state = allValues.state;
 const district = allValues.district;
-const tahsilBlock = allValues.tahsilBlock;
-const village = allValues.village;
+const cityBlock = allValues.cityBlock;
+const areaName = allValues.areaName;
 const pincode = allValues.pincode;
 const landmark = allValues.landmark;
 const registrationNo = allValues.registrationNo;
 const receiptNo = allValues.receiptNo;
 const contactPersonName = allValues.contactPersonName;
-const contactNo = allValues.contactNo;
+const contactNo1 = allValues.contactNo1;
+const contactNo2 = allValues.contactNo2;
+const contactNo3 = allValues.contactNo3;
+const contactNo4 = allValues.contactNo4;
 const businessName = allValues.businessName;
 const emailId = allValues.emailId;
 const website = allValues.website;
@@ -28,19 +31,23 @@ const longitude = allValues.longitude;
 const isTandCAccepted = allValues.isTandCAccepted;
 const isOtpVerified = allValues.isOtpVerified;
 const otp = allValues.otp;
+const allImage = allValues.allImage;
 
 
-if(state === undefined || state === null || state === ""){
+if(allImage?.length<1){
+	returnStatement.message = "Upload atleast 1 Image";
+	returnStatement.variant = "error"; }
+else if(state === undefined || state === null || state === ""){
 	returnStatement.message = "state is required";
 	returnStatement.variant = "error";
 } else if(district === undefined || district === null || district === ""){
 	returnStatement.message = "district is required";
 	returnStatement.variant = "error";
-} else if(tahsilBlock === undefined || tahsilBlock === null || tahsilBlock === ""){
-	returnStatement.message = "tahsilBlock is required";
+} else if(cityBlock === undefined || cityBlock === null || cityBlock === ""){
+	returnStatement.message = "cityBlock is required";
 	returnStatement.variant = "error";
-} else if(village === undefined || village === null || village === ""){
-	returnStatement.message = "village is required";
+} else if(areaName === undefined || areaName === null || areaName === ""){
+	returnStatement.message = "areaName is required";
 	returnStatement.variant = "error";
 } else if(pincode === undefined || pincode === null || pincode === ""){
 	returnStatement.message = "pincode is required";
@@ -60,8 +67,8 @@ if(state === undefined || state === null || state === ""){
 } else if(contactPersonName === undefined || contactPersonName === null || contactPersonName === ""){
 	returnStatement.message = "contactPersonName is required";
 	returnStatement.variant = "error";
-} else if(contactNo === undefined || contactNo === null || contactNo === ""){
-	returnStatement.message = "contactNo is required";
+} else if(contactNo1 === undefined || contactNo1 === null || contactNo1 === ""){
+	returnStatement.message = "contactNo1 is required";
 	returnStatement.variant = "error";
 } else if(businessName === undefined || businessName === null || businessName === ""){
 	returnStatement.message = "businessName is required";

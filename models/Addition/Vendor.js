@@ -27,11 +27,11 @@ district: {
 type: String,
 required: true
 },    
-tahsilBlock: {
+cityBlock: {
     type: String,
     required: true
 }, 
-village: {
+areaName: {
     type: String,
     required: true
 },
@@ -55,7 +55,19 @@ village: {
        type:String,
        default:""
    },
-   contactNo:{
+   contactNo1:{
+       type:String,
+       default:""
+   },
+   contactNo2:{
+       type:String,
+       default:""
+   },
+   contactNo3:{
+       type:String,
+       default:""
+   },
+   contactNo4:{
        type:String,
        default:""
    },
@@ -93,7 +105,7 @@ subCategory:{
     }
  
  },
- myServices:{
+ myServices:[{
     serviceName:{
         type:String,
      //    required:true
@@ -102,7 +114,7 @@ subCategory:{
          type:String,
          // required:true
     }
-   },
+   }],
    yearEstablished:{
     type:String,
     default:""

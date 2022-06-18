@@ -16,11 +16,11 @@ district: {
 type: String,
 required: true
 },    
-tahsilBlock: {
+cityBlock: {
     type: String,
     required: true
 }, 
-village: {
+areaName: {
     type: String,
     required: true
 },
