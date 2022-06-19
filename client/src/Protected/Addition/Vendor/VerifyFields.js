@@ -58,9 +58,6 @@ else if(state === undefined || state === null || state === ""){
 } else if(landmark === undefined || landmark === null || landmark === ""){
 	returnStatement.message = "landmark is required";
 	returnStatement.variant = "error";
-} else if(registrationNo === undefined || registrationNo === null || registrationNo === ""){
-	returnStatement.message = "registrationNo is required";
-	returnStatement.variant = "error";
 } else if(receiptNo === undefined || receiptNo === null || receiptNo === ""){
 	returnStatement.message = "receiptNo is required";
 	returnStatement.variant = "error";

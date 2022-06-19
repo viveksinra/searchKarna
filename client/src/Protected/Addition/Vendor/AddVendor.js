@@ -80,7 +80,7 @@ link:""
 	const [otp, setOtp] = useState("");
 	
 	const [allImage,setAllImage] = useState([]);
-	const [prevPage, setPrevPage] = useState(true);
+	const [prevPage, setPrevPage] = useState(false);
 
 	const [status, setStatus] = useState("Click the button");
 
@@ -89,7 +89,15 @@ link:""
 	useEffect(() => {
 		getCategory();
 		getState();
+		
 	}, []);
+
+	const checkBeforePreview = () => {
+		let checkMsg = handleCheck()
+		if(checkMsg.variant === "success"){
+			setPrevPage(true)
+		}
+	  }
 	const callOtpFun = (myotp,isVerified) => { 
 		setIsOtpVerified(isVerified);
 		setOtp(myotp);
@@ -394,7 +402,7 @@ link:""
 		<>
 		<CommonDash compo = {
 			<Fragment>
-		<Grid container>
+{!prevPage &&(		<Grid container>
 			<Grid item xs={0} md={1}> </Grid>
 	
 			<Grid item xs={12} md={10}>
@@ -436,10 +444,7 @@ link:""
 												subCategoryName:"",
 												link:""
 											});
-											setMyServices({
-												serviceName:"",
-												link:""
-											});
+											setMyServices([]);
 										}}
 										value={category}
 										renderInput={(params) => <TextField {...params} variant="outlined" label="Select Category" />}
@@ -455,18 +460,30 @@ link:""
 										onChange={(e, v) => {
 											setSubCategory(v);
 											getMyServices(v);
-											setMyServices({
-												serviceName:"",
-link:""
-											});
+											setMyServices([]);
 										}}
 										value={subCategory}
 										renderInput={(params) => <TextField {...params} variant="outlined" label="Select SubCategory" />}
 									/>
 								</Grid>
 							<Grid item xs={12} md={6}>
+					{/* 		<Autocomplete
+     						   multiple
+     						   id="tags-outlined"
+     						   options={allMyServices}
+     						   getOptionLabel={(option) => option.serviceName}
+     						   filterSelectedOptions
+								value={myServices}
+     						   renderInput={(params) => (
+     						     <TextField
+     						       {...params}
+     						       label="filterSelectedOptions"
+     						       placeholder="Favorites"
+     						     />
+     						   )}
+     						 /> */}
 							<Autocomplete
-						multiple
+							multiple
 						options={allMyServices}
 						noOptionsText="First Select Sub Category"
 						// filterSelectedOptions
@@ -805,14 +822,10 @@ link:""
 					/>   
 		     
      
-              </Grid>
-            
-         
-						
-							<Grid item xs={12}>
+              </Grid>          
+         			<Grid item xs={12}>
 								<Divider />
-							</Grid>
-							
+							</Grid>							
 							{allImage.length !== 0 && (
 							allImage.map((image, index) => (
 								<Grid item key={index} xs={12} md={6}>
@@ -848,6 +861,66 @@ link:""
 							<Grid item xs={12}>
 								<center>
 									
+								<Button variant="outlined" onClick={() => checkBeforePreview()} color="success">
+      						 Go To Preview Page
+     							 </Button>
+						
+					<Tooltip title="Clear All">
+						<Fab size="small" color="secondary" onClick={() => handleClear()} className={classes.button}>
+							<MdClearAll />
+						</Fab>
+					</Tooltip>								
+											
+								</center>
+							</Grid>
+						</Grid>				
+						
+						</form>
+				</Paper>
+			</Grid>
+			
+			<Grid item xs={0} md={1}> </Grid>
+
+		</Grid>)}
+		{prevPage && 
+		(
+			<Grid container>
+			<Grid item xs={0} md={1}> </Grid>
+	
+			<Grid item xs={12} md={10}>
+				<Paper className={classes.entryArea}>
+					<form   style={{ maxWidth: "100vw" }}>
+					< PrevPageCom
+				state={state}
+				district={district}
+				cityBlock={cityBlock}
+				areaName={areaName}
+				pincode={pincode}
+				landmark={landmark}
+				receiptNo={receiptNo}
+				contactPersonName={contactPersonName}
+				contactNo1={contactNo1}
+				contactNo2={contactNo2}
+				contactNo3={contactNo3}
+				contactNo4={contactNo4}
+				businessName={businessName}
+				link={link}
+				emailId={emailId}
+				website={website}
+				yearEstablished={yearEstablished}
+				latitude={latitude}
+				longitude={longitude}	
+				allImage={allImage}		
+
+				category={category}		
+				subCategory={subCategory}		
+				myServices={myServices}		
+				modesOfPayment={modesOfPayment}		
+			
+			/>
+					<Grid item xs={12}>
+								<center>
+									
 								{!(isTandCAccepted) && (
 									<div className={classes.button} >
 								<TermAndConCom 
@@ -866,28 +939,26 @@ link:""
 							</div>
 							)}
 								 {(isTandCAccepted && isOtpVerified) && (<Tooltip title={id === "" ? "Save" : "Update"}>
-										<Fab color="primary" type="submit" className={classes.button}>
+										<Fab color="primary" type="submit" onClick={(e) => checkBeforeSubmit(e)} className={classes.button}>
 											<MdDoneAll />
 										</Fab>
 									</Tooltip> )}
-									<Tooltip title="Clear All">
-										<Fab size="small" color="secondary" onClick={() => handleClear()} className={classes.button}>
-											<MdClearAll />
-										</Fab>
-									</Tooltip>								
+									<Button variant="outlined" onClick={() => setPrevPage(false)} color="secondary">
+      						 Go Back To Edit
+     							 </Button>							
 															
 								</center>
-							</Grid>
-						</Grid>				
+							</Grid>			   
 						
 						</form>
 				</Paper>
 			</Grid>
 			
 			<Grid item xs={0} md={1}> </Grid>
-
+	
 		</Grid>
-		< PrevPageCom />
+		
+		)}
 
 		<MySnackbar ref={snackRef} />
 	</Fragment>

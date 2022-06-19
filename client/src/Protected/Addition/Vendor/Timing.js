@@ -66,7 +66,7 @@ const [opTime, setOpTime] = useState(
     
   ]);
 
-  const [open, setOpen] = useState(cState);
+  const [open, setOpen] = useState(false);
   const checkBeforeOpen = () => {
       handleClickOpen();
   }

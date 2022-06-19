@@ -119,10 +119,7 @@ subCategory:{
     type:String,
     default:""
 },
-   modesOfPayment:{
-       type:String,
-       default:""
-   },
+   modesOfPayment:[ ],
  
    // to be auto detucted
    latitude:{

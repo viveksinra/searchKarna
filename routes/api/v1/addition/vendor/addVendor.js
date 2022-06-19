@@ -24,7 +24,6 @@ router.post(
    
       category:{},
       subCategory:{},
-      myServices:{},
     };
     serviceValues.user = req.user.id;
     serviceValues.createdByUser = req.user.id;
@@ -64,8 +63,7 @@ router.post(
     serviceValues.category.link = req.body.category.link;
     serviceValues.subCategory.subCategoryName = req.body.subCategory.subCategoryName;
     serviceValues.subCategory.link = req.body.subCategory.link;
-    serviceValues.myServices.serviceName = req.body.myServices.serviceName;
-    serviceValues.myServices.link = req.body.myServices.link;
+    serviceValues.myServices = req.body.myServices;
 
 
 if (req.body.description == ""){
@@ -90,12 +88,7 @@ if(
 
   
     }
-    else if(serviceValues.allImage.length<=2){
-        res.json({
-          message: "Please upload atleast Three images",
-          variant: "error"
-        })
-    }
+
     else if(
       serviceValues.state == undefined || serviceValues.state == "" ||
       serviceValues.district == undefined || serviceValues.district == "" ||
@@ -126,8 +119,9 @@ if(
       
       let FiveD = Math.floor(10000 + Math.random() * 90000)
       
-      serviceValues.registrationNo = `${date}${receiptNo}${FiveD}k`;
-
+      serviceValues.registrationNo = `${date}${receiptNo}${FiveD}`;
+console.log("serviceValues")
+console.log(serviceValues)
           Vendor.findOne({
             emailId: serviceValues.emailId
           })
