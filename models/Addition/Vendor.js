@@ -115,6 +115,21 @@ subCategory:{
          // required:true
     }
    }],
+   openingTime:{
+    type:String,
+    default:"09:00"
+   },
+   isOtpVerified:{
+    type:Boolean,
+    default:false
+   },
+   closingTime:{
+    type:String,
+    default:"20:00"
+   },
+   closedDays:[],
+
+   
    yearEstablished:{
     type:String,
     default:""

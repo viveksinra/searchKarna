@@ -3,7 +3,6 @@ import useStyles from "../../useStyles";
 import MySnackbar from "../../../Components/MySnackbar";
 import VendorImgPrevDeleteCom from "./../Vendor/VendorImgPrevDelete";
 import TermAndConCom from "./../Vendor/TermAndCon";
-import TimingCom from "./../Vendor/Timing";
 import OtpDialogCom from "./../Vendor/OtpDialog";
 import VerifyFieldsFun from "./../Vendor/VerifyFields";
 import {
@@ -72,6 +71,10 @@ export default function PrevPageCom({
 	subCategory,
 	myServices,
 	modesOfPayment,
+
+	openingTime,
+	closingTime,
+	closedDays
 }) {
 	const classes = useStyles();
 
@@ -95,6 +98,8 @@ export default function PrevPageCom({
 		{ myKey: "Year Established", myValue: yearEstablished },
 		{ myKey: "Latitude", myValue: latitude },
 		{ myKey: "Longitude", myValue: longitude },
+		{ myKey: "Opening Time", myValue: openingTime },
+		{ myKey: "ClosingTime Time", myValue: closingTime },
 		
 
 	];
@@ -160,6 +165,21 @@ export default function PrevPageCom({
 	</Grid>                
 ))}
                
+	  <Grid item xs={12} md={6} style={{  display: "flex" }}>
+	  <Typography variant="subtitle1" gutterBottom component="div">
+	  Closed Days
+		</Typography>
+		<Typography variant="subtitle1" gutterBottom component="div">
+	  {": "}
+		</Typography>
+	{closedDays.map((l,i)=> (
+		<Typography key={i} variant="subtitle1" gutterBottom component="div">
+	  {", "+l}
+		</Typography>
+	))
+	
+	}
+	  </Grid>                
 	  <Grid item xs={12} md={6} style={{  display: "flex" }}>
 	  <Typography variant="subtitle1" gutterBottom component="div">
 	  Modes Of Payment

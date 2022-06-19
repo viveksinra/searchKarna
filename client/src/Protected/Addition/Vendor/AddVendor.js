@@ -4,7 +4,6 @@ import MySnackbar from "../../../Components/MySnackbar";
 import VendorImgPrevDeleteCom from "./../Vendor/VendorImgPrevDelete";
 import TermAndConCom from "./../Vendor/TermAndCon";
 import PrevPageCom from "./../Vendor/PrevPage";
-import TimingCom from "./../Vendor/Timing";
 import OtpDialogCom from "./../Vendor/OtpDialog";
 import VerifyFieldsFun from "./../Vendor/VerifyFields";
 import {
@@ -41,7 +40,11 @@ export default function AddVendor() {
 	const [allCityBlocks, setAllCityBlocks] = useState([]);
 	const [areaName, setAreaName] = useState("");
 	const [allAreaNames, setAllAreaNames] = useState([]);
-
+	
+	const [openingTime, setOpeningTime] = useState("09:00");
+	const [closingTime, setClosingTime] = useState("20:00");
+	const [closedDays, setClosedDays] = useState([]);
+	const [allDays, setAllDays] = useState(allDays2);
 	
 	const [pincode, setPincode] = useState("");
 	const [landmark, setLandmark] = useState("");
@@ -77,6 +80,7 @@ link:""
 	const [longitude, setLongitude] = useState("");
 	const [isTandCAccepted, setIsTandCAccepted] = useState(false);
 	const [isOtpVerified, setIsOtpVerified] = useState(false);
+	const [withoutOtp, setWithoutOtp] = useState(false);
 	const [otp, setOtp] = useState("");
 	
 	const [allImage,setAllImage] = useState([]);
@@ -205,13 +209,14 @@ link:""
 		console.log("submit");
 		e.preventDefault();
 		let newCat = { _id: id, 
-			link,state,district,cityBlock,areaName,pincode,landmark,
-			registrationNo,receiptNo,contactPersonName,
-			contactNo1,contactNo2,contactNo3,contactNo4,businessName,emailId,website,
 			category,subCategory,myServices,
+			link,state,district,cityBlock,areaName,pincode,landmark,
+			receiptNo,contactPersonName,
+			contactNo1,contactNo2,contactNo3,contactNo4,businessName,emailId,website,
+			openingTime,closingTime,closedDays,			
 			yearEstablished,
 			latitude,longitude,
-			modesOfPayment,allImage
+			modesOfPayment,allImage,isOtpVerified
 
 		};
 		await axios
@@ -259,43 +264,57 @@ var newAllImg = allImage.filter((img) => img.imgId !== imgId)
 		}
 	};
 	const handleClear = () => {
-		setId("");
-		setLink("");
-		setState("");
-		setDistrict("");
-		setCityBlock("");
-		setAreaName("");
-		setPincode("");
-		setLandmark("");
-		setRegistrationNo("");
-		setReceiptNo("");
-		setContactPersonName("");
-		setContactNo1("");
-		setContactNo2("");
-		setContactNo3("");
-		setContactNo4("");
-		setBusinessName("");
-		setEmailId("");
-		setWebsite("");
-		setAllImage([]);
-		setCategory({
-			categoryName:"",
+	setId("");
+	setLink("");
+	setState("");
+	setAllStates([]);
+	setDistrict("");
+	setAllDistricts([]);
+	setCityBlock("");
+	setAllCityBlocks([]);
+	setAreaName("");
+	setAllAreaNames([]);
+	setOpeningTime("09:00");
+	setClosingTime("20:00");
+	setClosedDays([]);
+	setAllDays(allDays2);
+	setPincode("");
+	setLandmark("");
+	setRegistrationNo("");
+	setReceiptNo("");
+	setContactPersonName("");
+	setContactNo1("");
+	setContactNo2("");
+	setContactNo3("");
+	setContactNo4("");
+	setBusinessName("");
+	setEmailId("");
+	setWebsite("");
+	setAllCategory([]);
+	setCategory({
+		categoryName:"",
 link:""
-		});
-		setSubCategory({
-			subCategoryName:"",
+	});
+	setAllSubCategory([]);
+	setSubCategory({
+		subCategoryName:"",
 link:""
-		});
-		setMyServices({
-			serviceName:"",
-link:""
-		});
-		setYearEstablished("");
-		setModesofPayment("");
-		setLatitude("");
-		setLongitude("");
-		
-		
+	});	
+	setAllMyServices([]);
+	setMyServices([]);
+	setYearEstablished("");
+	setAllYearStablished(allYearStablished2);
+	setModesofPayment([]);
+	setAllModesofPayment(allModesOfPayment2);
+	setLatitude("");
+	setLongitude("");
+	setIsTandCAccepted(false);
+	setIsOtpVerified(false);
+	setWithoutOtp(false);
+	setOtp("");
+	setAllImage([]);
+	setPrevPage(false);
+	
 	};
 
 	const getLocation = () => {
@@ -650,7 +669,6 @@ link:""
               <Grid item xs={12} md={6}>  
 								<TextField
 									variant="outlined"
-									required
 									fullWidth
 									inputProps={{ maxLength: "10" }}
 									onBlur={() => handleErr("contactNo1")}
@@ -668,7 +686,6 @@ link:""
               <Grid item xs={12} md={6}>  
 								<TextField
 									variant="outlined"
-									required
 									fullWidth
 									inputProps={{ maxLength: "10" }}
 									onBlur={() => handleErr("contactNo2")}
@@ -686,7 +703,6 @@ link:""
               <Grid item xs={12} md={6}>  
 								<TextField
 									variant="outlined"
-									required
 									fullWidth
 									inputProps={{ maxLength: "10" }}
 									onBlur={() => handleErr("contactNo3")}
@@ -704,7 +720,6 @@ link:""
               <Grid item xs={12} md={6}>  
 								<TextField
 									variant="outlined"
-									required
 									fullWidth
 									inputProps={{ maxLength: "10" }}
 									onBlur={() => handleErr("contactNo4")}
@@ -775,10 +790,49 @@ link:""
 									onChange={(e) => handleChange(e.target.value,"website","website")}
 								/>
 							</Grid>
-							<Grid item xs={12} md={6}> 
-								<TimingCom />	     
+							<Grid item xs={6} md={3}> 
+							<TextField type="time"
+							fullWidth 
+             				value={openingTime}
+              					onChange={(e) => setOpeningTime(e.target.value)}
+               				 InputLabelProps={{
+               				     	shrink: true,
+               				 }}
+               				 inputProps={{
+               				     step: 300, // 5 min
+               				 }}
+						 
+               				 label="Start Time"
+            			  />
+						  </Grid>
+						<Grid item xs={6} md={3}> 
+            			 <TextField type="time" 
+						 fullWidth
+            			 value={closingTime}
+            			  onChange={(e) => setClosingTime(e.target.value)}
+            			    InputLabelProps={{
+            			        shrink: true,
+            			    }}
+            			    inputProps={{
+            			        step: 300, // 5 min
+            			    }}
+						
+            			    label="End Time"
+            			  />	    
+     			 </Grid>
+				  <Grid item xs={12} md={6}> 
+			  <Autocomplete
+						multiple
+						options={allDays}
+						filterSelectedOptions
+						getOptionLabel={(option) => option}
+						onChange={(e, v) =>setClosedDays(v)}
+						value={closedDays}
+						renderInput={(params) => <TextField {...params} label="Select Holiday Days" variant="outlined" fullWidth />}
+					/>   
+		     
      
-             				 </Grid>
+              </Grid>     
               <Grid item xs={12} md={6}>                
         <Autocomplete
 										
@@ -915,7 +969,11 @@ link:""
 				category={category}		
 				subCategory={subCategory}		
 				myServices={myServices}		
-				modesOfPayment={modesOfPayment}		
+				modesOfPayment={modesOfPayment}	
+				
+				openingTime={openingTime}
+				closingTime={closingTime}
+				closedDays={closedDays}
 			
 			/>
 					<Grid item xs={12}>
@@ -929,16 +987,19 @@ link:""
 							/>
 							</div>
 							)}
-								{(isTandCAccepted && !isOtpVerified) && (
+								{(isTandCAccepted && !isOtpVerified && !withoutOtp) && (
 									<div className={classes.button} >
 								<OtpDialogCom 
 							callOtpFun={callOtpFun}
 							contactNo1={contactNo1}
 							handleCheck={handleCheck}
 							/>
+							    <Button variant="outlined" onClick={setWithoutOtp(true)} color="success">
+   									Procced WithOut Otp
+   								 </Button>
 							</div>
 							)}
-								 {(isTandCAccepted && isOtpVerified) && (<Tooltip title={id === "" ? "Save" : "Update"}>
+								 {(isTandCAccepted && (isOtpVerified || withoutOtp)) && (<Tooltip title={id === "" ? "Save" : "Update"}>
 										<Fab color="primary" type="submit" onClick={(e) => checkBeforeSubmit(e)} className={classes.button}>
 											<MdDoneAll />
 										</Fab>
@@ -998,6 +1059,17 @@ const allYearStablished2 = [
 ]
 const allModesOfPayment2 = [
 	"Cash","Online","Cheque","Card","Other"
+]
+// 5.1 Sunday.
+// 5.2 Monday.
+// 5.3 Tuesday.
+// 5.4 Wednesday.
+// 5.5 Thursday.
+// 5.6 Friday.
+// 5.7 Saturday.
+
+const allDays2 = [
+	"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"
 ]
 
 const testData = [

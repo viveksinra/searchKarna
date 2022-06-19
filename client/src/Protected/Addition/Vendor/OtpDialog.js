@@ -89,7 +89,7 @@ export default function OtpDialogCom({cState,contactNo1,callOtpFun,handleCheck})
   return (
     <div>
     <Button variant="outlined" onClick={checkBeforeOpen} color="success">
-    otp
+   Verify otp
     </Button>
     <Dialog
       fullScreen

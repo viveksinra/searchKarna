@@ -59,6 +59,11 @@ router.post(
     serviceValues.modesOfPayment = req.body.modesOfPayment;
     serviceValues.allImage = req.body.allImage;
 
+    serviceValues.isOtpVerified = req.body.isOtpVerified;
+    serviceValues.openingTime = req.body.openingTime;
+    serviceValues.closingTime = req.body.closingTime;
+    serviceValues.closedDays = req.body.closedDays;
+
     serviceValues.category.categoryName = req.body.category.categoryName;
     serviceValues.category.link = req.body.category.link;
     serviceValues.subCategory.subCategoryName = req.body.subCategory.subCategoryName;
@@ -254,6 +259,18 @@ router.get(
        variant: "error"}));
 // console.log(vendorData)
 let myData = []
+
+
+myData.push({"myKey":"categoryName", "myValue": vendorData.category.categoryName})
+myData.push({"myKey":"subCategoryName", "myValue": vendorData.subCategory.subCategoryName})
+let allServiceName = "";
+for(i=0;i<vendorData.myServices.length;i++){
+    allServiceName += vendorData.myServices[i].serviceName+","
+    if(i==vendorData.myServices.length-1){
+      myData.push({"myKey":"serviceName", "myValue": allServiceName})
+
+    }
+}
 myData.push({"myKey":"State", "myValue": vendorData.state})
 myData.push({"myKey":"district", "myValue": vendorData.district})
 myData.push({"myKey":"cityBlock", "myValue": vendorData.cityBlock})
@@ -263,17 +280,20 @@ myData.push({"myKey":"landmark", "myValue": vendorData.landmark})
 myData.push({"myKey":"registrationNo", "myValue": vendorData.registrationNo})
 myData.push({"myKey":"receiptNo", "myValue": vendorData.receiptNo})
 myData.push({"myKey":"contactPersonName", "myValue": vendorData.contactPersonName})
-myData.push({"myKey":"contactNo1", "myValue": vendorData.contactNo1})
-myData.push({"myKey":"contactNo2", "myValue": vendorData.contactNo2})
-myData.push({"myKey":"contactNo3", "myValue": vendorData.contactNo3})
-myData.push({"myKey":"contactNo4", "myValue": vendorData.contactNo4})
+myData.push({"myKey":"Primary Contact No", "myValue": vendorData.contactNo1})
+myData.push({"myKey":"Secondary Contact No", "myValue": vendorData.contactNo2})
+myData.push({"myKey":"Other contactNo1", "myValue": vendorData.contactNo3})
+myData.push({"myKey":"Other contactNo2", "myValue": vendorData.contactNo4})
 myData.push({"myKey":"businessName", "myValue": vendorData.businessName})
 myData.push({"myKey":"link", "myValue": vendorData.link})
 myData.push({"myKey":"emailId", "myValue": vendorData.emailId})
 myData.push({"myKey":"website", "myValue": vendorData.website})
-myData.push({"myKey":"categoryName", "myValue": vendorData.category.categoryName})
-myData.push({"myKey":"subCategoryName", "myValue": vendorData.subCategory.subCategoryName})
-myData.push({"myKey":"serviceName", "myValue": vendorData.myServices.serviceName})
+
+myData.push({"myKey":"Opening Time", "myValue": vendorData.openingTime})
+myData.push({"myKey":"Closing Time", "myValue": vendorData.closingTime})
+myData.push({"myKey":"Closed Days", "myValue": vendorData.closedDays})
+myData.push({"myKey":"Otp Verified", "myValue": vendorData.isOtpVerified})
+
 myData.push({"myKey":"yearEstablished", "myValue": vendorData.yearEstablished})
 myData.push({"myKey":"latitude", "myValue": vendorData.latitude})
 myData.push({"myKey":"longitude", "myValue": vendorData.longitude})
@@ -311,7 +331,7 @@ router.post(
   "/updateVisibility/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    if(req.user.designation.id == "supervisor"){
+    if(req.user.designation.id == "supervisor" || req.user.designation.id == "admin"){
     let vendorValue = {
       visibility: req.body.visibility
     }
@@ -337,7 +357,7 @@ router.post(
     ).catch(err => res.json({message: "Problem in finding With this Id", variant: "error"}));
   } else {
     res.json({
-      "message":"Only Supervisor is allowed to change visibility",
+      "message":"You are not allowed to change visibility",
       "variant":"error"
     })
   }
