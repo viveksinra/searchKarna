@@ -37,7 +37,10 @@ const MyServicesSchema = new Schema({
        }
     
     },
-
+ visibility:{
+       type:String,
+       default:"Public"
+   },
   
   
    description:{

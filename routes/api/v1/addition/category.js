@@ -63,7 +63,7 @@ if(
 
   
     } else if(
-      req.body.logo.url == undefined || req.body.logo.url == "" 
+      req.body.logoUrl == undefined || req.body.logoUrl == "" 
     ){
       res.json({
         message: " Logo are Required field",

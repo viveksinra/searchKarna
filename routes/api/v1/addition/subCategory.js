@@ -64,7 +64,26 @@ if(
 })
 
   
-    } else {
+} else if(
+  req.body.category.categoryName == undefined || req.body.category.categoryName == "" ||
+  req.body.category.link == undefined || req.body.category.link == ""
+){
+
+  res.json({
+    message: "Title, link are Required field",
+    variant: "error"
+})
+
+  
+} else if(
+  
+  req.body.logoUrl == undefined || req.body.logoUrl == "" 
+){
+  res.json({
+    message: " Logo are Required field",
+    variant: "error"
+  })
+}else {
     
           SubCategory.findOne({
             subCategoryName: subCategoryValues.subCategoryName

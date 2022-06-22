@@ -61,7 +61,10 @@ const SubCategorySchema = new Schema({
        type:String,
        default:""
    },
-
+   visibility:{
+    type:String,
+    default:"Public"
+},
    date: {
     type: Date,
     default: Date.now
