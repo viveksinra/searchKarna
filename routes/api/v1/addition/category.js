@@ -62,7 +62,17 @@ if(
 })
 
   
-    } else {
+    } else if(
+      req.body.logo.url == undefined || req.body.logo.url == "" 
+    ){
+      res.json({
+        message: " Logo are Required field",
+        variant: "error"
+      })
+    }
+   
+    
+    else {
     
           Category.findOne({
             categoryName: categoryValues.categoryName
@@ -289,13 +299,48 @@ router.get(
     if (isNaN(search)) {
       Category.find({
         categoryName: new RegExp(search, "i")
-      }).then(Category => res.json(Category)).catch(err => res.json({message: "Problem in Searching" + err, variant: "success"}));
+      })
+      .then(Category => res.json(Category))
+      .catch(err => res.json({
+        message: "Problem in Searching" + err, variant: "success"
+      }));
     } 
 
   } else {
     res.json({ message: "You are not Authorised", variant: "error" })
   }
 
+  }
+);
+
+// @type    GET
+//@route    /api/v1/addition/category/allCatForPublic
+// @desc    route for getting all data from  category
+// @access  PRIVATE
+
+router.get(
+  "/allCatForPublic",
+  // passport.authenticate("jwt", { session: false }),
+  async(req, res) => {
+
+      let categoryData = await Category.aggregate([
+       {$project: { categoryName:1,
+        link:1,
+        logo:1,
+          }  
+         }    
+       ]).exec()
+       for(let i=0;i<categoryData.length;i++){
+        let catLink = categoryData[i].link;
+        let subCategoryData = await SubCategory.aggregate([
+          {$match: {"category.link": catLink}},
+          {$project: { id:1,
+             }  
+            }    
+          ]).exec()
+          categoryData[i].subCategoryLenght = subCategoryData.length;
+       }
+    res.json(categoryData)
   }
 );
 

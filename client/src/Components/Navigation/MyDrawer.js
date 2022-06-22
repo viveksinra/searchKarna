@@ -206,10 +206,10 @@ const listData1 = [
 	{ text: "Add Category", link: "/AddCategory", icon: <CategoryIcon color="success" />,admin:true },
 	{ text: "Add SubCategory", link: "/AddSubCategory", icon: <ApprovalIcon color="success" />,admin:true },
   { text: "Add Service", link: "/AddService", icon: <AcUnitSharpIcon color="success" />,admin:true},
-  { text: "Add Vendor", link: "/AddVendor", icon: <ControlPointDuplicateIcon color="success" />,admin:false,supervisor:false,fieldPartner:true },
-  { text: "Get Vendor", link: "/GetVendor", icon: <AnimationSharpIcon color="success" />,admin:true,supervisor:true,fieldPartner:true },
+  { text: "Add business", link: "/AddBusiness", icon: <ControlPointDuplicateIcon color="success" />,admin:false,supervisor:false,fieldPartner:true },
+  { text: "View Listings", link: "/GetBusiness", icon: <AnimationSharpIcon color="success" />,admin:true,supervisor:true,fieldPartner:true },
   { text: "Location Master", link: "/LocationMaster", icon: <CategoryIcon color="success" />,admin:true },
-  { text: "Add Employee", link: "/AddEmployee", icon: <ApprovalIcon color="success" />,admin:true },
+  { text: "Add Users", link: "/AddUser", icon: <ApprovalIcon color="success" />,admin:true },
 ];
 const listData2 = [
 	// { text: "Sign Up", link: "/signup", icon: <ApiSharpIcon color="success"/>,admin:true },

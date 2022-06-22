@@ -27,10 +27,10 @@ const category = require("./routes/api/v1/addition/category");
 
 const subCategory = require("./routes/api/v1/addition/subCategory");
 const myServices = require("./routes/api/v1/addition/myServices");
-const vendor = require("./routes/api/v1/addition/vendor/addVendor");
-const getVendor = require("./routes/api/v1/addition/vendor/getVendor");
+const business = require("./routes/api/v1/addition/business/addBusiness");
+const getBusiness = require("./routes/api/v1/addition/business/getBusiness");
 // ven
-const exportVendor = require("./routes/api/v1/addition/vendor/exportVendor");
+const exportBusiness = require("./routes/api/v1/addition/business/exportBusiness");
 // DropDown
 const uploadLocation = require("./routes/api/v1/dropDown/location/uploadLocation")
 const editLocation = require("./routes/api/v1/dropDown/location/editLocation")
@@ -89,10 +89,10 @@ app.use("/api/v1/auth/getDeleteUser", getDeleteUser);
 app.use("/api/v1/addition/category", category);
 app.use("/api/v1/addition/subCategory", subCategory);
 app.use("/api/v1/addition/myServices", myServices);
-app.use("/api/v1/addition/vendor/addVendor", vendor);
-app.use("/api/v1/addition/vendor/getVendor", getVendor);
+app.use("/api/v1/addition/business/addBusiness", business);
+app.use("/api/v1/addition/business/getBusiness", getBusiness);
 // ven
-app.use("/api/v1/addition/vendor/exportVendor", exportVendor);
+app.use("/api/v1/addition/business/exportBusiness", exportBusiness);
 
 //DropDown
 app.use("/api/v1/dropDown/location/uploadLocation",uploadLocation)

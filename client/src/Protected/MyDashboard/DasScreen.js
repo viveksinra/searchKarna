@@ -53,13 +53,13 @@ export default function DasScreen() {
 
 const data = [{title:'Dashboard',link:"/dashboard",ele:8},
 {title:'Check Page',link:"/check",ele:8},
-{title:'Add Employee',link:"/AddEmployee",ele:8},
+{title:'Add Users',link:"/AddUser",ele:8},
 {title:'First Page',link:"/firstpage",ele:8},
 {title:'Add Category',link:"/AddCategory",ele:8},
 {title:'Add Sub Category',link:"/AddSubCategory",ele:8},
 {title:'Add Service',link:"/AddService",ele:8},
-{title:'Add Vendor',link:"/AddVendor",ele:8,supervisor:true,fieldPartner:true},
-{title:'Get Vendor',link:"/GetVendor",ele:8,supervisor:true,fieldPartner:true},
+{title:'Add business',link:"/AddBusiness",ele:8,supervisor:true,fieldPartner:true},
+{title:'View Listings',link:"/GetBusiness",ele:8,supervisor:true,fieldPartner:true},
 {title:'Location Master',link:"/LocationMaster",ele:8},
 {title:'Sign Up',link:"/signup",ele:8},
 {title:'Login',link:"/login",ele:8}]

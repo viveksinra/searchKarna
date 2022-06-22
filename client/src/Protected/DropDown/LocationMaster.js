@@ -14,7 +14,7 @@ import axios from "axios";
 import { MdSearch, MdDoneAll, MdClearAll, MdPanorama } from "react-icons/md";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CommonDash from "./../MyDashboard/CommonDash"
-import AlertDialog from "./../Addition/Vendor/alertDialog";
+import AlertDialog from "./../Addition/Business/alertDialog";
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 import { makeStyles } from '@mui/styles';
 const theme = createTheme();

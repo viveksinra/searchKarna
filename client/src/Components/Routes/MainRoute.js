@@ -4,14 +4,14 @@ import Login from "../Login/Login";
 import { MainContext } from "../Context/MainContext";
 import AddCategory from "../../Protected/Addition/Category/AddCategory"
 import AddSubCategory from "../../Protected/Addition/SubCategory/AddSubCategory"
-import AddVendor from "../../Protected/Addition/Vendor/AddVendor"
+import AddBusiness from "../../Protected/Addition/Business/AddBusiness"
 import AddService from "../../Protected/Addition/Services/AddServices"
 
 import Dashboard from "../../Protected/MyDashboard/Dashboard";
 import App from "../../App";
-import GetVendor from "../../Protected/GetData/VendorData/GetVendor";
+import GetBusiness from "../../Protected/GetData/BusinessData/GetBusiness";
 import ToCheck from "../../Protected/ToCheck";
-import AddEmployee from "../../Protected/User/AddEmployee";
+import AddUser from "../../Protected/User/AddUser";
 import LocationMaster from "../../Protected/DropDown/LocationMaster";
 // public
 
@@ -48,18 +48,18 @@ export default function MainRoute() {
         <Route  path="/AddSubCategory" element={
            <PrivateRoute children={<AddSubCategory />} />          
         } />
-        <Route  path="/AddVendor" element={
-          <PrivateRoute children={<AddVendor />} />          
+        <Route  path="/AddBusiness" element={
+          <PrivateRoute children={<AddBusiness />} />          
         } />
         <Route  path="/AddService" element={
         <PrivateRoute children={<AddService />} />  
         } />
-        <Route  path="/GetVendor" element={
-          <PrivateRoute children={<GetVendor />} />        
+        <Route  path="/GetBusiness" element={
+          <PrivateRoute children={<GetBusiness />} />        
         } />
         <Route  path="/check" element={<ToCheck />} />
-        <Route  path="/AddEmployee" element={
-          <AdminRoute children={<AddEmployee />} />        
+        <Route  path="/AddUser" element={
+          <AdminRoute children={<AddUser />} />        
         } />
         <Route  path="/LocationMaster" element={
         <PrivateRoute children={<LocationMaster />} />         
