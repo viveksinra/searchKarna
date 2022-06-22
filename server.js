@@ -39,6 +39,9 @@ const getLocation = require("./routes/api/v1/dropDown/location/getLocation")
 const primaryDdd = require("./routes/api/v1/other/primaryDdd");
 const fileUpload = require("./routes/api/v1/other/fileUpload");
 const sendVerifyOtp = require("./routes/api/v1/other/sendVerifyOtp");
+// 
+const catSubCat = require("./routes/api/v1/forPublicWeb/catSubCat");
+
 //passport 
 // const passport = require("./services/passport")
 const app = express();
@@ -102,6 +105,9 @@ app.use("/api/v1/dropDown/location/getLocation",getLocation)
 app.use("/api/v1/other/fileUpload", fileUpload);
 app.use("/api/v1/other/primaryDdd", primaryDdd);
 app.use("/api/v1/other/sendVerifyOtp", sendVerifyOtp);
+// forPublicWeb
+app.use("/api/v1/forPublicWeb/catSubCat", catSubCat);
+
 
 
 
