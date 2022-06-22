@@ -33,7 +33,7 @@ router.get(
 
 // @type    get
 //@route    /api/v1/other/primaryDdd/get/:link
-// @desc    route to get single category by id
+// @desc    route to get subcategory with category
 // @access  PRIVATE
 router.get(
   "/get/:link",
