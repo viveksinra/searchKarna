@@ -193,10 +193,11 @@ router.post(
   async(req, res) => {
 
     
-    const subCategoryValues = {    image:{},
-    logo:{},
-    category:{}
-   };
+    const subCategoryValues = {
+      image:{},
+      logo:{},
+      category:{}
+    };
     subCategoryValues.user = req.user.id;
     if(req.body.subCategoryName)subCategoryValues.subCategoryName = req.body.subCategoryName;
    //link start

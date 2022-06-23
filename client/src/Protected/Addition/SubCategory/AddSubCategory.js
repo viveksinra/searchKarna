@@ -123,21 +123,24 @@ export default function AddSubCategory() {
 		await axios
 			.get(`/api/v1/addition/subCategory/get/${id}`)
 			.then((res) => {
-				setId(res.data._id);
-				setSubCategoryName(res.data.subCategoryName);
-				setLink(res.data.link);
-				setImageUrl(res.data.image.url);
-				setImageId(res.data.image.publicId);
-				setLogoUrl(res.data.logo.url);
-				setLogoId(res.data.logo.publicId);				
-				setDescription(res.data.description);
-				setCategory(res.data.category);
-				
-			console.log(res.data)
+				console.log(res.data);
+				setALLData(res)
 				
 			})
 			.catch((err) => console.log(err));
 			handleClose();
+	};
+	const setALLData = async (res) => {
+		await setId(res.data._id);
+		await setSubCategoryName(res.data.subCategoryName);
+		await setLink(res.data.link);
+		  await setDescription(res.data.description);
+		 await  setCategory(res.data.category);
+		 await  setLogoUrl(res.data.logo?.url || "");
+
+		 await  setLogoId(res.data.logo?.publicId || "");	
+		 await  setImageUrl(res.data.image?.url || "");
+		 await  setImageId(res.data.image?.publicId || "");
 	};
 	const imgUpload = async (e, name) => {
 		if (e) {
@@ -316,6 +319,7 @@ export default function AddSubCategory() {
 										onChange={(e, v) => {
 											setCategory(v);
 										}}
+
 										value={category}
 										renderInput={(params) => <TextField {...params} variant="outlined" label="Select Category" />}
 									/>
@@ -393,7 +397,7 @@ export default function AddSubCategory() {
 								{allSubCat.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((data) => (
 									<TableRow key={data._id} onClick={() => setData(data._id)} hover>
 										<TableCell component="td" scope="row">
-											Name : {data.subCategoryName} ; Description : {data.description} <br />
+											Name : {data.subCategoryName} ; category : {data.category.categoryName} ; Description : {data.description} <br />
 										</TableCell>
 									</TableRow>
 								))}

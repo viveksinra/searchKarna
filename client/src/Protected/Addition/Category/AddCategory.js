@@ -103,7 +103,7 @@ export default function AddCategory() {
 		handleOpen();
 		await axios
 			.get(`/api/v1/addition/category/get/${id}`)
-			.then((res) => {
+			.then((res) => {		
 				setId(res.data._id);
 				setCategoryName(res.data.categoryName);
 				setLink(res.data.link);
@@ -117,6 +117,7 @@ export default function AddCategory() {
 			.catch((err) => console.log(err));
 			handleClose();
 	};
+
 	const imgUpload = async (e, name) => {
 		if (e) {
 			const selectedFile = e;
