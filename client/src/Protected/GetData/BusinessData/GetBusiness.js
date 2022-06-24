@@ -373,7 +373,7 @@ export default function DataTable() {
     },
       { field: '_id', headerName: 'Unique Reg. ID', width: 210 },
       { field: 'categoryName', headerName: 'Category', width: 130 },
-      { field: 'businessName', headerName: 'Buisness/Shop Name', width: 200 },
+      { field: 'businessName', headerName: 'Business/Shop Name', width: 200 },
       { field: 'modesOfPayment', headerName: 'Payment Mode', width: 130 },
       { field: 'state', headerName: 'State', width: 130 },
       { field: 'city', headerName: 'city', width: 130 },

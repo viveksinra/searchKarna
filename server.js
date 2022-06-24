@@ -41,6 +41,7 @@ const fileUpload = require("./routes/api/v1/other/fileUpload");
 const sendVerifyOtp = require("./routes/api/v1/other/sendVerifyOtp");
 // 
 const catSubCat = require("./routes/api/v1/forPublicWeb/catSubCat");
+const getPubBusiness = require("./routes/api/v1/forPublicWeb/getPubBusiness");
 
 //passport 
 // const passport = require("./services/passport")
@@ -107,6 +108,7 @@ app.use("/api/v1/other/primaryDdd", primaryDdd);
 app.use("/api/v1/other/sendVerifyOtp", sendVerifyOtp);
 // forPublicWeb
 app.use("/api/v1/forPublicWeb/catSubCat", catSubCat);
+app.use("/api/v1/forPublicWeb/getPubBusiness", getPubBusiness);
 
 
 
