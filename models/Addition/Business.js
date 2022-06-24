@@ -55,6 +55,10 @@ areaName: {
        type:String,
        default:""
    },
+   whatsAppNo:{
+       type:String,
+       default:""
+   },
    contactNo1:{
        type:String,
        default:""

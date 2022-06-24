@@ -46,6 +46,7 @@ router.post(
     
     serviceValues.receiptNo = req.body.receiptNo;
     serviceValues.contactPersonName = req.body.contactPersonName;
+    serviceValues.whatsAppNo = req.body.contactNo1;
     serviceValues.contactNo1 = req.body.contactNo1;
     serviceValues.contactNo2 = req.body.contactNo2;
     serviceValues.contactNo3 = req.body.contactNo3;
