@@ -43,6 +43,9 @@ const sendVerifyOtp = require("./routes/api/v1/other/sendVerifyOtp");
 const catSubCat = require("./routes/api/v1/forPublicWeb/catSubCat");
 const getPubBusiness = require("./routes/api/v1/forPublicWeb/getPubBusiness");
 
+// 
+const barnali = require("./routes/api/v1/addition/barnali")
+
 //passport 
 // const passport = require("./services/passport")
 const app = express();
@@ -109,6 +112,9 @@ app.use("/api/v1/other/sendVerifyOtp", sendVerifyOtp);
 // forPublicWeb
 app.use("/api/v1/forPublicWeb/catSubCat", catSubCat);
 app.use("/api/v1/forPublicWeb/getPubBusiness", getPubBusiness);
+
+
+app.use("/api/v1/addition/barnali", barnali);
 
 
 
