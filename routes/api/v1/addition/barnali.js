@@ -200,9 +200,10 @@ router.post('/uploadImg/:id',(req,res) => {
         );
     })
 //////////////////////////////////////
-    let saveMsg = (msg) => {
+    let saveMsg = (msg,id) => {
       let newData = {}
       newData.msg = msg
+      newData.id = id
         new BarnaliData(newData)
         .save()
         .then(console.log("Save") )
@@ -213,7 +214,7 @@ router.post('/uploadImg/:id',(req,res) => {
 // /api/v1/addition/barnali/sendMsg/:id
 router.post('/sendMsg/:id', async(req,res) => {
     let barnaliMessage = req.body.barnaliMessage
-   await saveMsg(msg)
+   await saveMsg(barnaliMessage,req.params.id)
     dataValue = {}
     dataValue.barnaliMessage = barnaliMessage
     Barnali.findOneAndUpdate(
@@ -223,7 +224,7 @@ router.post('/sendMsg/:id', async(req,res) => {
       )
         .then(barnali => {
           if (barnali){
-            res.json({ message: "Updated successfully!!", variant: "success" })
+            res.json({ message: "Msg Sent!!", variant: "success" })
     
           } else {
             res.json({ message: "Id not found", variant: "error" })
