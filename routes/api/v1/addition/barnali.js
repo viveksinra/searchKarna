@@ -287,9 +287,15 @@ router.get('/updateShowMsg/:id',(req,res) => {
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
 // /api/v1/addition/barnali/updateShowMsg/:id
-router.get('/updateShowMsg/:id',(req,res) => {
-  new Barnali(newBarnali)
-        .save()
+router.get('/getallmsgno',(req,res) => {
+  BarnaliData.find({})
+  .then(barnali => {
+      res.json(barnali)
+  }        
+  )
+  .catch(err =>
+    console.log("Problem in updating barnali value" + err)
+  );
         
   })
 
