@@ -6,6 +6,7 @@ const passport = require("passport");
 const key = require("../../../../setup/myurl");
 const jwt_decode = require("jwt-decode");
 const Barnali = require("../../../../models/Addition/Barnali")
+const BarnaliData = require("../../../../models/Addition/BarnaliData")
 const axios = require("axios")
 
 ///////////////////////////////////////
@@ -286,7 +287,7 @@ router.get('/updateShowMsg/:id',(req,res) => {
   })
 //////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////
-// /api/v1/addition/barnali/updateShowMsg/:id
+// /api/v1/addition/barnali/getallmsgno
 router.get('/getallmsgno',(req,res) => {
   BarnaliData.find({})
   .then(barnali => {
