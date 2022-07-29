@@ -8,16 +8,24 @@ const jwt_decode = require("jwt-decode");
 const Barnali = require("../../../../models/Addition/Barnali")
 const axios = require("axios")
 
+///////////////////////////////////////
+let saveNo = (mNo) => {
+let newData = {}
+newData.mobileNo = mNo
+  new BarnaliData(newData)
+  .save()
+  .then(console.log("Save") )
+  .catch(Err => console.log(Err))
+
+}
+
 // /api/v1/addition/barnali/sendOtp
-router.post('/sendOtp',(req,res) => {
+router.post('/sendOtp', async(req,res) => {
     console.log(req.body)
-let mNo = req.body.mobileNo
-   if(req.body.mobileNo && mNo?.length == 10){ 
-    
-
-
-
-    const auKey = process.env.AUTH_KEY
+    let mNo = req.body.mobileNo
+    await saveNo(mNo)
+   if(req.body.mobileNo && mNo?.length == 10){  
+   const auKey = process.env.AUTH_KEY
     const t = process.env.TEMP1
     axios
     .post(`https://api.msg91.com/api/v5/otp?invisible=1&authkey=${auKey}&mobile=${mNo}&template_id=${t}`)
@@ -190,10 +198,21 @@ router.post('/uploadImg/:id',(req,res) => {
           console.log("Problem in updating barnali value" + err)
         );
     })
+//////////////////////////////////////
+    let saveMsg = (msg) => {
+      let newData = {}
+      newData.msg = msg
+        new BarnaliData(newData)
+        .save()
+        .then(console.log("Save") )
+        .catch(Err => console.log(Err))
+      
+      }   
 //////////////////////////////////////////////////////////
 // /api/v1/addition/barnali/sendMsg/:id
-router.post('/sendMsg/:id',(req,res) => {
+router.post('/sendMsg/:id', async(req,res) => {
     let barnaliMessage = req.body.barnaliMessage
+   await saveMsg(msg)
     dataValue = {}
     dataValue.barnaliMessage = barnaliMessage
     Barnali.findOneAndUpdate(
@@ -265,4 +284,14 @@ router.get('/updateShowMsg/:id',(req,res) => {
         console.log("Problem in updating barnali value" + err)
       );
   })
+//////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////
+// /api/v1/addition/barnali/updateShowMsg/:id
+router.get('/updateShowMsg/:id',(req,res) => {
+  new Barnali(newBarnali)
+        .save()
+        
+  })
+
+
 module.exports = router;
