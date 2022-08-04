@@ -45,6 +45,7 @@ const getPubBusiness = require("./routes/api/v1/forPublicWeb/getPubBusiness");
 
 // 
 const barnali = require("./routes/api/v1/addition/barnali")
+const linkPrev = require("./routes/api/v1/addition/linkPrev")
 
 //passport 
 // const passport = require("./services/passport")
@@ -115,6 +116,7 @@ app.use("/api/v1/forPublicWeb/getPubBusiness", getPubBusiness);
 
 
 app.use("/api/v1/addition/barnali", barnali);
+app.use("/api/v1/addition/linkPrev", linkPrev);
 
 
 
