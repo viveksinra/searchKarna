@@ -300,6 +300,17 @@ router.get('/getallmsgno',(req,res) => {
   );
         
   })
+//////////////////////////////////////////////////////////
+// /api/v1/addition/barnali/saveOnce
+router.get('/saveOnce',(req,res) => {
+  let newData = {}
+  newData.msg = "Link got triggerd"
+    new BarnaliData(newData)
+    .save()
+    .then(res.json("Save") )
+    .catch(Err => console.log(Err))
+        
+  })
 
 
 module.exports = router;
